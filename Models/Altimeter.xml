@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <params>
+    <altitude>instrumentation/altimeter/indicated-altitude-ft</altitude>
+    <subscale>instrumentation/altimeter/setting-inhg</subscale>
+  </params>
+
+  <path>Altimeter.ac</path>
+
+  <animation>
+    <type>noshadow</type>
+  </animation>
+
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>10</max-m>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>LargeHand</object-name>
+    <property alias="../../params/altitude"/>
+    <factor>-0.360</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+  </animation>
+<!--
+  <animation>
+    <type>rotate</type>
+    <object-name>Altitude100</object-name>
+    <property alias="../../params/altitude"/>
+    <factor>-0.360</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-0.0142942</x-m>
+      <y-m>-0.00221729</y-m>
+      <z-m>0.000427967</z-m>
+    </center>
+  </animation>
+-->
+  <animation>
+    <type>textranslate</type>
+    <object-name>Altitude100</object-name>
+    <property alias="../../params/altitude"/>
+    <factor>-0.001</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>Altitude1000</object-name>
+    <property alias="../../params/altitude"/>
+    <factor>-0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>Altitude10000</object-name>
+    <property alias="../../params/altitude"/>
+    <factor>-0.00001</factor>
+    <step>10000</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

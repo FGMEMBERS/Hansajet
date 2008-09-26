@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <params>
+    <pitch>instrumentation/attitude-indicator/indicated-pitch-deg</pitch>
+    <bank>instrumentation/attitude-indicator/indicated-roll-deg</bank>
+  </params>
+
+  <path>AttitudeIndicator.ac</path>
+
+  <animation>
+    <type>noshadow</type>
+  </animation>
+
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>10</max-m>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>BankIndicator</object-name>
+    <object-name>Sphere</object-name>
+    <property alias="../../params/bank"/>
+    <factor>1.0</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Sphere</object-name>
+    <property alias="../../params/pitch"/>
+    <interpolation>
+      <entry>
+        <ind>-45.0</ind>
+        <dep>-30.0</dep>
+      </entry>
+      <entry>
+        <ind>45.0</ind>
+        <dep>30.0</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-0.060</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+  </animation>
+
+</PropertyList>

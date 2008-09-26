@@ -1,0 +1,47 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <params>
+    <value>velocities/mach</value>
+  </params>
+
+  <path>MachIndicator.ac</path>
+
+  <animation>
+    <type>noshadow</type>
+  </animation>
+
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>10</max-m>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>LargeHand</object-name>
+    <property alias="../../params/value"/>
+    <interpolation>
+      <entry>
+        <ind>0</ind>
+        <dep>0</dep>
+      </entry>
+      <entry>
+        <ind>0.3</ind>
+        <dep>22.5</dep>
+      </entry>
+      <entry>
+        <ind>1.0</ind>
+        <dep>337.5</dep>
+      </entry>
+      <entry>
+        <ind>3.0</ind>
+        <dep>360</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+</PropertyList>

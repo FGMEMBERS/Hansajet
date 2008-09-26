@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+
+  <path>ControlLight-Blue.ac</path>
+
+  <animation>
+    <type>noshadow</type>
+  </animation>
+
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>10</max-m>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>Light</object-name>
+    <emission>
+      <red>0.0</red>
+      <green>0.0</green>
+      <blue>1.0</blue>
+      <factor-prop>instrumentation/marker-beacon/outer-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-assign</command>
+        <property>instrumentation/marker-beacon/outer-light-test</property>
+        <value>1</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property>instrumentation/marker-beacon/outer-light-test</property>
+          <value>0</value>
+        </binding>
+      </mod-up>
+    </action>
+  </animation>
+
+</PropertyList>

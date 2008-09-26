@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+-->
+<PropertyList>
+  <sim>
+
+    <description>Hamburger Flugzeugbau HFB Hansajet</description>
+    <author>Torsten Dreyer</author>
+    <aircraft-version>0.1</aircraft-version>
+    <status>early development</status>
+    <flight-model>jsb</flight-model>
+    <aero>Hansajet-jsbsim</aero>
+
+    <startup>
+      <splash-texture>Aircraft/Hansajet/Splash.rgb</splash-texture>
+    </startup>
+
+    <model>
+      <path>Aircraft/Hansajet/Models/Hansajet.xml</path>
+    </model>
+
+    <view n="0">
+      <name>Cockpit</name>
+      <type>lookfrom</type>
+      <internal type="bool">true</internal>
+      <config>
+        <x-offset-m type="double">-0.35</x-offset-m>
+        <y-offset-m type="double">2.38</y-offset-m>
+        <z-offset-m type="double">-6.5</z-offset-m>
+        <pitch-offset-deg>-15</pitch-offset-deg>
+        <default-field-of-view-deg type="double">55.0</default-field-of-view-deg>
+      </config>
+    </view>
+    <!--
+    <systems>
+      <electrical>
+        <path>Aircraft/Citation/Citation-II-electrical.xml</path>
+      </electrical>
+      <autopilot>
+        <path>Aircraft/Citation/Citation-II-autopilot.xml</path>
+      </autopilot>
+    </systems>
+-->
+    <sound>
+      <path>Aircraft/Citation/Citation-II-sound.xml</path>
+    </sound>
+    <hud>
+      <enable3d>false</enable3d>
+    </hud>
+    <virtual-cockpit archive="y">true</virtual-cockpit>
+    <allow-toggle-cockpit>true</allow-toggle-cockpit>
+
+
+    <help>
+      <title>Hansajet</title>
+      <!--
+      <key>
+        <name>Delete</name>
+        <desc>toggle thrust reversers</desc>
+      </key>
+-->
+    </help>
+  </sim>
+
+  <input>
+    <keyboard>
+      <!-- Slats -->
+      <key n="100">
+        <name>d</name>
+        <desc>Retract Slats.</desc>
+        <binding>
+          <command>property-adjust</command>
+          <property>controls/flight/slats</property>
+          <step type="double">-0.25</step>
+        </binding>
+      </key>
+      <key n="102">
+        <name>f</name>
+        <desc>Extend Slats.</desc>
+        <binding>
+          <command>property-adjust</command>
+          <property>controls/flight/slats</property>
+          <step type="double">0.25</step>
+        </binding>
+      </key>
+    </keyboard>
+  </input>
+  <!-- aircraft specific loading -->
+  <controls>
+    <gear>
+      <brake-parking>1</brake-parking>
+    </gear>
+    <engines>
+      <engine n="0">
+        <magnetos>3</magnetos>
+      </engine>
+      <engine n="1">
+        <magnetos>3</magnetos>
+      </engine>
+    </engines>
+  </controls>
+  <engines>
+    <engine n="0">
+    </engine>
+    <engine n="1">
+    </engine>
+  </engines>
+
+
+  <nasal>
+    <hsi>
+      <file>Aircraft/SenecaII/Nasal/hsi.nas</file>
+    </hsi>
+  </nasal>
+
+</PropertyList>
