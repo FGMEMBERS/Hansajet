@@ -13,6 +13,9 @@
         <gyro-spin>instrumentation/heading-indicator/spin</gyro-spin>
 
         <heading-bug>autopilot/settings/heading-bug-deg</heading-bug>
+
+        <dme-in-range>instrumentation/dme/in-range</dme-in-range>
+        <dme-dist>instrumentation/dme/indicated-distance-nm</dme-dist>
     </params>
 
   <path>HSI.ac</path>
@@ -382,5 +385,54 @@
           </binding>
         </action>
     </animation>
+
+    <!-- DME indicator -->
+    <animation>
+      <type>select</type>
+      <object-name>MilesOff</object-name>
+      <condition>
+        <not>
+          <property alias="../../../../params/dme-in-range"/>
+        </not>
+      </condition>
+    </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>Miles1</object-name>
+    <property alias="../../params/dme-dist"/>
+    <factor>-0.1</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>Miles10</object-name>
+    <property alias="../../params/dme-dist"/>
+    <factor>-0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>Miles100</object-name>
+    <property alias="../../params/dme-dist"/>
+    <factor>-0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
 
 </PropertyList>
