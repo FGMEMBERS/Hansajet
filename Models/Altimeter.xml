@@ -33,24 +33,7 @@
       <z-m>0</z-m>
     </center>
   </animation>
-<!--
-  <animation>
-    <type>rotate</type>
-    <object-name>Altitude100</object-name>
-    <property alias="../../params/altitude"/>
-    <factor>-0.360</factor>
-    <axis>
-      <x>0</x>
-      <y>1</y>
-      <z>0</z>
-    </axis>
-    <center>
-      <x-m>-0.0142942</x-m>
-      <y-m>-0.00221729</y-m>
-      <z-m>0.000427967</z-m>
-    </center>
-  </animation>
--->
+
   <animation>
     <type>textranslate</type>
     <object-name>Altitude100</object-name>

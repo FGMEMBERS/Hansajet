@@ -127,7 +127,7 @@
   </model>
 
   <model>
-    <path>Aircraft/SenecaII/Models/ki525a.xml</path>
+    <path>Aircraft/Hansajet/Models/HSI.xml</path>
     <name>HSI</name>
     <offsets>
       <x-m>0.001</x-m>
