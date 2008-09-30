@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>instrumentation/vertical-speed-indicator/indicated-speed-fpm</value>
+    <value>instrumentation/vertical-speed-indicator[0]/indicated-speed-fpm</value>
   </params>
 
   <path>VSI.ac</path>

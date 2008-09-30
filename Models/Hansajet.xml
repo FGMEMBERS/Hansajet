@@ -2,13 +2,25 @@
 <PropertyList>
 
   <path>Hansajet.ac</path>
+
   <model>
     <path>Aircraft/Hansajet/Models/HiResInstrumentPanel.xml</path>
     <name>HiResInstrumentPanel</name>
     <offsets>
-      <x-m>-7.30422</x-m>
+      <x-m>-7.08893</x-m>
       <y-m>0.0</y-m>
       <z-m>1.98716</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/OverheadPanel.xml</path>
+    <name>OverheadPanel</name>
+    <offsets>
+      <x-m>-6.65149</x-m>
+      <y-m>0.0</y-m>
+      <z-m>2.62003</z-m>
+      <pitch-deg>75</pitch-deg>
     </offsets>
   </model>
 
@@ -16,7 +28,7 @@
     <path>Aircraft/Hansajet/Models/RadioPanel.xml</path>
     <name>RadioPanel</name>
     <offsets>
-      <x-m>-6.90945</x-m>
+      <x-m>-6.63893</x-m>
       <y-m>0.0</y-m>
       <z-m>1.56321</z-m>
       <pitch-deg>-90</pitch-deg>
@@ -27,9 +39,31 @@
     <path>Aircraft/Hansajet/Models/FuelHydraulicPanel.xml</path>
     <name>FuelHydraulic</name>
     <offsets>
-      <x-m>-7.17945</x-m>
+      <x-m>-6.90893</x-m>
       <y-m>0</y-m>
       <z-m>1.78139</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/TrimPanel.xml</path>
+    <name>Trimpanel</name>
+    <offsets>
+      <x-m>-6.30894</x-m>
+      <y-m>-0.04002</y-m>
+      <z-m>1.56321</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/SlatSwitch.xml</path>
+    <name>SlatSwitch</name>
+    <offsets>
+      <x-m>-6.63893</x-m>
+      <y-m>-0.138681</y-m>
+      <z-m>1.60326</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
     </offsets>
   </model>
 
@@ -137,7 +171,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Slat.Left</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>surface-positions/spoilers-pos-norm</property>
     <factor>14</factor>
     <axis>
       <x1-m>-1.57</x1-m>
@@ -152,7 +186,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Slat.Right</object-name>
-    <property>surface-positions/slat-pos-norm</property>
+    <property>surface-positions/spoilers-pos-norm</property>
     <factor>-14</factor>
     <axis>
       <x1-m>-1.57</x1-m>
@@ -170,7 +204,7 @@
     <property>controls/engines/engine[0]/throttle</property>
     <factor>-90</factor>
     <center>
-      <x-m>-7.05945</x-m>
+      <x-m>-6.78893</x-m>
       <y-m>0.0</y-m>
       <z-m>1.63139</z-m>
     </center>
@@ -187,7 +221,7 @@
     <property>controls/engines/engine[1]/throttle</property>
     <factor>-90</factor>
     <center>
-      <x-m>-7.05945</x-m>
+      <x-m>-6.78893</x-m>
       <y-m>0.0</y-m>
       <z-m>1.63139</z-m>
     </center>
@@ -198,6 +232,130 @@
     </axis>
   </animation>
   
+  <animation>
+    <type>rotate</type>
+    <object-name>EmergencyGearLever</object-name>
+    <property>controls/gear/emergency-gear-down</property>
+    <factor>90</factor>
+    <center>
+      <x-m>-6.78893</x-m>
+      <y-m>0.0</y-m>
+      <z-m>1.63139</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <object-name>EmergencyGearLever</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/gear/emergency-gear-down</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>SpeedbrakeLever</object-name>
+    <property>controls/flight/speedbrake</property>
+    <factor>90</factor>
+    <center>
+      <x-m>-6.78893</x-m>
+      <y-m>0.0</y-m>
+      <z-m>1.63139</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <object-name>SpeedbrakeLever</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/flight/speedbrake</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>ParkbreakLever</object-name>
+    <property>controls/gear/brake-parking</property>
+    <factor>90</factor>
+    <center>
+      <x-m>-6.78893</x-m>
+      <y-m>0.0</y-m>
+      <z-m>1.63139</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <object-name>ParkbreakLever</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/gear/brake-parking</property>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>CrossfeedLever</object-name>
+    <property>controls/fuel/cross-feed</property>
+    <factor>90</factor>
+    <center>
+      <x-m>-6.78893</x-m>
+      <y-m>0.0</y-m>
+      <z-m>1.63139</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <object-name>CrossfeedLever</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>controls/fuel/cross-feed</property>
+      </binding>
+    </action>
+  </animation>
+
   <animation>
     <type>translate</type>
     <object-name>Yoke.Left</object-name>
@@ -251,7 +409,7 @@
     <property>controls/flight/flaps</property>
     <factor>90</factor>
     <center>
-      <x-m>-6.56032</x-m>
+      <x-m>-6.30894</x-m>
       <y-m>0.0308025</y-m>
       <z-m>1.48225</z-m>
     </center>
@@ -259,6 +417,40 @@
       <x>0</x>
       <y>1</y>
       <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Trimwheel</object-name>
+    <property>controls/flight/elevator-trim</property>
+    <factor>-180</factor>
+    <center>
+      <x-m>-6.64147</x-m>
+      <y-m>0.100189</y-m>
+      <z-m>1.43254</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>RudderTrim</object-name>
+    <property>controls/flight/rudder-trim</property>
+    <factor>-90</factor>
+    <center>
+      <x-m>-6.24564</x-m>
+      <y-m>-0.04</y-m>
+      <z-m>1.58221</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
     </axis>
   </animation>
   

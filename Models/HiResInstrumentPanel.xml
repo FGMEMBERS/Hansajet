@@ -27,6 +27,16 @@
   </model>
 
   <model>
+    <path>Aircraft/Hansajet/Models/MarkerLights2.xml</path>
+    <name>MarkerLights</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.597012</y-m>
+      <z-m>-0.0580874</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/AI.xml</path>
     <name>AttitudeIndicator</name>
     <offsets>
@@ -37,7 +47,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/AI.xml</path>
+    <path>Aircraft/Hansajet/Models/AI-2.xml</path>
     <name>AttitudeIndicator</name>
     <offsets>
       <x-m>0</x-m>
@@ -57,7 +67,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/AirspeedIndicator.xml</path>
+    <path>Aircraft/Hansajet/Models/AirspeedIndicator-2.xml</path>
     <name>AirspeedIndicator</name>
     <offsets>
       <x-m>0</x-m>
@@ -97,7 +107,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/VSI.xml</path>
+    <path>Aircraft/Hansajet/Models/VSI-2.xml</path>
     <name>VSI</name>
     <offsets>
       <x-m>0</x-m>
@@ -117,7 +127,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/Altimeter.xml</path>
+    <path>Aircraft/Hansajet/Models/Altimeter-2.xml</path>
     <name>Altimeter</name>
     <offsets>
       <x-m>0</x-m>
@@ -147,8 +157,8 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/Empty2inch.ac</path>
-    <name>PIC2InchRightTop</name>
+    <path>Aircraft/Hansajet/Models/FlapIndicator.xml</path>
+    <name>FlapIndicator</name>
     <offsets>
       <x-m>0.0</x-m>
       <y-m>-0.166496</y-m>

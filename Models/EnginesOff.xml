@@ -2,10 +2,18 @@
 <PropertyList>
 
   <params>
-    <anti-skid>controls/gear/anti-skid</anti-skid>
+    <value>controls/engines/off</value>
   </params>
 
-  <path>Aircraft/Hansajet/Models/Switch2.ac</path>
+  <model>
+    <path>Aircraft/Hansajet/Models/Switch3.ac</path>
+    <name>Switch</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.002</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
 
   <animation>
     <object-name>Lever</object-name>
@@ -16,7 +24,7 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-toggle</command>
-        <property alias="../../../../params/anti-skid"/>
+        <property alias="../../../../params/value"/>
       </binding>
     </action>
   </animation>
@@ -24,19 +32,15 @@
   <animation>
     <type>rotate</type>
     <object-name>Lever</object-name>
-    <property alias="../../params/anti-skid"/>
+    <property alias="../../params/value"/>
     <factor>-32</factor>
     <axis>
       <x>1</x>
       <y>0</y>
       <z>0</z>
     </axis>
-    <center>
-      <x-m>0</x-m>
-      <y-m>0</y-m>
-      <z-m>0</z-m>
-    </center>
   </animation>
 
 </PropertyList>
+
 

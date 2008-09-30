@@ -1,22 +1,22 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
-    <params>
-        <selected-radial>instrumentation/nav[0]/radials/selected-deg</selected-radial>
-        <signal-quality>instrumentation/nav[0]/signal-quality-norm</signal-quality>
-        <to-flag>instrumentation/nav[0]/to-flag</to-flag>
-        <from-flag>instrumentation/nav[0]/from-flag</from-flag>
-        <gs-needle-deflection>instrumentation/nav[0]/gs-needle-deflection</gs-needle-deflection>
-        <heading-needle-deflection>instrumentation/nav[0]/heading-needle-deflection</heading-needle-deflection>
-        <has-gs>instrumentation/nav[0]/has-gs</has-gs>
+  <params>
+    <selected-radial>instrumentation/nav[0]/radials/selected-deg</selected-radial>
+    <signal-quality>instrumentation/nav[0]/signal-quality-norm</signal-quality>
+    <to-flag>instrumentation/nav[0]/to-flag</to-flag>
+    <from-flag>instrumentation/nav[0]/from-flag</from-flag>
+    <gs-needle-deflection>instrumentation/nav[0]/gs-needle-deflection</gs-needle-deflection>
+    <heading-needle-deflection>instrumentation/nav[0]/heading-needle-deflection</heading-needle-deflection>
+    <has-gs>instrumentation/nav[0]/has-gs</has-gs>
 
-        <indicated-heading>instrumentation/heading-indicator/indicated-heading-deg</indicated-heading>
-        <gyro-spin>instrumentation/heading-indicator/spin</gyro-spin>
+    <indicated-heading>instrumentation/heading-indicator/indicated-heading-deg</indicated-heading>
+    <gyro-spin>instrumentation/heading-indicator/spin</gyro-spin>
 
-        <heading-bug>autopilot/settings/heading-bug-deg</heading-bug>
+    <heading-bug>autopilot/settings/heading-bug-deg</heading-bug>
 
-        <dme-in-range>instrumentation/dme/in-range</dme-in-range>
-        <dme-dist>instrumentation/dme/indicated-distance-nm</dme-dist>
-    </params>
+    <dme-in-range>instrumentation/dme/in-range</dme-in-range>
+    <dme-dist>instrumentation/dme/indicated-distance-nm</dme-dist>
+  </params>
 
   <path>HSI.ac</path>
 

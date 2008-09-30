@@ -1,0 +1,54 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+
+  <params>
+    <value>controls/engines/engine[0]/starter</value>
+  </params>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/Switch4.ac</path>
+    <name>Switch</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.002</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <object-name>Lever</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-assign</command>
+        <property alias="../../../../params/value"/>
+        <value>1</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property alias="../../../../../params/value"/>
+          <value>0</value>
+        </binding>
+      </mod-up>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Lever</object-name>
+    <property alias="../../params/value"/>
+    <factor>-32</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>
+
+

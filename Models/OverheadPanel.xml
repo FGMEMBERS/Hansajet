@@ -1,0 +1,134 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <path>Aircraft/Hansajet/Models/OverheadPanel.ac</path>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/AntistallSyst1Off.xml</path>
+    <name>AntiStall_SYST1_OFF</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.11</y-m>
+      <z-m>0.023</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/AntistallComparatorOff.xml</path>
+    <name>AntiStall_COMPARATOR_OFF</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.095</y-m>
+      <z-m>0.023</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/AntistallSyst2Off.xml</path>
+    <name>AntiStall_SYST2_OFF</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.08</y-m>
+      <z-m>0.023</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/AntistallIndicatorSelect.xml</path>
+    <name>AntiStall_Indicator_Select</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.055</y-m>
+      <z-m>0.023</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/EngineIgnitionLH.xml</path>
+    <name>EngineIgnitionLH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.115</y-m>
+      <z-m>0.077</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/EngineIgnitionIndicatorLH.xml</path>
+    <name>EngineIgnitionIndicatorLH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.115</y-m>
+      <z-m>0.06</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/EngineIgnitionRH.xml</path>
+    <name>EngineIgnitionRH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.100</y-m>
+      <z-m>0.077</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/EngineIgnitionIndicatorRH.xml</path>
+    <name>EngineIgnitionIndicatorRH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.100</y-m>
+      <z-m>0.06</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/EngineStarterLH.xml</path>
+    <name>EngineIgnitionRH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.080</y-m>
+      <z-m>0.077</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/EnginesOff.xml</path>
+    <name>EngineIgnitionRH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.065</y-m>
+      <z-m>0.077</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/EngineStarterRH.xml</path>
+    <name>EngineIgnitionRH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.050</y-m>
+      <z-m>0.077</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+</PropertyList>
+
