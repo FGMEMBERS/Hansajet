@@ -26,23 +26,22 @@
       <config>
         <x-offset-m type="double">-0.35</x-offset-m>
         <y-offset-m type="double">2.38</y-offset-m>
-        <z-offset-m type="double">-6.5</z-offset-m>
+        <z-offset-m type="double">-6.2</z-offset-m>
         <pitch-offset-deg>-15</pitch-offset-deg>
         <default-field-of-view-deg type="double">55.0</default-field-of-view-deg>
       </config>
     </view>
-    <!--
+
     <systems>
-      <electrical>
-        <path>Aircraft/Citation/Citation-II-electrical.xml</path>
-      </electrical>
-      <autopilot>
-        <path>Aircraft/Citation/Citation-II-autopilot.xml</path>
-      </autopilot>
+      <path>Aircraft/Hansajet/Systems/Hansajet-systems.xml</path>
     </systems>
--->
+
+    <instrumentation>
+      <path>Aircraft/Hansajet/Systems/Hansajet-instruments.xml</path>
+    </instrumentation>
+
     <sound>
-      <path>Aircraft/Citation/Citation-II-sound.xml</path>
+      <path>Aircraft/Hansajet/Hansajet-sound.xml</path>
     </sound>
     <hud>
       <enable3d>false</enable3d>
@@ -51,54 +50,29 @@
     <allow-toggle-cockpit>true</allow-toggle-cockpit>
 
 
-    <help>
-      <title>Hansajet</title>
-      <!--
-      <key>
-        <name>Delete</name>
-        <desc>toggle thrust reversers</desc>
-      </key>
--->
-    </help>
+    <help include="help.xml"/>
   </sim>
 
   <input>
     <keyboard>
       <!-- Slats -->
-      <key n="100">
-        <name>d</name>
-        <desc>Retract Slats.</desc>
+      <key n="106">
+        <name>j</name>
+        <desc>Toggle Slats</desc>
         <binding>
-          <command>property-adjust</command>
-          <property>controls/flight/slats</property>
-          <step type="double">-0.25</step>
-        </binding>
-      </key>
-      <key n="102">
-        <name>f</name>
-        <desc>Extend Slats.</desc>
-        <binding>
-          <command>property-adjust</command>
-          <property>controls/flight/slats</property>
-          <step type="double">0.25</step>
+          <command>property-toggle</command>
+          <property>controls/flight/spoilers</property>
         </binding>
       </key>
     </keyboard>
   </input>
-  <!-- aircraft specific loading -->
+
   <controls>
     <gear>
       <brake-parking>1</brake-parking>
     </gear>
-    <engines>
-      <engine n="0">
-        <magnetos>3</magnetos>
-      </engine>
-      <engine n="1">
-        <magnetos>3</magnetos>
-      </engine>
-    </engines>
   </controls>
+
   <engines>
     <engine n="0">
     </engine>
@@ -106,11 +80,58 @@
     </engine>
   </engines>
 
+  <systems>
+    <pitot n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </pitot>
+    <pitot n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </pitot>
+
+    <static n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+      <pressure-inhg type="double" archive="y">29.92</pressure-inhg>
+    </static>
+    <static n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+      <pressure-inhg type="double" archive="y">29.92</pressure-inhg>
+    </static>
+
+  </systems>
+
+  <instrumentation>
+    <altimeter n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+      <setting-inhg type="double" archive="y">29.92</setting-inhg>
+    </altimeter>
+    <altimeter n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+      <setting-inhg type="double" archive="y">29.92</setting-inhg>
+    </altimeter>
+    <airspeed-indicator n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </airspeed-indicator>
+    <airspeed-indicator n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </airspeed-indicator>
+    <vertical-speed-indicator n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </vertical-speed-indicator>
+    <vertical-speed-indicator n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </vertical-speed-indicator>
+  </instrumentation>
+
 
   <nasal>
+    <Hansajet>
+      <file>Aircraft/Hansajet/Nasal/Hansajet.nas</file>
+    </Hansajet>
+<!--
     <hsi>
       <file>Aircraft/SenecaII/Nasal/hsi.nas</file>
     </hsi>
+-->
   </nasal>
 
 </PropertyList>
