@@ -1,10 +1,6 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
 
-  <params>
-    <fuel-indicator-select>b</fuel-indicator-select>
-  </params>
-
   <model>
     <path>Aircraft/Hansajet/Models/FuelUsed.xml</path>
     <name>FuelUsed</name>
