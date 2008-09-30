@@ -1,6 +1,11 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
-
+  
+  <params>
+    <value>instrumentation/marker-beacon/middle-light</value>
+    <test>instrumentation/marker-beacon/middle-light-test</test>
+  </params>
+  
   <path>ControlLight-Red.ac</path>
 
   <animation>
@@ -14,14 +19,27 @@
   </animation>
 
   <animation>
-    <type>material</type>
+    <type>select</type>
     <object-name>Light</object-name>
-    <emission>
-      <red>1.0</red>
-      <green>0.0</green>
-      <blue>0.0</blue>
-      <factor-prop>instrumentation/marker-beacon/middle-light</factor-prop>
-    </emission>
+    <condition>
+      <or>
+        <property alias="../../../../params/value"/>
+        <property alias="../../../../params/test"/>
+      </or>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Glass</object-name>
+    <condition>
+      <not>
+        <or>
+          <property alias="../../../../../params/value"/>
+          <property alias="../../../../../params/test"/>
+        </or>
+      </not>
+    </condition>
   </animation>
 
   <animation>
@@ -32,13 +50,13 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/marker-beacon/middle-light-test</property>
+        <property alias="../../../../params/test"/>
         <value>1</value>
       </binding>
       <mod-up>
         <binding>
           <command>property-assign</command>
-          <property>instrumentation/marker-beacon/middle-light-test</property>
+          <property alias="../../../../../params/test"/>
           <value>0</value>
         </binding>
       </mod-up>
@@ -46,4 +64,3 @@
   </animation>
 
 </PropertyList>
-
