@@ -267,6 +267,7 @@
  </propulsion>
 
  <flight_control name="FCS: hfb320">
+  <property>fcs/slat-cmd-norm</property>
 
   <channel name="Pitch">
    <summer name="Pitch Trim Sum">
@@ -452,11 +453,11 @@
           <time>      0 </time>
        </setting>
        <setting>
-          <position> 15 </position>
+          <position> 20 </position>
           <time>      4 </time>
        </setting>
        <setting>
-          <position> 30 </position>
+          <position> 40 </position>
           <time>      3 </time>
        </setting>
      </traverse>
@@ -467,7 +468,7 @@
       <input>fcs/flap-pos-deg</input>
       <domain>
         <min>  0 </min>
-        <max> 30 </max>
+        <max> 40 </max>
       </domain>
       <range>
         <min> 0 </min>
@@ -476,6 +477,32 @@
       <output>fcs/flap-pos-norm</output>
    </aerosurface_scale>
 
+   <kinematic name="Spoiler Control">
+     <input>fcs/spoiler-cmd-norm</input>
+     <traverse>
+       <setting>
+         <position>0.0000</position>
+         <time>0.0000</time>
+       </setting>
+       <setting>
+         <position>0.6110</position>
+         <time>5.0000</time>
+       </setting>
+     </traverse>
+     <output>fcs/spoiler-pos-rad</output>
+   </kinematic>
+   <aerosurface_scale name="Spoiler Position Normalizer">
+     <input>fcs/spoiler-pos-rad</input>
+     <domain>
+       <min>0</min>
+       <max>0.6110</max>
+     </domain>
+     <range>
+       <min>0</min>
+       <max>1</max>
+     </range>
+     <output>fcs/spoiler-pos-norm</output>
+   </aerosurface_scale>
   </channel>
 
   <channel name="Landing Gear">
