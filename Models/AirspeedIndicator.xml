@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>instrumentation/airspeed-indicator/indicated-speed-kt</value>
+    <value>instrumentation/airspeed-indicator[0]/indicated-speed-kt</value>
   </params>
 
   <path>AirspeedIndicator.ac</path>

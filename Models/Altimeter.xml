@@ -1,8 +1,8 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <altitude>instrumentation/altimeter/indicated-altitude-ft</altitude>
-    <subscale>instrumentation/altimeter/setting-inhg</subscale>
+    <altitude>instrumentation/altimeter[0]/indicated-altitude-ft</altitude>
+    <subscale>instrumentation/altimeter[0]/setting-inhg</subscale>
   </params>
 
   <path>Altimeter.ac</path>

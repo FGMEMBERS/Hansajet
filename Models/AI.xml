@@ -1,8 +1,8 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <pitch>instrumentation/attitude-indicator/indicated-pitch-deg</pitch>
-    <bank>instrumentation/attitude-indicator/indicated-roll-deg</bank>
+    <pitch>instrumentation/attitude-indicator[0]/indicated-pitch-deg</pitch>
+    <bank>instrumentation/attitude-indicator[0]/indicated-roll-deg</bank>
   </params>
 
   <path>AttitudeIndicator.ac</path>
