@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  
+  <params>
+    <value>instrumentation/marker-beacon/outer-light</value>
+    <test>instrumentation/marker-beacon[1]/outer-light-test</test>
+  </params>
+  
+  <path>ControlLight-Blue.ac</path>
+
+  <animation>
+    <type>noshadow</type>
+  </animation>
+
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>10</max-m>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Light</object-name>
+    <condition>
+      <or>
+        <property alias="../../../../params/value"/>
+        <property alias="../../../../params/test"/>
+      </or>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Glass</object-name>
+    <condition>
+      <not>
+        <or>
+          <property alias="../../../../../params/value"/>
+          <property alias="../../../../../params/test"/>
+        </or>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-assign</command>
+        <property alias="../../../../params/test"/>
+        <value>1</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property alias="../../../../../params/test"/>
+          <value>0</value>
+        </binding>
+      </mod-up>
+    </action>
+  </animation>
+
+</PropertyList>

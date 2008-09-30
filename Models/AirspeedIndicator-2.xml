@@ -1,0 +1,61 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <params>
+    <value>instrumentation/airspeed-indicator[1]/indicated-speed-kt</value>
+  </params>
+
+  <path>AirspeedIndicator.ac</path>
+
+  <animation>
+    <type>noshadow</type>
+  </animation>
+
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>10</max-m>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>LargeHand</object-name>
+    <property alias="../../params/value"/>
+    <interpolation>
+      <entry>
+        <ind>0</ind>
+        <dep>0</dep>
+      </entry>
+      <entry>
+        <ind>50</ind>
+        <dep>10.428</dep>
+      </entry>
+      <entry>
+        <ind>650</ind>
+        <dep>349.572</dep>
+      </entry>
+      <entry>
+        <ind>700</ind>
+        <dep>360</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>Subscale</object-name>
+    <property alias="../../params/value"/>
+    <factor>0.01</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>
+
