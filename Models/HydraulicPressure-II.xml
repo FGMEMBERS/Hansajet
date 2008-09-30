@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>systems/hydraulic/hydraulic[1]/pressure-psi</value>
+    <value>systems/hydraulic/system[1]/pressure-psi</value>
   </params>
 
   <path>HydraulicPressure.ac</path>
