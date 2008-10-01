@@ -2,7 +2,7 @@
 <PropertyList>
 
   <params>
-    <value>controls/engines/engine[0]/cutoff</value>
+    <value>controls/engines/engine[0]/ignition</value>
   </params>
 
   <model>

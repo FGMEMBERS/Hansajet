@@ -2,6 +2,10 @@
 <PropertyList>
   <path>Aircraft/Hansajet/Models/OverheadPanel.ac</path>
 
+  <animation include="CockpitShadowAnimation.xml"/>
+  <animation include="CockpitRangeAnimation.xml"/>
+
+  <!-- bottom row: ANTISTALL -->
   <model>
     <path>Aircraft/Hansajet/Models/AntistallSyst1Off.xml</path>
     <name>AntiStall_SYST1_OFF</name>
@@ -50,6 +54,47 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/Hansajet/Models/Test1ShakerButton.xml</path>
+    <name>Test1_ShakerInput</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.03</y-m>
+      <z-m>0.035</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/ControlLight-Red.ac</path>
+    <name>PusherValveIndicatorL</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.03</y-m>
+      <z-m>0.018</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/Test2PusherButton.xml</path>
+    <name>Test2_PusherInput</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.01</y-m>
+      <z-m>0.035</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/ControlLight-Red.ac</path>
+    <name>PusherValveIndicatorL</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.010</y-m>
+      <z-m>0.018</z-m>
+    </offsets>
+  </model>
+
+  <!-- ENGINES ROW -->
   <model>
     <path>Aircraft/Hansajet/Models/EngineIgnitionLH.xml</path>
     <name>EngineIgnitionLH</name>
@@ -124,6 +169,40 @@
     <offsets>
       <x-m>0</x-m>
       <y-m>-0.050</y-m>
+      <z-m>0.077</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/TestTipTankButton.xml</path>
+    <name>TipTankTest</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.030</y-m>
+      <z-m>0.077</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/Switch4.ac</path>
+    <name>TipPumpEmergLH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.020</y-m>
+      <z-m>0.077</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/Switch3.ac</path>
+    <name>TipPumpNormLH</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.005</y-m>
       <z-m>0.077</z-m>
       <heading-deg>90</heading-deg>
       <pitch-deg>180</pitch-deg>

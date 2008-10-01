@@ -1,6 +1,9 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
 
+  <animation include="CockpitShadowAnimation.xml"/>
+  <animation include="CockpitRangeAnimation.xml"/>
+
   <model>
     <path>Aircraft/SenecaII/Instruments-3d/kx165tso1.xml</path>
     <name>NavCom1</name>

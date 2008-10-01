@@ -2,21 +2,11 @@
 <PropertyList>
 
   <params>
-    <value>engines/engine[0]/running</value>
+    <value>engines/engine[0]/ignition-light</value>
     <test>engines/engine[0]/ignition-light-test</test>
   </params>
 
   <path>ControlLight-Red.ac</path>
-
-  <animation>
-    <type>noshadow</type>
-  </animation>
-
-  <animation>
-    <type>range</type>
-    <min-m>0</min-m>
-    <max-m>10</max-m>
-  </animation>
 
   <animation>
     <type>select</type>

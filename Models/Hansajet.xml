@@ -453,5 +453,10 @@
       <z>1</z>
     </axis>
   </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/haze.xml</path>
+    <name>haze</name>
+  </model>
   
 </PropertyList>

@@ -1,12 +1,26 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
 
+  <animation include="CockpitShadowAnimation.xml"/>
+  <animation include="CockpitRangeAnimation.xml"/>
+
   <model>
     <path>Aircraft/Hansajet/Models/FuelUsed.xml</path>
     <name>FuelUsed</name>
     <offsets>
       <x-m>0.0</x-m>
       <y-m>-0.120722</y-m>
+      <z-m>0</z-m>
+      <pitch-deg>-90</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/FuelUsedResetButton.xml</path>
+    <name>FuelUsed</name>
+    <offsets>
+      <x-m>0.02</x-m>
+      <y-m>-0.08908085</y-m>
       <z-m>0</z-m>
       <pitch-deg>-90</pitch-deg>
     </offsets>
