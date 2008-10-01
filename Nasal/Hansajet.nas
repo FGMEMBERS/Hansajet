@@ -120,9 +120,135 @@ HydraulicSystem.update = func( dt ) {
 
 
 
+############################################################################
+# Engine control
+# Startup procedure JSBSim
+# cutoff=true
+# start=true
+# wait for n2 > 15
+# ...
+# Startup procedure Hansa Jet
+# Stop=off
+# FuelPump(any)=on
+# Ignition=on
+# Start=on
+# Ignition-Light: Function unknown
+############################################################################
+
+var Engine = {};
+Engine.new = func(index, cutoffNode) {
+  var obj = {};
+  obj.parents = [Engine];
+  obj.enginesOffNode = cutoffNode;
+
+  obj.controlsRootNode = props.globals.getNode( "controls/engines/engine[" ~ index ~ "]", 1 );
+  obj.engineRootNode = props.globals.getNode( "engines/engine[" ~ index ~ "]", 1 );
+  obj.n1Node = obj.engineRootNode.getNode( "n1", 1 );
+
+  obj.cutoffNode = obj.controlsRootNode.getNode( "cutoff", 1 );
+  obj.starterNode = obj.controlsRootNode.getNode( "starter", 1 );
+  obj.runningNode = obj.engineRootNode.getNode( "running", 1 );
+
+  obj.ignitionNode = obj.controlsRootNode.getNode( "ignition", 1 );
+  obj.ignitionLightNode = obj.controlsRootNode.getNode( "ignition-light", 1 );
+
+  print( "Engine handler #" ~ index ~ " created" );
+  return obj;
+};
+
+Engine.update = func {
+
+  if( me.runningNode.getValue() ) {
+    # engine running
+    
+  } else {
+    # engine not running
+     var ignition = me.ignitionNode.getValue();
+     var cutoff   = me.cutoffNode.getValue();
+     var starter  = me.starterNode.getValue();
+  }
+};
+
+var Engines = {};
+Engines.new = func(count) {
+  var obj = {};
+  obj.parents = [Engines];
+  obj.cutoffNode = props.globals.getNode( "controls/engines/off", 1 );
+  obj.engines = [];
+  for( var i = 0; i < count; i = i + 1 ) {
+    append( obj.engines, Engine.new( i, obj.cutoffNode ) );
+  }
+
+  return obj;
+};
+
+Engines.update = func {
+  foreach( var engine; me.engines ) {
+    engine.update();
+  }
+};
+
+var FuelTank = {};
+
+FuelTank.new = func(index) {
+  var obj = {};
+  obj.parents = [FuelTank];
+  obj.rootNode = props.globals.getNode( "consumables/fuel/tank[" ~ index ~ "]", 1 );
+  obj.levelNode = obj.rootNode.getNode( "level-lb" );
+  obj.lastLevel = obj.levelNode.getValue();
+  if( obj.lastLevel == nil )
+    obj.lastLevel = 0.0;
+
+  obj.index = index;
+  return obj;
+};
+
+FuelTank.getFuelUsed = func {
+  var level = me.levelNode.getValue();
+  if( level == nil )
+    level = 0.0;
+
+  var fuelUsed = me.lastLevel - level;
+  me.lastLevel = level;
+
+  # refuelling - don't count
+  if( fuelUsed < 0 )
+    fuelUsed = 0;
+
+  return fuelUsed/2.2;
+};
+
+var FuelTanks = {};
+FuelTanks.new = func(count) {
+  var obj = {};
+  obj.parents = [FuelTanks];
+  obj.usedNode = props.globals.getNode( "consumables/fuel/used-kg", 1 );
+  obj.fuelTanks = [];
+  for( var i = 0; i < count; i = i + 1 ) {
+    append( obj.fuelTanks, FuelTank.new(i) );
+  }
+
+  return obj;
+};
+
+FuelTanks.update = func {
+  var fuelUsed = me.usedNode.getValue();
+  if( fuelUsed == nil )
+    fuelUsed = 0.0;
+
+  foreach( var fuelTank; me.fuelTanks ) {
+    fuelUsed = fuelUsed + fuelTank.getFuelUsed();
+  }
+
+  me.usedNode.setDoubleValue( fuelUsed );
+}
+
 ####################################################################
 
 var hydraulicSystems = [];
+var engines = nil;
+var fuelTanks = nil;
+
 var timeNode = props.globals.getNode( "/sim/time/elapsed-sec", 1 );
 var lastRun = timeNode.getValue();
 
@@ -133,9 +259,16 @@ var HansajetTimer = func {
     hydraulicSystem.update(dt);
   }
 
+  engines.update(); 
+  fuelTanks.update();
+
   lastRun = timeNode.getValue();
   settimer( HansajetTimer, 0 );
 };
+
+var savedata = func {
+   aircraft.data.add("consumables/fuel/used-kg");
+}
 
 var initialize = func {
   print( "Hansa Jet nasal systems initializing..." );
@@ -165,7 +298,11 @@ var initialize = func {
   hydraulicSystem.addPump( hydraulicPump );
   append( hydraulicSystems, hydraulicSystem );
 
+  fuelTanks = FuelTanks.new(5);
+  engines = Engines.new(2);
+
   HansajetTimer();
+  savedata();
   print( "Hansa Jet nasal systems initialized" );
 };
 
