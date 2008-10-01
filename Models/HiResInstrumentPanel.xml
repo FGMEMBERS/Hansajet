@@ -140,11 +140,21 @@
   </model>
 
   <model>
-    <path>Aircraft/SenecaII/Models/ki227_228.xml</path>
+    <path>Aircraft/Hansajet/Models/RMI.xml</path>
     <name>RMI</name>
     <offsets>
       <x-m>0.001</x-m>
       <y-m>-0.525078</y-m>
+      <z-m>-0.128284</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/RMI.xml</path>
+    <name>RMI</name>
+    <offsets>
+      <x-m>0.001</x-m>
+      <y-m>0.418186</y-m>
       <z-m>-0.128284</z-m>
     </offsets>
   </model>

@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <params>
+    <indicated-heading>instrumentation/heading-indicator/indicated-heading-deg</indicated-heading>
+    <adf-bearing-deg>instrumentation/adf/indicated-bearing-deg</adf-bearing-deg>
+    <vor-bearing-deg>instrumentation/nav[0]/radials/reciprocal-radial-deg</vor-bearing-deg>
+  </params>
+
+  <path>RMI.ac</path>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>CompassRose</object-name>
+    <property alias="../../params/indicated-heading"/>
+    <factor>1.0</factor>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+    <center>
+      <x-m>-0.001</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Two</object-name>
+    <property alias="../../params/adf-bearing-deg"/>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>One</object-name>
+    <property alias="../../params/vor-bearing-deg"/>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>
