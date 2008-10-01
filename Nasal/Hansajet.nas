@@ -1,4 +1,16 @@
 ##################### Hydraulic System ########################
+var HydraulicLoad = {};
+HydraulicLoad.new = func( power ) {
+  var obj = {};
+  obj.parents = [HydraulicLoad];
+  obj.power = power;
+  return obj;
+};
+
+HydraulicLoad.getPressure = func( dt, pressure ) {
+  return pressure - me.power * dt;
+};
+
 var HydraulicPump = {};
 HydraulicPump.new = func( source, offset, factor, power ) {
   var obj = {};
@@ -50,7 +62,7 @@ HydraulicReservoir.new = func( rootNode, index ) {
 }
 
 HydraulicReservoir.isEmpty = func {
-  return me.levelNormNode.getValue() > me.minLevelNormNode.getValue();
+  return me.levelNormNode.getValue() < me.minLevelNormNode.getValue();
 }
 ###
 
@@ -79,6 +91,9 @@ HydraulicSystem.addPump = func( hydraulicPump ) {
   append( me.pumps, hydraulicPump );
 };
 
+HydraulicSystem.addLoad = func( hydraulicLoad ) {
+  append( me.loads, hydraulicLoad );
+};
 HydraulicSystem.addReservoir = func( hydraulicReservoir ) {
   append( me.reservoirs, hydraulicReservoir );
 }
@@ -273,29 +288,35 @@ var savedata = func {
 var initialize = func {
   print( "Hansa Jet nasal systems initializing..." );
   var hydraulicSystem = nil;
-  var hydraulicPump = nil;
+  var hydraulicElement = nil;
   var hydraulicReservoir = nil;
 
   hydraulicReservoir = HydraulicReservoir.new( "systems/hydraulic", 0 );
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 0 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
-  hydraulicPump = HydraulicPump.new( "engines/engine[0]/n1", 25, 4, 100 );
-  hydraulicSystem.addPump( hydraulicPump );
+  hydraulicElement = HydraulicPump.new( "engines/engine[0]/n1", 25, 4, 100 );
+  hydraulicSystem.addPump( hydraulicElement );
+  hydraulicElement = HydraulicLoad.new( 5 );
+  hydraulicSystem.addLoad( hydraulicElement );
   append( hydraulicSystems, hydraulicSystem );
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 1 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
-  hydraulicPump = HydraulicPump.new( "engines/engine[1]/n1", 25, 4, 100 );
-  hydraulicSystem.addPump( hydraulicPump );
+  hydraulicElement = HydraulicPump.new( "engines/engine[1]/n1", 25, 4, 100 );
+  hydraulicSystem.addPump( hydraulicElement );
+  hydraulicElement = HydraulicLoad.new( 2 );
+  hydraulicSystem.addLoad( hydraulicElement );
   append( hydraulicSystems, hydraulicSystem );
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 2 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
-  hydraulicPump = HydraulicPump.new( "engines/engine[0]/n1", 25, 4, 20 );
-  hydraulicSystem.addPump( hydraulicPump );
-  hydraulicPump = HydraulicPump.new( "engines/engine[1]/n1", 25, 4, 20 );
-  hydraulicSystem.addPump( hydraulicPump );
+  hydraulicElement = HydraulicPump.new( "engines/engine[0]/n1", 25, 4, 20 );
+  hydraulicSystem.addPump( hydraulicElement );
+  hydraulicElement = HydraulicPump.new( "engines/engine[1]/n1", 25, 4, 20 );
+  hydraulicSystem.addPump( hydraulicElement );
+  hydraulicElement = HydraulicLoad.new( 1 );
+  hydraulicSystem.addLoad( hydraulicElement );
   append( hydraulicSystems, hydraulicSystem );
 
   fuelTanks = FuelTanks.new(5);
