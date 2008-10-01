@@ -17,6 +17,14 @@
 
     <model>
       <path>Aircraft/Hansajet/Models/Hansajet.xml</path>
+      <hansajet>
+      <lod>
+        <cockpit type="double">10</cockpit>
+      </lod>
+      <shadows>
+        <cockpit type="bool">0</cockpit>
+      </shadows>
+      </hansajet>
     </model>
 
     <view n="0">
@@ -68,6 +76,12 @@
   </input>
 
   <controls>
+    <engine n="0">
+      <cutoff>0</cutoff>
+    </engine>
+    <engine n="1">
+      <cutoff>0</cutoff>
+    </engine>
     <gear>
       <brake-parking>1</brake-parking>
     </gear>
@@ -75,8 +89,12 @@
 
   <engines>
     <engine n="0">
+      <n1>30</n1>
+      <running>1</running>
     </engine>
     <engine n="1">
+      <n1>30</n1>
+      <running>1</running>
     </engine>
   </engines>
 
