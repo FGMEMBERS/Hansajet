@@ -321,7 +321,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/Empty2inch.ac</path>
+    <path>Aircraft/Hansajet/Models/IcingIndicator.xml</path>
     <name>Oil-2</name>
     <offsets>
       <x-m>0.0</x-m>
@@ -337,16 +337,6 @@
       <x-m>0.0</x-m>
       <y-m>0.229824</y-m>
       <z-m>-0.172163</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/Hansajet/Models/Empty2inch.ac</path>
-    <name>Oil-2</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.229824</y-m>
-      <z-m>-0.112163</z-m>
     </offsets>
   </model>
 

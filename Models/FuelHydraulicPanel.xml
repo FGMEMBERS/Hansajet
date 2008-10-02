@@ -49,7 +49,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/Empty2inch.ac</path>
+    <path>Aircraft/Hansajet/Models/FuelPumpIndicator.xml</path>
     <name>FuelPumps</name>
     <offsets>
       <x-m>0.0</x-m>
