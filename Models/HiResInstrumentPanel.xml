@@ -199,6 +199,16 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/Hansajet/Models/GearLever.xml</path>
+    <name>GearLever</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>-0.114354</y-m>
+      <z-m>0.0378368</z-m>
+    </offsets>
+  </model>
+
   <!-- engine gauges -->
   <model>
     <path>Aircraft/Hansajet/Models/RPMIndicator-1.xml</path>
@@ -339,37 +349,5 @@
       <z-m>-0.172163</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>pick</type>
-    <object-name>GearLever</object-name>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>property-toggle</command>
-        <property alias="../../../../params/gear-down"/>
-      </binding>
-    </action>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>GearLever</object-name>
-    <property alias="../../params/gear-down"/>
-    <factor>30</factor>
-    <axis>
-      <x>0</x>
-      <y>1</y>
-      <z>0</z>
-    </axis>
-    <center>
-      <x-m>-0.00297108</x-m>
-      <y-m>-0.114354</y-m>
-      <z-m>0.0689195</z-m>
-    </center>
-  </animation>
-
 
 </PropertyList>
