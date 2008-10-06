@@ -161,7 +161,6 @@ Engine.new = func(index, cutoffNode) {
   obj.n1Node = obj.engineRootNode.getNode( "n1", 1 );
 
   obj.cutoffNode = obj.controlsRootNode.getNode( "cutoff", 1 );
-  obj.starterNode = obj.controlsRootNode.getNode( "starter", 1 );
   obj.runningNode = obj.engineRootNode.getNode( "running", 1 );
 
   obj.ignitionNode = obj.controlsRootNode.getNode( "ignition", 1 );
@@ -173,15 +172,21 @@ Engine.new = func(index, cutoffNode) {
 
 Engine.update = func {
 
-  if( me.runningNode.getValue() ) {
-    # engine running
-    
-  } else {
-    # engine not running
-     var ignition = me.ignitionNode.getValue();
-     var cutoff   = me.cutoffNode.getValue();
-     var starter  = me.starterNode.getValue();
+  var cutoff = me.enginesOffNode.getValue();
+  if( cutoff == 0 ) {
+    # cutoff = is_there_fuel?
   }
+
+  if( cutoff == 0 and me.runningNode.getValue() == 0 ) {
+    # engine not running, we need ignition 
+    cutoff = (me.ignitionNode.getValue() == 0);
+    if( cutoff == 0 ) {
+      # so we have fuel and ignition, wait for n1
+      cutoff = (me.n1Node.getValue() < 5);
+    }
+  }
+
+  me.cutoffNode.setBoolValue( cutoff );
 };
 
 var Engines = {};
@@ -189,6 +194,7 @@ Engines.new = func(count) {
   var obj = {};
   obj.parents = [Engines];
   obj.cutoffNode = props.globals.getNode( "controls/engines/off", 1 );
+
   obj.engines = [];
   for( var i = 0; i < count; i = i + 1 ) {
     append( obj.engines, Engine.new( i, obj.cutoffNode ) );
