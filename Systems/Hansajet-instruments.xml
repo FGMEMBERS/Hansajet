@@ -58,4 +58,25 @@
     <suction>systems/vacuum[0]/suction-inhg</suction>
   </heading-indicator>
 
+  <slip-skid-ball>
+    <name>slip-skid-ball</name>
+    <number>0</number>
+  </slip-skid-ball>
+
+  <turn-indicator>
+    <name>turn-indicator</name>
+    <number>0</number>
+  </turn-indicator>
+
+  <slip-skid-ball>
+    <name>slip-skid-ball</name>
+    <number>1</number>
+  </slip-skid-ball>
+
+  <turn-indicator>
+    <name>turn-indicator</name>
+    <number>1</number>
+  </turn-indicator>
+
+
 </PropertyList>
