@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <params>
+    <off></off>
+    <left>a</left>
+    <right>b</right>
+    <off>c</off>
+  </params>
+
+  <path>TurnCoordinator.ac</path>
+
+  <animation>
+    <type>select</type>
+    <object-name>Off</object-name>
+    <condition>
+      <property alias="../../../params/off"/>
+    </condition>
+  </animation>
+
+</PropertyList>
+
+

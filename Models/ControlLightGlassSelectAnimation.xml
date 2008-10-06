@@ -1,0 +1,15 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <type>select</type>
+  <object-name>Glass</object-name>
+  <condition>
+    <not>
+      <or>
+        <not>
+          <property alias="../../../../../../params/value"/>
+        </not>
+        <property alias="../../../../../params/test"/>
+      </or>
+    </not>
+  </condition>
+</PropertyList>

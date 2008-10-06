@@ -10,6 +10,16 @@
   <animation include="CockpitRangeAnimation.xml"/>
 
   <model>
+    <path>Aircraft/Hansajet/Models/TurnCoordinator.xml</path>
+    <name>TC</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.608224</y-m>
+      <z-m>-0.128284</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/MarkerLights.xml</path>
     <name>MarkerLights</name>
     <offsets>
@@ -341,8 +351,8 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/Empty2inch.ac</path>
-    <name>Oil-2</name>
+    <path>Aircraft/Hansajet/Models/TurnCoordinator.xml</path>
+    <name>TC</name>
     <offsets>
       <x-m>0.0</x-m>
       <y-m>0.229824</y-m>

@@ -2,59 +2,15 @@
 <PropertyList>
 
   <params>
-    <value>engines/engine[0]/ignition-light</value>
+    <value>engines/engine[0]/running</value>
     <test>engines/engine[0]/ignition-light-test</test>
   </params>
 
   <path>ControlLight-Red.ac</path>
 
-  <animation>
-    <type>select</type>
-    <object-name>Light</object-name>
-    <condition>
-      <or>
-        <not>
-          <property alias="../../../../../params/value"/>
-        </not>
-        <property alias="../../../../params/test"/>
-      </or>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>Glass</object-name>
-    <condition>
-      <not>
-        <or>
-          <not>
-            <property alias="../../../../../../params/value"/>
-          </not>
-          <property alias="../../../../../params/test"/>
-        </or>
-      </not>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>pick</type>
-    <visible>true</visible>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>property-assign</command>
-        <property alias="../../../../params/test"/>
-        <value>1</value>
-      </binding>
-      <mod-up>
-        <binding>
-          <command>property-assign</command>
-          <property alias="../../../../../params/test"/>
-          <value>0</value>
-        </binding>
-      </mod-up>
-    </action>
-  </animation>
+  <animation include="ControlLightInvertedLightSelectAnimation.xml"/>
+  <animation include="ControlLightInvertedGlassSelectAnimation.xml"/>
+  <animation include="ControlLightPickAnimation.xml"/>
+  <animation include="ControlLightTranslateAnimation.xml"/>
 
 </PropertyList>
