@@ -76,17 +76,21 @@
   </input>
 
   <controls>
-    <engine n="0">
-      <cutoff>0</cutoff>
-    </engine>
-    <engine n="1">
-      <cutoff>0</cutoff>
-    </engine>
+    <engines>
+      <off type="bool">0</off>
+    </engines>
     <gear>
-      <brake-parking>1</brake-parking>
+      <brake-parking type="bool">1</brake-parking>
     </gear>
+    <lighting>
+      <landing-lights type="bool" n="0">0</landing-lights>
+      <landing-lights type="bool" n="1">0</landing-lights>
+      <taxi-light type="bool" >0</taxi-light>
+      <nav-lights type="bool">0</nav-lights>
+      <beacon type="bool">0</beacon>
+    </lighting>
   </controls>
-
+<!--
   <engines>
     <engine n="0">
       <n1>30</n1>
@@ -97,7 +101,7 @@
       <running>1</running>
     </engine>
   </engines>
-
+-->
   <systems>
     <pitot n="0">
       <serviceable type="bool" archive="y">true</serviceable>
