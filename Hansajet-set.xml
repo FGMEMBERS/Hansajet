@@ -17,14 +17,19 @@
 
     <model>
       <path>Aircraft/Hansajet/Models/Hansajet.xml</path>
-      <hansajet>
-      <lod>
-        <cockpit type="double">10</cockpit>
-      </lod>
-      <shadows>
-        <cockpit type="bool">0</cockpit>
-      </shadows>
-      </hansajet>
+      <Hansajet>
+        <lod>
+          <cockpit type="double">10</cockpit>
+        </lod>
+        <shadows>
+          <cockpit type="bool">0</cockpit>
+        </shadows>
+        <sound>
+          <volume>
+            <cockpit type="double">5</cockpit>
+          </volume>
+        </sound>
+      </Hansajet>
     </model>
 
     <view n="0">
@@ -39,6 +44,23 @@
         <default-field-of-view-deg type="double">55.0</default-field-of-view-deg>
       </config>
     </view>
+
+    <view n="100">
+      <name>Overhead Panel</name>
+      <type>lookfrom</type>
+      <internal archive="y">true</internal>
+      <config>
+        <from-model type="bool">true</from-model>
+        <from-model-idx type="int">0</from-model-idx>
+        <ground-level-nearplane-m type="double">0.01</ground-level-nearplane-m>
+        <default-field-of-view-deg type="double">55</default-field-of-view-deg>
+        <pitch-offset-deg>53</pitch-offset-deg>
+        <x-offset-m archive="y"> 0.000 </x-offset-m> <!--Right-->
+        <y-offset-m archive="y"> 2.380 </y-offset-m> <!--Up-->
+        <z-offset-m archive="y"> -6.200 </z-offset-m> <!--Back-->
+      </config>
+    </view>
+
 
     <systems>
       <path>Aircraft/Hansajet/Systems/Hansajet-systems.xml</path>
