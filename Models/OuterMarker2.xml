@@ -9,7 +9,6 @@
   <path>ControlLight-Blue.ac</path>
 
   <animation include="ControlLightLightSelectAnimation.xml"/>
-  <animation include="ControlLightGlassSelectAnimation.xml"/>
   <animation include="ControlLightPickAnimation.xml"/>
   <animation include="ControlLightTranslateAnimation.xml"/>
 </PropertyList>

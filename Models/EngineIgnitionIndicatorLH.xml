@@ -9,7 +9,6 @@
   <path>ControlLight-Red.ac</path>
 
   <animation include="ControlLightInvertedLightSelectAnimation.xml"/>
-  <animation include="ControlLightInvertedGlassSelectAnimation.xml"/>
   <animation include="ControlLightPickAnimation.xml"/>
   <animation include="ControlLightTranslateAnimation.xml"/>
 

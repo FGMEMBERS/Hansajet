@@ -3,13 +3,12 @@
   
   <params>
     <value>instrumentation/marker-beacon/inner-light</value>
-    <test>instrumentation/marker-beacon[1]/inner-light-test</test>
+    <test>instrumentation/marker-beacon[0]/inner-light-test</test>
   </params>
   
   <path>ControlLight-White.ac</path>
 
   <animation include="ControlLightLightSelectAnimation.xml"/>
-  <animation include="ControlLightGlassSelectAnimation.xml"/>
   <animation include="ControlLightPickAnimation.xml"/>
   <animation include="ControlLightTranslateAnimation.xml"/>
 
