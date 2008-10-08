@@ -2,6 +2,13 @@
 <PropertyList>
 
   <title>Hansajet</title>
+  <line>Startup Procedure</line>
+  <line>====================================</line>
+  <line>1. Look at the Overhead Panel</line>
+  <line>2. Turn ON IGNITION for both engines</line>
+  <line>3. Click START LH and START RH to start engines</line>
+  <line>4. Wait for red lights below IGNITION switches to go out</line>
+  <line>5. Turn OFF IGNITION for both engines</line>
   <key>
     <name>j</name>
     <desc>toggle slats</desc>
