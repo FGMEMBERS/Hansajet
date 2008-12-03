@@ -6,9 +6,11 @@
 
   <path>AileronTrimIndicator.ac</path>
 
+  <animation include="SimpleGaugeEmissionInclude.xml"/>
+
   <animation>
     <type>rotate</type>
-    <object-name>Indicator</object-name>
+    <object-name>LargeHand</object-name>
     <property alias="../../params/value"/>
     <factor>45</factor>
     <axis>

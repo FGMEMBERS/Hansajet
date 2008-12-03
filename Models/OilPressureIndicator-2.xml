@@ -6,6 +6,8 @@
 
   <path>OilPressureIndicator.ac</path>
 
+  <animation include="DualHandGaugeEmissionInclude.xml"/>
+
   <animation>
     <type>rotate</type>
     <object-name>LargeHand</object-name>

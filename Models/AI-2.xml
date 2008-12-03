@@ -8,6 +8,16 @@
   <path>AttitudeIndicator.ac</path>
 
   <animation>
+    <type>material</type>
+    <object-name>Frame</object-name>
+    <object-name>Sphere</object-name>
+    <object-name>HorizonBar</object-name>
+    <object-name>VerticalBar</object-name>
+    <object-name>Marker</object-name>
+    <emission include="InstrumentLightEmissionInclude.xml"/>
+  </animation>
+    
+  <animation>
     <type>rotate</type>
     <object-name>BankIndicator</object-name>
     <object-name>Sphere</object-name>

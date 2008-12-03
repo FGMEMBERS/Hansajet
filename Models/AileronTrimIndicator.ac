@@ -4,7 +4,7 @@ MATERIAL "ac3dmat1" rgb 1 1 1  amb 0.2 0.2 0.2  emis 0 0 0  spec 0.2 0.2 0.2  sh
 OBJECT world
 kids 3
 OBJECT poly
-name "Indicator"
+name "LargeHand"
 loc 0.00491685 0.00264028 5.58794e-09
 texture "AileronTrimIndicator.rgb"
 crease 45.000000

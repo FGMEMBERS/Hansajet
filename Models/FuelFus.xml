@@ -6,6 +6,8 @@
 
   <path>FuelFus.ac</path>
 
+  <animation include="SimpleGaugeEmissionInclude.xml"/>
+
   <animation>
     <type>rotate</type>
     <object-name>LargeHand</object-name>

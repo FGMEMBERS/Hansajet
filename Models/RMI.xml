@@ -9,8 +9,17 @@
   <path>RMI.ac</path>
 
   <animation>
+    <type>material</type>
+    <object-name>CompassRose</object-name>
+    <object-name>Two</object-name>
+    <object-name>One</object-name>
+    <object-name>Marker</object-name>
+    <emission include="InstrumentLightEmissionInclude.xml"/>
+  </animation>
+  <animation>
     <type>rotate</type>
     <object-name>CompassRose</object-name>
+    <object-name>One</object-name>
     <property alias="../../params/indicated-heading"/>
     <factor>1.0</factor>
     <axis>

@@ -1,12 +1,26 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <altitude>instrumentation/altimeter[0]/indicated-altitude-ft</altitude>
-    <subscale>instrumentation/altimeter[0]/setting-inhg</subscale>
+    <altitude>instrumentation/altimeter[1]/indicated-altitude-ft</altitude>
+    <subscale>instrumentation/altimeter[1]/setting-inhg</subscale>
   </params>
 
   <path>Altimeter.ac</path>
 
+  <animation>
+    <type>material</type>
+    <object-name>disk</object-name>
+    <object-name>LargeHand</object-name>
+    <object-name>Altitude10000</object-name>
+    <object-name>Altitude1000</object-name>
+    <object-name>Altitude100</object-name>
+    <object-name>Subscale1000</object-name>
+    <object-name>Subscale100</object-name>
+    <object-name>Subscale10</object-name>
+    <object-name>Subscale1</object-name>
+    <emission include="InstrumentLightEmissionInclude.xml"/>
+  </animation>
+    
   <animation>
     <type>rotate</type>
     <object-name>LargeHand</object-name>
@@ -126,30 +140,6 @@
           <wrap>1</wrap>
         </binding>
       </action>
-  </animation>
-
-  <animation>
-      <type>pick</type>
-      <object-name>SubscalePick.R</object-name>
-      <visible>false</visible>
-      <action>
-        <button>0</button>
-        <repeatable>true</repeatable>
-        <binding>
-          <command>property-adjust</command>
-          <property alias="../../../../params/subscale"/>
-          <step>0.02953603158933859822</step>
-          <min>26</min>
-          <max>33</max>
-          <wrap>1</wrap>
-        </binding>
-      </action>
-  </animation>
-
-  <animation>
-      <type>pick</type>
-      <object-name>SubscalePick.L</object-name>
-      <visible>false</visible>
       <action>
         <button>1</button>
         <repeatable>true</repeatable>
@@ -168,6 +158,18 @@
       <type>pick</type>
       <object-name>SubscalePick.R</object-name>
       <visible>false</visible>
+      <action>
+        <button>0</button>
+        <repeatable>true</repeatable>
+        <binding>
+          <command>property-adjust</command>
+          <property alias="../../../../params/subscale"/>
+          <step>0.02953603158933859822</step>
+          <min>26</min>
+          <max>33</max>
+          <wrap>1</wrap>
+        </binding>
+      </action>
       <action>
         <button>1</button>
         <repeatable>true</repeatable>
@@ -198,48 +200,6 @@
           <wrap>1</wrap>
         </binding>
       </action>
-  </animation>
-
-  <animation>
-      <type>pick</type>
-      <object-name>SubscaleKnob</object-name>
-      <visible>true</visible>
-      <action>
-        <button>4</button>
-        <repeatable>true</repeatable>
-        <binding>
-          <command>property-adjust</command>
-          <property alias="../../../../params/subscale"/>
-          <step>0.02953603158933859822</step>
-          <min>26</min>
-          <max>33</max>
-          <wrap>1</wrap>
-        </binding>
-      </action>
-  </animation>
-
-  <animation>
-      <type>pick</type>
-      <object-name>SubscaleKnob</object-name>
-      <visible>true</visible>
-      <action>
-        <button>3</button>
-        <repeatable>true</repeatable>
-        <binding>
-          <command>property-adjust</command>
-          <property alias="../../../../params/subscale"/>
-          <step>-0.02953603158933859822</step>
-          <min>26</min>
-          <max>33</max>
-          <wrap>1</wrap>
-        </binding>
-      </action>
-  </animation>
-
-  <animation>
-      <type>pick</type>
-      <object-name>SubscalePick.L</object-name>
-      <visible>false</visible>
       <action>
         <button>4</button>
         <repeatable>true</repeatable>
