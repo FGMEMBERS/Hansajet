@@ -16,7 +16,7 @@ HydraulicPump.new = func( source, offset, factor, power ) {
   var obj = {};
   obj.parents = [HydraulicPump];
 
-  obj.sourceNode = props.globals.getNode( source, 1 );
+  obj.sourceNode = props.globals.initNode( source, 0.0 );
   obj.offset = offset;
   obj.factor = factor;
   obj.power = power;
@@ -42,21 +42,10 @@ HydraulicReservoir.new = func( rootNode, index ) {
   obj.parents = [HydraulicReservoir];
 
   obj.rootNode = props.globals.getNode( rootNode ~ "[" ~ index ~ "]", 1 );
-  obj.temperatureDegCNode = obj.rootNode.getNode( "temp-degc", 1 );
-  if( obj.temperatureDegCNode.getValue() == nil )
-    obj.temperatureDegCNode.setDoubleValue( getprop( "environment/temperature-degc" ) );
-
-  obj.capacityNode = obj.rootNode.getNode( "capacity-l",1 );
-  if( obj.capacityNode.getValue() == nil )
-    obj.capacityNode.setDoubleValue( 20 );
-
-  obj.levelNormNode = obj.rootNode.getNode( "level-norm",1 );
-  if( obj.levelNormNode.getValue() == nil )
-    obj.levelNormNode.setDoubleValue( 0.9 );
-
-  obj.minLevelNormNode = obj.rootNode.getNode( "min-level-norm", 1 );
-  if( obj.minLevelNormNode.getValue() == nil )
-    obj.minLevelNormNode.setDoubleValue( 0.1 );
+  obj.temperatureDegCNode = obj.rootNode.initNode( "temp-degc", getprop( "environment/temperature-degc" ), "DOUBLE" );
+  obj.capacityNode = obj.rootNode.initNode( "capacity-l", 20.0 );
+  obj.levelNormNode = obj.rootNode.initNode( "level-norm", 0.9 );
+  obj.minLevelNormNode = obj.rootNode.initNode( "min-level-norm", 0.1 );
 
   return obj;
 }
@@ -72,13 +61,8 @@ HydraulicSystem.new = func( rootNode, index ) {
   obj.parents = [HydraulicSystem];
   obj.rootNode = props.globals.getNode( rootNode ~ "[" ~ index ~ "]", 1 );
 
-  obj.pressureNode = obj.rootNode.getNode( "pressure-psi", 1 );
-  if( obj.pressureNode.getValue() == nil )
-    obj.pressureNode.setDoubleValue( 0.0 );
-
-  obj.maxPressureNode = obj.rootNode.getNode( "max-pressure-psi", 1 );
-  if( obj.maxPressureNode.getValue() == nil )
-    obj.maxPressureNode.setDoubleValue( 3200.0 );
+  obj.pressureNode = obj.rootNode.initNode( "pressure-psi", 0.0 );
+  obj.maxPressureNode = obj.rootNode.initNode( "max-pressure-psi", 3200.0 );
 
   obj.pumps = [];
   obj.reservoirs = [];
@@ -170,7 +154,7 @@ Engine.new = func(index, cutoffNode) {
   return obj;
 };
 
-Engine.update = func {
+Engine.update = func( dt ) {
 
   var cutoff = me.enginesOffNode.getValue();
   if( cutoff == 0 ) {
@@ -203,11 +187,13 @@ Engines.new = func(count) {
   return obj;
 };
 
-Engines.update = func {
+Engines.update = func( dt ) {
   foreach( var engine; me.engines ) {
-    engine.update();
+    engine.update( dt );
   }
 };
+
+####################################################################
 
 var FuelTank = {};
 
@@ -215,10 +201,8 @@ FuelTank.new = func(index) {
   var obj = {};
   obj.parents = [FuelTank];
   obj.rootNode = props.globals.getNode( "consumables/fuel/tank[" ~ index ~ "]", 1 );
-  obj.levelNode = obj.rootNode.getNode( "level-lb" );
+  obj.levelNode = obj.rootNode.initNode( "level-lb", 0.0 );
   obj.lastLevel = obj.levelNode.getValue();
-  if( obj.lastLevel == nil )
-    obj.lastLevel = 0.0;
 
   obj.index = index;
   return obj;
@@ -252,7 +236,7 @@ FuelTanks.new = func(count) {
   return obj;
 };
 
-FuelTanks.update = func {
+FuelTanks.update = func( dt ) {
   var fuelUsed = me.usedNode.getValue();
   if( fuelUsed == nil )
     fuelUsed = 0.0;
@@ -266,29 +250,85 @@ FuelTanks.update = func {
 
 ####################################################################
 
-var hydraulicSystems = [];
-var engines = nil;
-var fuelTanks = nil;
+var WindshieldHeater = {};
+
+WindshieldHeater.new = func( idx ) {
+  var obj = {};
+  obj.parents = [WindshieldHeater];
+  obj.onNode = props.globals.initNode( "controls/anti-ice/window-heat[" ~ idx ~ "]", 0, "BOOL" );
+  obj.testNode = props.globals.initNode( "controls/anti-ice/test-overheat", 0, "BOOL" );
+  obj.maxTempNode = props.globals.getNode( "systems/anti-ice/max-window-temperature-degc", 80.0 );
+  obj.oatNode = props.globals.initNode( "environment/temperature-degc", 0.0 );
+  obj.machNode = props.globals.getNode( "velocities/mach", 1 );
+
+  obj.temperatureNode = props.globals.getNode( "systems/anti-ice/window-temperature-degc[" ~ idx ~ "]", 1 );
+  obj.temperatureNode.setDoubleValue( obj.oatNode.getValue() );
+  obj.overHeatNode = props.globals.getNode( "systems/anti-ice/window-heat-overheat[" ~ idx ~ "]", 1 );
+
+  return obj;
+}
+
+WindshieldHeater.update = func( dt ) {
+  var temp = me.temperatureNode.getValue();
+  var deltaTemp = me.oatNode.getValue() - temp;
+  var mach = me.machNode.getValue();
+  var tempRate = (0.01 + mach * mach * 0.99) * dt;
+
+  temp = temp + deltaTemp * tempRate;
+
+  var overheat = 0;
+  if( me.onNode.getValue() ) {
+    temp = temp + 5 * dt;
+    overheat = me.testNode.getValue(); 
+    overheat = overheat ? overheat : me.temperatureNode.getValue() >= me.maxTempNode.getValue();
+  }
+
+  me.temperatureNode.setDoubleValue( temp );
+  me.overHeatNode.setBoolValue( overheat );
+}
+
+####################################################################
+
+var updateClients = [];
 
 var timeNode = props.globals.getNode( "/sim/time/elapsed-sec", 1 );
 var lastRun = timeNode.getValue();
 
 var HansajetTimer = func {
 
-  foreach( var hydraulicSystem; hydraulicSystems ) {
+  foreach( var updateClient; updateClients ) {
     var dt = timeNode.getValue() - lastRun;
-    hydraulicSystem.update(dt);
+    updateClient.update(dt);
   }
-
-  engines.update(); 
-  fuelTanks.update();
 
   lastRun = timeNode.getValue();
   settimer( HansajetTimer, 0 );
 };
 
 var savedata = func {
-   aircraft.data.add("consumables/fuel/used-kg");
+  aircraft.data.add([
+    "consumables/fuel/used-kg",
+    "instrumentation/comm[0]/volume",
+    "instrumentation/comm[0]/frequencies/selected-mhz",
+    "instrumentation/comm[0]/frequencies/standby-mhz",
+    "instrumentation/comm[0]/test-btn",
+    "instrumentation/nav[0]/audio-btn",
+    "instrumentation/nav[0]/power-btn",
+    "instrumentation/nav[0]/frequencies/selected-mhz",
+    "instrumentation/nav[0]/frequencies/standby-mhz",
+    "instrumentation/comm[1]/volume",
+    "instrumentation/comm[1]/frequencies/selected-mhz",
+    "instrumentation/comm[1]/frequencies/standby-mhz",
+    "instrumentation/comm[1]/test-btn",
+    "instrumentation/nav[1]/audio-btn",
+    "instrumentation/nav[1]/power-btn",
+    "instrumentation/nav[1]/frequencies/selected-mhz",
+    "instrumentation/nav[1]/frequencies/standby-mhz",
+    "instrumentation/adf/frequencies/selected-khz",
+    "instrumentation/adf/frequencies/standby-khz",
+    "instrumentation/dme/frequencies/selected-mhz",
+    "instrumentation/dme/switch-position"
+  ]);
 }
 
 var initialize = func {
@@ -305,7 +345,7 @@ var initialize = func {
   hydraulicSystem.addPump( hydraulicElement );
   hydraulicElement = HydraulicLoad.new( 5 );
   hydraulicSystem.addLoad( hydraulicElement );
-  append( hydraulicSystems, hydraulicSystem );
+  append( updateClients, hydraulicSystem );
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 1 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
@@ -313,7 +353,7 @@ var initialize = func {
   hydraulicSystem.addPump( hydraulicElement );
   hydraulicElement = HydraulicLoad.new( 2 );
   hydraulicSystem.addLoad( hydraulicElement );
-  append( hydraulicSystems, hydraulicSystem );
+  append( updateClients, hydraulicSystem );
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 2 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
@@ -323,10 +363,12 @@ var initialize = func {
   hydraulicSystem.addPump( hydraulicElement );
   hydraulicElement = HydraulicLoad.new( 1 );
   hydraulicSystem.addLoad( hydraulicElement );
-  append( hydraulicSystems, hydraulicSystem );
+  append( updateClients, hydraulicSystem );
 
-  fuelTanks = FuelTanks.new(5);
-  engines = Engines.new(2);
+  append( updateClients, FuelTanks.new(5) );
+  append( updateClients, Engines.new(2) );
+  append( updateClients, WindshieldHeater.new( 0 ) );
+#  append( updateClients, WindshieldHeater.new( 1 ) );
 
   HansajetTimer();
   savedata();
