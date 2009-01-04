@@ -5,7 +5,7 @@
   <animation include="CockpitRangeAnimation.xml"/>
 
   <model>
-    <path>Aircraft/SenecaII/Instruments-3d/kx165tso1.xml</path>
+    <path>Aircraft/Instruments-3d/kx165/kx165-1.xml</path>
     <name>NavCom1</name>
     <offsets>
       <x-m>0.0</x-m>
@@ -15,7 +15,7 @@
   </model>
 
   <model>
-    <path>Aircraft/SenecaII/Instruments-3d/kx165tso2.xml</path>
+    <path>Aircraft/Instruments-3d/kx165/kx165-2.xml</path>
     <name>NavCom2</name>
     <offsets>
       <x-m>0.0</x-m>
@@ -43,36 +43,16 @@
       <z-m>-0.204</z-m>
     </offsets>
   </model>
-<!--
+
   <model>
-    <path>Aircraft/SenecaII/Models/gma340.xml</path>
-    <name>transponder</name>
+    <path>Aircraft/Hansajet/Models/CompassController.ac</path>
+    <name>CompassController</name>
     <offsets>
-      <x-m>0.000</x-m>
-      <y-m>-0.08</y-m>
-      <z-m>0.100</z-m>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>-0.274</z-m>
     </offsets>
   </model>
 
-  <model>
-    <path>Aircraft/SenecaII/Models/gps155.xml</path>
-    <name>gps1</name>
-    <offsets>
-      <x-m>0.000</x-m>
-      <y-m>-0.08</y-m>
-      <z-m>0.05</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/SenecaII/Models/gps155.xml</path>
-    <name>gps2</name>
-    <offsets>
-      <x-m>0.000</x-m>
-      <y-m>0.08</y-m>
-      <z-m>0.05</z-m>
-    </offsets>
-  </model>
--->
 </PropertyList>
 
