@@ -25,7 +25,7 @@
     <object-name>Lever</object-name>
     <type>rotate</type>
     <property alias="../../params/value"/>
-    <factor>32</factor>
+    <factor>60</factor>
     <axis>
       <x>0</x>
       <y>1</y>

@@ -7,7 +7,6 @@ kids 15
 OBJECT poly
 name "Light"
 loc -0.00193727 0.0305596 0.0305036
-texture "Altimeter.rgb"
 crease 45.000000
 numvert 82
 0.0070938 -0.000322632 0.00405206
@@ -847,7 +846,6 @@ kids 0
 OBJECT poly
 name "Light"
 loc -0.00193727 0.0305312 -0.0304241
-texture "Altimeter.rgb"
 crease 45.000000
 numvert 82
 0.00768696 0.00389069 0.000275683
