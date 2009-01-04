@@ -8851,7 +8851,7 @@ kids 0
 OBJECT poly
 name "disk"
 loc 0.00095 0.27573 0.044002
-texture "ACVolts.rgb"
+texture "DCVolts.rgb"
 crease 45.000000
 numvert 145
 -0.00085 0 -7.45058e-09
@@ -9997,7 +9997,7 @@ kids 0
 OBJECT poly
 name "disk"
 loc 0.00095 0.27573 0.121002
-texture "ACAmps.rgb"
+texture "GenDC_BATT.rgb"
 crease 45.000000
 numvert 145
 -0.00085 0 0
