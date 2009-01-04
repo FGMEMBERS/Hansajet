@@ -78,5 +78,20 @@
     <number>1</number>
   </turn-indicator>
 
+  <nav-radio>
+    <name>nav</name>
+    <number>0</number>
+  </nav-radio>
+
+  <nav-radio>
+    <name>nav</name>
+    <number>1</number>
+  </nav-radio>
+
+  <dme>
+    <name>dme</name>
+    <number>0</number>
+  </dme>
+
 
 </PropertyList>
