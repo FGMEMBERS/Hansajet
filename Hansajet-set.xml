@@ -39,6 +39,12 @@
       </instrument-lighting>
     </model>
 
+    <rendering>
+      <camera-group>
+        <znear type="double">0.1</znear>
+      </camera-group>
+    </rendering>
+
     <view n="0">
       <name>Cockpit</name>
       <type>lookfrom</type>
