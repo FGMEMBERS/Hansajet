@@ -30,6 +30,13 @@
           </volume>
         </sound>
       </Hansajet>
+      <instrument-lighting>
+        <emission>
+          <red type="double">1</red>
+          <green type="double">0.5</green>
+          <blue type="double">0.5</blue>
+        </emission>
+      </instrument-lighting>
     </model>
 
     <view n="0">
@@ -79,6 +86,12 @@
     <virtual-cockpit archive="y">true</virtual-cockpit>
     <allow-toggle-cockpit>true</allow-toggle-cockpit>
 
+
+    <flaps>
+      <setting>0.000</setting> <!-- Flaps 0 -->
+      <setting>0.400</setting> <!-- Flaps 20 -->
+      <setting>1.000</setting> <!-- Flaps 50 -->
+    </flaps>
 
     <help include="help.xml"/>
   </sim>
@@ -164,18 +177,40 @@
     <vertical-speed-indicator n="1">
       <serviceable type="bool" archive="y">true</serviceable>
     </vertical-speed-indicator>
+    <slip-skid-ball n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </slip-skid-ball>
+    <slip-skid-ball n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </slip-skid-ball>
+    <turn-indicator n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </turn-indicator>
+    <turn-indicator n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+    </turn-indicator>
   </instrumentation>
 
 
   <nasal>
     <Hansajet>
       <file>Aircraft/Hansajet/Nasal/Hansajet.nas</file>
+      <file>Aircraft/Hansajet/Nasal/WheelSpinner.nas</file>
     </Hansajet>
-<!--
-    <hsi>
-      <file>Aircraft/SenecaII/Nasal/hsi.nas</file>
-    </hsi>
--->
   </nasal>
+
+  <limits>
+    <max-flap-extension-speed>
+      <flaps>0.40</flaps>
+      <speed>190</speed>
+    </max-flap-extension-speed>
+    <max-flap-extension-speed>
+      <flaps>1.00</flaps>
+      <speed>175</speed>
+    </max-flap-extension-speed>
+    <max-slat-extension-speed>200</max-slat-extension-speed>
+    <max-gear-extension-speed>170</max-gear-extension-speed>
+    <vne>300</vne> <!-- FIXME: need to put the real value here -->
+  </limits>
 
 </PropertyList>
