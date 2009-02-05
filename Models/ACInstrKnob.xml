@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+
+  <params>
+    <value>controls/electric/ac-instr-source</value>
+  </params>
+
+  <model include="Knob1.xml"/>
+  <animation include="Knob10PosDecrPickAnimation.xml"/>
+  <animation include="Knob10PosIncrPickAnimation.xml"/>
+  <animation include="Knob10PosRotateAnimation.xml"/>
+
+</PropertyList>
+
+
+

@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <object-name>Right</object-name>
+  <type>pick</type>
+  <visible>true</visible>
+  <action>
+    <button>0</button>
+    <repeatable>false</repeatable>
+    <name>Increase</name>
+    <binding>
+      <command>property-adjust</command>
+      <property alias="../../../../params/value"/>
+      <step>1</step>
+      <min>0</min>
+      <max>4</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+</PropertyList>
