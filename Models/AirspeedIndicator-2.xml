@@ -9,14 +9,14 @@
   <animation>
     <type>material</type>
     <object-name>disk</object-name>
-    <object-name>LargeHand</object-name>
+    <object-name>Needle</object-name>
     <object-name>Subscale</object-name>
     <emission include="InstrumentLightEmissionInclude.xml"/>
   </animation>
 
   <animation>
     <type>rotate</type>
-    <object-name>LargeHand</object-name>
+    <object-name>Needle</object-name>
     <property alias="../../params/value"/>
     <interpolation>
       <entry>

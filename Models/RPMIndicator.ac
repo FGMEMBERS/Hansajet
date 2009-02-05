@@ -1150,7 +1150,7 @@ refs 3
 1 0.586824 0.992404
 kids 0
 OBJECT poly
-name "LargeHand"
+name "Needle"
 loc 0 0.00403583 -0.0354035
 texture "RPMIndicaor.rgb"
 crease 45.000000

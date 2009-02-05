@@ -1948,7 +1948,7 @@ refs 3
 1 0.586824 0.992403
 kids 0
 OBJECT poly
-name "LargeHand"
+name "Needle"
 loc 0.0005 0.017911 -0.00216527
 texture "HydraulicPressure.rgb"
 crease 45.000000

@@ -1129,7 +1129,7 @@ refs 3
 1 0.586824 0.992404
 kids 0
 OBJECT poly
-name "LargeHand"
+name "Needle"
 loc 0 -0.0119899 0.0262194
 texture "OilTemperatureIndicator.rgb"
 crease 45.000000

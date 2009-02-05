@@ -1,7 +1,13 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <path>Aircraft/Hansajet/Models/Switch3.ac</path>
-  <name>Switch</name>
+  <name>Knob1</name>
+
+  <animation>
+    <type>material</type>
+    <emission include="CockpitLightEmissionInclude.xml"/>
+  </animation>
+
   <offsets>
     <x-m>0</x-m>
     <y-m>0</y-m>

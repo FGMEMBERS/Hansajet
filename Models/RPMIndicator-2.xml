@@ -10,7 +10,7 @@
 
   <animation>
     <type>rotate</type>
-    <object-name>LargeHand</object-name>
+    <object-name>Needle</object-name>
     <property alias="../../params/value"/>
     <factor>-2.70</factor>
     <axis>

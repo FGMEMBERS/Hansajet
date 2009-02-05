@@ -1129,7 +1129,7 @@ refs 3
 1 0.586824 0.992404
 kids 0
 OBJECT poly
-name "LargeHand"
+name "Needle"
 loc 0 0.00667113 0.0279395
 texture "FFIndicator.rgb"
 crease 45.000000

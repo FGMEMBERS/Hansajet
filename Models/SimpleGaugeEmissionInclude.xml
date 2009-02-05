@@ -2,6 +2,6 @@
 <PropertyList>
   <type>material</type>
   <object-name>disk</object-name>
-  <object-name>LargeHand</object-name>
+  <object-name>Needle</object-name>
   <emission include="InstrumentLightEmissionInclude.xml"/>
 </PropertyList>

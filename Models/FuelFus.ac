@@ -1948,7 +1948,7 @@ refs 3
 1 0.586824 0.992404
 kids 0
 OBJECT poly
-name "LargeHand"
+name "Needle"
 loc 0.0005 -0.0225057 0.0202779
 texture "FuelFus.rgb"
 crease 45.000000

@@ -823,7 +823,7 @@ refs 4
 81 1 1
 kids 0
 OBJECT poly
-name "LargeHand"
+name "Needle"
 loc 0 0.0287018 0.00254621
 texture "VSI.rgb"
 crease 45.000000

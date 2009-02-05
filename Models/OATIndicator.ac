@@ -823,7 +823,7 @@ refs 4
 81 1 1
 kids 0
 OBJECT poly
-name "LargeHand"
+name "Needle"
 loc 0.0005 0.0307845 -0.00372156
 texture "OATIndicaor.rgb"
 crease 45.000000

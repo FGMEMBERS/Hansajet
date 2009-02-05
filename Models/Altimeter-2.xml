@@ -10,7 +10,7 @@
   <animation>
     <type>material</type>
     <object-name>disk</object-name>
-    <object-name>LargeHand</object-name>
+    <object-name>Needle</object-name>
     <object-name>Altitude10000</object-name>
     <object-name>Altitude1000</object-name>
     <object-name>Altitude100</object-name>
@@ -23,7 +23,7 @@
     
   <animation>
     <type>rotate</type>
-    <object-name>LargeHand</object-name>
+    <object-name>Needle</object-name>
     <property alias="../../params/altitude"/>
     <factor>-0.360</factor>
     <axis>
