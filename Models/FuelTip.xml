@@ -9,8 +9,8 @@
 -->
 <PropertyList>
   <params>
-    <left>consumables/fuel/tank[3]/level-lb</left>
-    <right>consumables/fuel/tank[4]/level-lb</right>
+    <left>consumables/fuel/tank[3]/level-lbs</left>
+    <right>consumables/fuel/tank[4]/level-lbs</right>
     <fuel-indicator-left>controls/fuel/fuel-indicator-left</fuel-indicator-left>
   </params>
 

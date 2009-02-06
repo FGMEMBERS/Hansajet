@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <fuel>consumables/fuel/tank[0]/level-lb</fuel>
+    <fuel>consumables/fuel/tank[0]/level-lbs</fuel>
   </params>
 
   <path>FuelFus.ac</path>
