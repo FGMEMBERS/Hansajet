@@ -76,7 +76,7 @@
       <pitch-deg>180</pitch-deg>
     </offsets>
   </model>
-
+<!--
   <model>
     <path>Aircraft/Hansajet/Models/LandingLightBeam.xml</path>
     <name>LandingLightBeam.L</name>
@@ -84,9 +84,7 @@
       <x-m>-1.6163</x-m>
       <y-m>-2.67852</y-m>
       <z-m>1.88506</z-m>
-<!--
       <pitch-deg>-5.4</pitch-deg>
--->
     </offsets>
   </model>
 
@@ -97,7 +95,6 @@
       <property>controls/lighting/landing-lights[0]</property>
     </condition>
   </animation>
-
   <model>
     <path>Aircraft/Hansajet/Models/LandingLightBeam.xml</path>
     <name>LandingLightBeam.R</name>
@@ -105,9 +102,7 @@
       <x-m>-1.6163</x-m>
       <y-m>2.67852</y-m>
       <z-m>1.88506</z-m>
-<!--
       <pitch-deg>-5.4</pitch-deg>
--->
     </offsets>
   </model>
 
@@ -126,9 +121,7 @@
       <x-m>-7.48439</x-m>
       <y-m>0</y-m>
       <z-m>0.802582</z-m>
-<!--
       <pitch-deg>-2.5</pitch-deg>
--->
     </offsets>
   </model>
 
@@ -168,7 +161,7 @@
       <property>controls/lighting/beacon</property>
     </condition>
   </animation>
-
+-->
   <!-- Animations -->
   <animation>
     <type>material</type>
