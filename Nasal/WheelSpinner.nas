@@ -24,7 +24,8 @@ var WheelSpinner = {
 
 var wheels = [
   WheelSpinner.new( 0, 1.191 ),
-  WheelSpinner.new( 1, 2.502 )
+  WheelSpinner.new( 1, 2.502 ),
+  WheelSpinner.new( 2, 2.502 )
 ];
 
 var uBody_fpsNode = props.globals.getNode( "velocities/uBody-fps", 1 );

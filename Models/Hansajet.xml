@@ -28,13 +28,23 @@
     <path>Aircraft/Hansajet/Models/RadioPanel.xml</path>
     <name>RadioPanel</name>
     <offsets>
+      <x-m>-7.08893</x-m>
+      <y-m>-0.02</y-m>
+      <z-m>2.24</z-m>
+    </offsets>
+  </model>
+<!--
+  <model>
+    <path>Aircraft/Hansajet/Models/RadioPanel.xml</path>
+    <name>RadioPanel</name>
+    <offsets>
       <x-m>-6.63893</x-m>
       <y-m>0.0</y-m>
       <z-m>1.56321</z-m>
       <pitch-deg>-90</pitch-deg>
     </offsets>
   </model>
-
+-->
   <model>
     <path>Aircraft/Hansajet/Models/FuelHydraulicPanel.xml</path>
     <name>FuelHydraulic</name>
@@ -67,15 +77,119 @@
     </offsets>
   </model>
 
-  <!-- Animations -->
+  <model>
+    <path>Aircraft/Hansajet/Models/LandingLightBeam.xml</path>
+    <name>LandingLightBeam.L</name>
+    <offsets>
+      <x-m>-1.6163</x-m>
+      <y-m>-2.67852</y-m>
+      <z-m>1.88506</z-m>
+<!--
+      <pitch-deg>-5.4</pitch-deg>
+-->
+    </offsets>
+  </model>
+
   <animation>
     <type>select</type>
-    <object-name>Gear.Nose</object-name>
-    <object-name>Gear.Left</object-name>
-    <object-name>Gear.Right</object-name>
+    <object-name>LandingLightBeam.L</object-name>
     <condition>
-      <property>controls/gear/gear-down</property>
+      <property>controls/lighting/landing-lights[0]</property>
     </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/LandingLightBeam.xml</path>
+    <name>LandingLightBeam.R</name>
+    <offsets>
+      <x-m>-1.6163</x-m>
+      <y-m>2.67852</y-m>
+      <z-m>1.88506</z-m>
+<!--
+      <pitch-deg>-5.4</pitch-deg>
+-->
+    </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>LandingLightBeam.R</object-name>
+    <condition>
+      <property>controls/lighting/landing-lights[1]</property>
+    </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/LandingLightBeam.xml</path>
+    <name>TaxiLightBeam</name>
+    <offsets>
+      <x-m>-7.48439</x-m>
+      <y-m>0</y-m>
+      <z-m>0.802582</z-m>
+<!--
+      <pitch-deg>-2.5</pitch-deg>
+-->
+    </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>TaxiLightBeam</object-name>
+    <condition>
+      <property>controls/lighting/taxi-light</property>
+    </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/AntiCollLightBeam.xml</path>
+    <name>AntiCollLightBeam</name>
+    <offsets>
+      <x-m>5.50293</x-m>
+      <y-m>0</y-m>
+      <z-m>4.62717</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/AntiCollLightBeam.xml</path>
+    <name>AntiCollLightBeam</name>
+    <offsets>
+      <x-m>1.14814</x-m>
+      <y-m>0</y-m>
+      <z-m>0.987675</z-m>
+      <heading-deg>180</heading-deg>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>AntiCollLightBeam</object-name>
+    <condition>
+      <property>controls/lighting/beacon</property>
+    </condition>
+  </animation>
+
+  <!-- Animations -->
+  <animation>
+    <type>material</type>
+    <object-name>NavLight.R</object-name>
+    <emission>
+      <red>0</red>
+      <green>1</green>
+      <blue>0</blue>
+      <factor-prop>controls/lighting/nav-lights</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>NavLight.L</object-name>
+    <emission>
+      <red>1</red>
+      <green>0</green>
+      <blue>0</blue>
+      <factor-prop>controls/lighting/nav-lights</factor-prop>
+    </emission>
   </animation>
 
   <animation>
@@ -110,16 +224,31 @@
   
   <animation>
     <type>rotate</type>
+    <object-name>Rudder</object-name>
+    <property>surface-positions/rudder-pos-norm</property>
+    <factor>25</factor>
+    <axis>
+      <x1-m>5.40262</x1-m>
+      <y1-m>0</y1-m>
+      <z1-m>2.35541</z1-m>
+      <x2-m>6.2787</x2-m>
+      <y2-m>0</y2-m>
+      <z2-m>4.14453</z2-m>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
     <object-name>Flap.Left</object-name>
     <property>surface-positions/flap-pos-norm</property>
     <factor>-50.0</factor>
     <axis>
-      <x1-m>0.969578</x1-m>
-      <y1-m>-0.969578</y1-m>
-      <z1-m>1.72663</z1-m>
-      <x2-m>-0.29951</x2-m>
+      <x1-m>1.31932</x1-m>
+      <y1-m>-1.17276</y1-m>
+      <z1-m>1.45726</z1-m>
+      <x2-m>-0.0543465</x2-m>
       <y2-m>-4.16786</y2-m>
-      <z2-m>2.05952</z2-m>
+      <z2-m>1.79295</z2-m>
     </axis>
   </animation>
   
@@ -236,7 +365,7 @@
     <type>rotate</type>
     <object-name>EmergencyGearLever</object-name>
     <property>controls/gear/emergency-gear-down</property>
-    <factor>90</factor>
+    <factor>80</factor>
     <center>
       <x-m>-6.78893</x-m>
       <y-m>0.0</y-m>
@@ -267,7 +396,7 @@
     <type>rotate</type>
     <object-name>SpeedbrakeLever</object-name>
     <property>controls/flight/speedbrake</property>
-    <factor>90</factor>
+    <factor>70</factor>
     <center>
       <x-m>-6.78893</x-m>
       <y-m>0.0</y-m>
@@ -453,10 +582,281 @@
       <z>1</z>
     </axis>
   </animation>
+  
+  <animation>
+    <type>translate</type>
+    <object-name>Pedal.L</object-name>
+    <property>controls/flight/rudder</property>
+    <factor>0.1</factor>
+    <axis>
+      <x>1</x>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>Pedal.R</object-name>
+    <property>controls/flight/rudder</property>
+    <factor>-0.1</factor>
+    <axis>
+      <x>1</x>
+    </axis>
+  </animation>
 
   <model>
     <path>Aircraft/Hansajet/Models/haze.xml</path>
     <name>haze</name>
+    <offsets>
+      <x-m>3.7</x-m>
+      <y-m>1.57</y-m>
+      <z-m>2.32</z-m>
+    </offsets>
   </model>
+
+  <animation>
+    <type>translate</type>
+    <object-name>NoseGear.Damper</object-name>
+    <property>gear/gear[0]/compression-norm</property>
+    <factor>0.14</factor>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
   
+  <animation>
+    <type>rotate</type>
+    <object-name>NoseGear.MainStrut2</object-name>
+    <object-name>NoseWheel</object-name>
+    <object-name>NoseGear.Axle</object-name>
+    <property>gear/gear[0]/compression-norm</property>
+    <factor>-30</factor>
+    <center>
+      <x-m>-7.70545</x-m>
+      <y-m>0.00</y-m>
+      <z-m>0.458388</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>NoseGear</object-name>
+    <property>gear/gear[0]/position-norm</property>
+    <interpolation>
+      <entry>
+        <ind>0</ind>
+        <dep>130</dep>
+      </entry>
+      <entry>
+        <ind>1</ind>
+        <dep>0</dep>
+      </entry>
+    </interpolation>
+    <center>
+      <x-m>-7.47356</x-m>
+      <y-m>0.00</y-m>
+      <z-m>1.03941</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>NoseWheel</object-name>
+    <property>gear/gear[0]/spin-rps</property>
+    <factor>-60</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>-7.23762</x-m>
+      <y-m>0</y-m>
+      <z-m>0.186814</z-m>
+    </center>
+  </animation>
+
+  <!-- Left Main Gear -->
+  <animation>
+    <type>spin</type>
+    <object-name>Wheel.L</object-name>
+    <property>gear/gear[1]/spin-rps</property>
+    <factor>-60</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>-0.0249951</x-m>
+      <y-m>0</y-m>
+      <z-m>0.38132</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>GearASSY.1.L</object-name>
+    <object-name>Wheel.L</object-name>
+    <object-name>GearBearing.2.L</object-name>
+    <property>gear/gear[1]/compression-norm</property>
+    <factor>0.30</factor>
+    <axis>
+      <x1-m>-0.0249936</x1-m>
+      <y1-m>-0.902923</y1-m>
+      <z1-m>0.442111</z1-m>
+      <x2-m>-0.0249935</x2-m>
+      <y2-m>-0.838535</y2-m>
+      <z2-m>0.745035</z2-m>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>GearBearing.1.L</object-name>
+    <property>gear/gear[1]/compression-norm</property>
+    <axis>
+      <x>1</x>
+    </axis>
+    <center>
+      <x-m>-0.0249919</x-m>
+      <y-m>-0.767019</y-m>
+      <z-m>0.755807</z-m>
+    </center>
+    <interpolation include="MainGearScissorInterpolation.xml"/>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>GearBearing.2.L</object-name>
+    <property>gear/gear[1]/compression-norm</property>
+    <axis>
+      <x>-1</x>
+    </axis>
+    <center>
+      <x-m>-0.0249919</x-m>
+      <y-m>-0.842672</y-m>
+      <z-m>0.39989</z-m>
+    </center>
+    <interpolation include="MainGearScissorInterpolation.xml"/>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Gear.L</object-name>
+    <property>gear/gear[1]/position-norm</property>
+    <interpolation>
+      <entry>
+        <ind>0</ind>
+        <dep>-112</dep>
+      </entry>
+      <entry>
+        <ind>1</ind>
+        <dep>0</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x1-m>-0.21644</x1-m>
+      <y1-m>-0.448229</y1-m>
+      <z1-m>1.10669</z1-m>
+      <x2-m>-0.0610176</x2-m>
+      <y2-m>-0.651259</y2-m>
+      <z2-m>1.44617</z2-m>
+    </axis>
+  </animation>
+
+  <!-- Right Main Gear -->
+  <animation>
+    <type>spin</type>
+    <object-name>Wheel.R</object-name>
+    <property>gear/gear[2]/spin-rps</property>
+    <factor>60</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>-0.0249951</x-m>
+      <y-m>0</y-m>
+      <z-m>0.38132</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>GearASSY.1.R</object-name>
+    <object-name>Wheel.R</object-name>
+    <object-name>GearBearing.2.R</object-name>
+    <property>gear/gear[2]/compression-norm</property>
+    <factor>0.30</factor>
+    <axis>
+      <x1-m>-0.0249936</x1-m>
+      <y1-m>0.902923</y1-m>
+      <z1-m>0.442111</z1-m>
+      <x2-m>-0.0249935</x2-m>
+      <y2-m>0.838535</y2-m>
+      <z2-m>0.745035</z2-m>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>GearBearing.1.R</object-name>
+    <property>gear/gear[2]/compression-norm</property>
+    <axis>
+      <x>-1</x>
+    </axis>
+    <center>
+      <x-m>-0.0249919</x-m>
+      <y-m>0.767019</y-m>
+      <z-m>0.755807</z-m>
+    </center>
+    <interpolation include="MainGearScissorInterpolation.xml"/>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>GearBearing.2.R</object-name>
+    <property>gear/gear[2]/compression-norm</property>
+    <axis>
+      <x>1</x>
+    </axis>
+    <center>
+      <x-m>-0.0249919</x-m>
+      <y-m>0.842672</y-m>
+      <z-m>0.39989</z-m>
+    </center>
+    <interpolation include="MainGearScissorInterpolation.xml"/>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Gear.R</object-name>
+    <property>gear/gear[2]/position-norm</property>
+    <interpolation>
+      <entry>
+        <ind>0</ind>
+        <dep>112</dep>
+      </entry>
+      <entry>
+        <ind>1</ind>
+        <dep>0</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x1-m>-0.21644</x1-m>
+      <y1-m>0.448229</y1-m>
+      <z1-m>1.10669</z1-m>
+      <x2-m>-0.0610176</x2-m>
+      <y2-m>0.651259</y2-m>
+      <z2-m>1.44617</z2-m>
+    </axis>
+  </animation>
+
 </PropertyList>

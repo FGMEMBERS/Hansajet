@@ -14,6 +14,18 @@
 
   <!-- AC/DC Panel -->
   <model>
+    <path>Aircraft/Hansajet/Models/Inv1_2_Off.xml</path>
+    <name>Inv1_2_Off</name>
+    <offsets>
+      <x-m>-0.0036</x-m>
+      <y-m>0.135704</y-m>
+      <z-m>0.337801</z-m>
+      <heading-deg>90</heading-deg>
+      <pitch-deg>180</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/Batt1Off.xml</path>
     <name>Batt1Off</name>
     <offsets>
