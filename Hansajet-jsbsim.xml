@@ -7,7 +7,7 @@
  <fileheader>
   <author>Torsten Dreyer</author>
   <filecreationdate>2008-09-22</filecreationdate>
-  <version>$Revison: $</version>
+  <version>$Revison$</version>
   <description> Models a Hamburger Flugzeugbau HFB 320 Hansajet </description>
   <reference title="Hamburger Flugzeugbau GmbH HFB 320 Hansajet JSBSim FlightModel"/>
  </fileheader>
@@ -34,6 +34,15 @@
     CL-max:        1.2
     CD-0:          0.02
     K:             0.043
+
+-->
+
+<!--
+Unverified data gathered from all over the net
+Stall speed in takeoff configuration, 30deg flaps at 16,500lb: 87kias
+take off distance at 16,500lb: 2,300ft - with one engine cut at v1: 3,600ft
+climbt to 20,000ft at 16,000lb 6min, 10sec. Fuel consumed 420lb
+Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
 
 -->
 
@@ -267,7 +276,6 @@
  </propulsion>
 
  <flight_control name="FCS: hfb320">
-  <property>fcs/slat-cmd-norm</property>
 
   <channel name="Pitch">
    <summer name="Pitch Trim Sum">
@@ -453,12 +461,20 @@
           <time>      0 </time>
        </setting>
        <setting>
+          <position> 10 </position>
+          <time>      2 </time>
+       </setting>
+       <setting>
           <position> 20 </position>
-          <time>      4 </time>
+          <time>      2 </time>
+       </setting>
+       <setting>
+          <position> 30 </position>
+          <time>      2 </time>
        </setting>
        <setting>
           <position> 50 </position>
-          <time>      6 </time>
+          <time>      5 </time>
        </setting>
      </traverse>
      <output>fcs/flap-pos-deg</output>
@@ -476,6 +492,36 @@
       </range>
       <output>fcs/flap-pos-norm</output>
    </aerosurface_scale>
+  </channel>
+
+  <!-- implement slats as spoilers -->
+  <channel name="Slats">
+    <kinematic name="Slats Control">   
+        <input>fcs/spoiler-cmd-norm</input>   
+        <traverse>   
+          <setting>   
+            <position>0.0000</position>   
+            <time>0.0000</time>   
+          </setting>   
+          <setting>   
+            <position>0.6110</position>   
+            <time>5.0000</time>   
+          </setting>   
+        </traverse>   
+        <output>fcs/spoiler-pos-rad</output>   
+      </kinematic>   
+      <aerosurface_scale name="Slats Position Normalizer">   
+        <input>fcs/spoiler-pos-rad</input>   
+        <domain>   
+          <min>0</min>   
+          <max>0.6110</max>   
+        </domain>   
+        <range>   
+          <min>0</min>   
+          <max>1</max>   
+        </range>   
+        <output>fcs/spoiler-pos-norm</output>   
+      </aerosurface_scale>
   </channel>
 
   <channel name="Landing Gear">
@@ -542,8 +588,29 @@
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
-           <property>fcs/flap-pos-deg</property>
-           <value> 0.05000 </value>
+           <table>
+             <independentVar lookup="row">fcs/flap-pos-norm</independentVar>
+             <tableData>
+              0.00 0.00
+              0.20 0.35
+              1.00 0.89
+             </tableData>
+           </table>
+       </product>
+    </function>
+
+    <function name="aero/coefficient/dCLslat">
+       <description>Delta_Lift_due_to_slats</description>
+       <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <table>
+             <independentVar lookup="row">fcs/spoiler-pos-norm</independentVar>
+             <tableData>
+              0.00 0.00
+              1.00 0.35
+             </tableData>
+           </table>
        </product>
     </function>
 
