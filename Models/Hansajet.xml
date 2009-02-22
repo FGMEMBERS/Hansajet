@@ -680,21 +680,6 @@
 
   <!-- Left Main Gear -->
   <animation>
-    <type>spin</type>
-    <object-name>Wheel.L</object-name>
-    <property>gear/gear[1]/spin-rps</property>
-    <factor>-60</factor>
-    <axis>
-      <y>1</y>
-    </axis>
-    <center>
-      <x-m>-0.0249951</x-m>
-      <y-m>0</y-m>
-      <z-m>0.38132</z-m>
-    </center>
-  </animation>
-
-  <animation>
     <type>translate</type>
     <object-name>GearASSY.1.L</object-name>
     <object-name>Wheel.L</object-name>
@@ -765,12 +750,11 @@
     </axis>
   </animation>
 
-  <!-- Right Main Gear -->
   <animation>
     <type>spin</type>
-    <object-name>Wheel.R</object-name>
-    <property>gear/gear[2]/spin-rps</property>
-    <factor>60</factor>
+    <object-name>Wheel.L</object-name>
+    <property>gear/gear[1]/spin-rps</property>
+    <factor>-60</factor>
     <axis>
       <y>1</y>
     </axis>
@@ -781,6 +765,7 @@
     </center>
   </animation>
 
+  <!-- Right Main Gear -->
   <animation>
     <type>translate</type>
     <object-name>GearASSY.1.R</object-name>
@@ -850,6 +835,54 @@
       <y2-m>0.651259</y2-m>
       <z2-m>1.44617</z2-m>
     </axis>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>Wheel.R</object-name>
+    <property>gear/gear[2]/spin-rps</property>
+    <factor>60</factor>
+    <axis>
+      <y>-1</y>
+    </axis>
+    <center>
+      <x-m>-0.0249966</x-m>
+      <y-m>0</y-m>
+      <z-m>0.38132</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>NoseGear</object-name>
+    <condition>
+      <greater-than>
+        <property>gear/gear[0]/position-norm</property>
+        <value>0.01</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Gear.L</object-name>
+    <condition>
+      <greater-than>
+        <property>gear/gear[1]/position-norm</property>
+        <value>0.01</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Gear.R</object-name>
+    <condition>
+      <greater-than>
+        <property>gear/gear[2]/position-norm</property>
+        <value>0.01</value>
+      </greater-than>
+    </condition>
   </animation>
 
 </PropertyList>
