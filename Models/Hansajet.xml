@@ -379,8 +379,8 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>property-toggle</command>
-        <property>controls/gear/emergency-gear-down</property>
+        <command>nasal</command>
+        <script>Hansajet.smoothToggleProperty("/controls/gear/emergency-gear-down");</script>
       </binding>
     </action>
   </animation>
@@ -410,8 +410,8 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>property-toggle</command>
-        <property>controls/flight/speedbrake</property>
+        <command>nasal</command>
+        <script>Hansajet.smoothToggleProperty("/controls/flight/speedbrake");</script>
       </binding>
     </action>
   </animation>
@@ -441,8 +441,8 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>property-toggle</command>
-        <property>controls/gear/brake-parking</property>
+        <command>nasal</command>
+        <script>Hansajet.smoothToggleProperty("/controls/gear/brake-parking");</script>
       </binding>
     </action>
   </animation>
@@ -472,8 +472,8 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>property-toggle</command>
-        <property>controls/fuel/cross-feed</property>
+        <command>nasal</command>
+        <script>Hansajet.smoothToggleProperty("/controls/fuel/cross-feed");</script>
       </binding>
     </action>
   </animation>

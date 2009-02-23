@@ -331,6 +331,11 @@ var savedata = func {
   ]);
 }
 
+var smoothToggleProperty = func(prop) {
+  props.globals.initNode(prop,0.0);
+  interpolate( prop, getprop(prop) > 0.5 ? 0.0 : 1.0, 1 );
+}
+
 var initialize = func {
   print( "Hansa Jet nasal systems initializing..." );
   var hydraulicSystem = nil;
