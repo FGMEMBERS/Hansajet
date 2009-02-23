@@ -105,14 +105,14 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
    <damping_coeff unit="LBS/FT/SEC">  1874.25 </damping_coeff>
    <max_steer unit="DEG"> 5.00 </max_steer>
    <brake_group>NONE</brake_group>
-   <retractable>RETRACT</retractable>
+   <retractable>1</retractable>
  </contact>
 
   <contact type="BOGEY" name="LEFT_MAIN">
    <location unit="M">
      <x> 0 </x>
      <y> -1.17 </y>
-     <z> 0 </z>
+     <z>  0.00 </z>
    </location>
    <static_friction>  0.80 </static_friction>
    <dynamic_friction> 0.50 </dynamic_friction>
@@ -121,14 +121,14 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
    <damping_coeff unit="LBS/FT/SEC">  3748.50 </damping_coeff>
    <max_steer unit="DEG">0</max_steer>
    <brake_group>LEFT</brake_group>
-   <retractable>RETRACT</retractable>
+   <retractable>1</retractable>
  </contact>
 
   <contact type="BOGEY" name="RIGHT_MAIN">
    <location unit="M">
      <x> 0 </x>
      <y> 1.17 </y>
-     <z> 0 </z>
+     <z> 0.00 </z>
    </location>
    <static_friction>  0.80 </static_friction>
    <dynamic_friction> 0.50 </dynamic_friction>
@@ -137,7 +137,7 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
    <damping_coeff unit="LBS/FT/SEC">  3748.50 </damping_coeff>
    <max_steer unit="DEG">0</max_steer>
    <brake_group>RIGHT</brake_group>
-   <retractable>RETRACT</retractable>
+   <retractable>1</retractable>
  </contact>
 
   <contact type="STRUCTURE" name="LEFT_WING">
@@ -157,6 +157,42 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
      <x> -2.83 </x>
      <y> 7.01 </y>
      <z> 2.32 </z>
+    </location>
+    <static_friction>  0.80 </static_friction>
+    <dynamic_friction> 0.50 </dynamic_friction>
+    <spring_coeff unit="LBS/FT">      18742.50 </spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">  3748.50 </damping_coeff>
+ </contact>
+
+  <contact type="STRUCTURE" name="BELLY">
+    <location unit="M">
+     <x> -2.51629 </x>
+     <y> 0 </y>
+     <z> 0.77072 </z>
+    </location>
+    <static_friction>  0.80 </static_friction>
+    <dynamic_friction> 0.50 </dynamic_friction>
+    <spring_coeff unit="LBS/FT">      18742.50 </spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">  3748.50 </damping_coeff>
+ </contact>
+
+  <contact type="STRUCTURE" name="NOSE">
+    <location unit="M">
+     <x> -9.31152 </x>
+     <y> 0 </y>
+     <z> 1.40727 </z>
+    </location>
+    <static_friction>  0.80 </static_friction>
+    <dynamic_friction> 0.50 </dynamic_friction>
+    <spring_coeff unit="LBS/FT">      18742.50 </spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">  3748.50 </damping_coeff>
+ </contact>
+
+  <contact type="STRUCTURE" name="TAIL_BOTTOM">
+    <location unit="M">
+     <x> 4.85882 </x>
+     <y> 0 </y>
+     <z> 1.26142 </z>
     </location>
     <static_friction>  0.80 </static_friction>
     <dynamic_friction> 0.50 </dynamic_friction>
@@ -524,24 +560,6 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
       </aerosurface_scale>
   </channel>
 
-  <channel name="Landing Gear">
-   <kinematic name="Gear Control">
-     <input>gear/gear-cmd-norm</input>
-     <traverse>
-       <setting>
-          <position> 0 </position>
-          <time>     0 </time>
-       </setting>
-       <setting>
-          <position> 1 </position>
-          <time>     5 </time>
-       </setting>
-     </traverse>
-     <output>gear/gear-pos-norm</output>
-   </kinematic>
-
-  </channel>
-
   <channel name="Speedbrake">
    <kinematic name="Speedbrake Control">
      <input>fcs/speedbrake-cmd-norm</input>
@@ -558,6 +576,79 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
      <output>fcs/speedbrake-pos-norm</output>
    </kinematic>
 
+  </channel>
+
+  <!-- Gear -->
+  <channel name="Landing Gear">
+    <!-- force gear down on ground. Squad switch is on left main gear -->
+    <switch name="gear switch">
+      <default value="0"/>
+      <test logic="OR" value="1">
+        gear/unit[1]/compression-ft != 0 
+        gear/gear-cmd-norm == 1
+      </test>
+    </switch>
+
+    <!-- create a input property fcs/gear-emergency-extend -->
+    <switch name="gear emergency extend">
+      <default value="0"/>
+      <test value="1">
+        gear/gear-cmd-emergency-norm == 1
+      </test>
+    </switch>
+
+    <!-- normal actuators driven by gear switch -->
+    <actuator name="Gear Nose Actuator">
+      <input>fcs/gear-switch</input>
+      <rate_limit>0.1</rate_limit>
+      <output>gear/unit[0]/actuator-pos-norm</output>
+    </actuator>
+    <actuator name="Gear Left Actuator">
+      <input>fcs/gear-switch</input>
+      <rate_limit>0.13</rate_limit>
+      <output>gear/unit[1]/actuator-pos-norm</output>
+    </actuator>
+    <actuator name="Gear Right Actuator">
+      <input>fcs/gear-switch</input>
+      <rate_limit>0.15</rate_limit>
+      <output>gear/unit[2]/actuator-pos-norm</output>
+    </actuator>
+
+    <!-- "gravity" actuator for emergency extension -->
+    <actuator name="Gear Emergency Actuator">
+      <input>fcs/gear-emergency-extend</input>
+      <rate_limit>0.2</rate_limit>
+      <output>gear/emergency-pos-norm</output>
+    </actuator>
+
+    <!-- now add up the gear positions -->
+    <summer name="Nose Gear Sum">
+      <input>gear/emergency-pos-norm</input>
+      <input>gear/unit[0]/actuator-pos-norm</input>
+      <clipto>
+        <min>0</min>
+        <max>1</max>
+      </clipto>
+      <output>gear/unit[0]/pos-norm</output>
+    </summer>
+    <summer name="Left Gear Sum">
+      <input>gear/emergency-pos-norm</input>
+      <input>gear/unit[1]/actuator-pos-norm</input>
+      <clipto>
+        <min>0</min>
+        <max>1</max>
+      </clipto>
+      <output>gear/unit[1]/pos-norm</output>
+    </summer>
+    <summer name="Right Gear Sum">
+      <input>gear/emergency-pos-norm</input>
+      <input>gear/unit[2]/actuator-pos-norm</input>
+      <clipto>
+        <min>0</min>
+        <max>1</max>
+      </clipto>
+      <output>gear/unit[2]/pos-norm</output>
+    </summer>
   </channel>
 
  </flight_control>
