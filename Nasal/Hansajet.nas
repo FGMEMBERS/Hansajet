@@ -201,7 +201,7 @@ FuelTank.new = func(index) {
   var obj = {};
   obj.parents = [FuelTank];
   obj.rootNode = props.globals.getNode( "consumables/fuel/tank[" ~ index ~ "]", 1 );
-  obj.levelNode = obj.rootNode.initNode( "level-lb", 0.0 );
+  obj.levelNode = obj.rootNode.initNode( "level-lbs", 0.0 );
   obj.lastLevel = obj.levelNode.getValue();
 
   obj.index = index;
