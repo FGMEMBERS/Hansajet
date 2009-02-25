@@ -5,6 +5,50 @@
   <animation include="CockpitRangeAnimation.xml"/>
 
   <model>
+    <path>Aircraft/Hansajet/Models/FDController.xml</path>
+    <name>FDController</name>
+    <offsets>
+      <x-m>-0.08</x-m>
+      <y-m>-0.10</y-m>
+      <z-m>0</z-m>
+      <pitch-deg>-90</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/MarkerOnOffSwitch.xml</path>
+    <name>MarkerOnOffSwitch</name>
+    <offsets>
+      <x-m>-0.08</x-m>
+      <y-m>-0.045</y-m>
+      <z-m>0</z-m>
+      <heading-deg>-90</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/MarkerHiLoSwitch.xml</path>
+    <name>MarkerOnOffSwitch</name>
+    <offsets>
+      <x-m>-0.08</x-m>
+      <y-m>-0.025</y-m>
+      <z-m>0</z-m>
+      <heading-deg>-90</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/CompMagDGSwitch.xml</path>
+    <name>MarkerOnOffSwitch</name>
+    <offsets>
+      <x-m>-0.08</x-m>
+      <y-m>0.015</y-m>
+      <z-m>0</z-m>
+      <heading-deg>-90</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/FuelUsed.xml</path>
     <name>FuelUsed</name>
     <offsets>
