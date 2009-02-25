@@ -93,5 +93,14 @@
     <number>0</number>
   </dme>
 
+  <marker-beacon>
+    <name>marker-beacon</name>
+    <number>0</number>
+  </marker-beacon>
+
+  <marker-beacon>
+    <name>marker-beacon</name>
+    <number>1</number>
+  </marker-beacon>
 
 </PropertyList>

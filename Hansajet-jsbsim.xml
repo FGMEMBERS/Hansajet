@@ -214,7 +214,9 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
       <roll>   0.00 </roll>
       <yaw>   0.00 </yaw>
     </orient>
+    <feed>0</feed>
     <feed>1</feed>
+    <feed>3</feed>
     <thruster file="direct">
      <location unit="M">
        <x> 3.61 </x>
@@ -240,7 +242,9 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
       <roll>   0.00 </roll>
       <yaw>   0.00 </yaw>
     </orient>
+    <feed>0</feed>
     <feed>2</feed>
+    <feed>4</feed>
     <thruster file="direct">
      <location unit="M">
        <x> 3.61 </x>
