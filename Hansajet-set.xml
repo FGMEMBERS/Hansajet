@@ -84,6 +84,9 @@
 
     <systems>
       <path>Aircraft/Hansajet/Systems/Hansajet-systems.xml</path>
+      <autopilot>
+        <path>Aircraft/Hansajet/Systems/Hansajet-autopilot.xml</path>
+      </autopilot>
     </systems>
 
     <instrumentation>
@@ -212,6 +215,12 @@
       <file>Aircraft/Hansajet/Nasal/Hansajet.nas</file>
       <file>Aircraft/Hansajet/Nasal/WheelSpinner.nas</file>
     </Hansajet>
+    <Autopilot>
+      <file>Aircraft/Hansajet/Systems/Hansajet-autopilot.nas</file>
+      <script><![CDATA[
+        Autopilot.new();
+      ]]></script>
+    </Autopilot>
   </nasal>
 
   <limits>
@@ -227,5 +236,4 @@
     <max-gear-extension-speed>170</max-gear-extension-speed>
     <vne>300</vne> <!-- FIXME: need to put the real value here -->
   </limits>
-
 </PropertyList>
