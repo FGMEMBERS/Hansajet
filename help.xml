@@ -11,7 +11,15 @@
   <line>5. Turn OFF IGNITION for both engines</line>
   <key>
     <name>j</name>
-    <desc>toggle slats</desc>
+    <desc>retract slats</desc>
+  </key>
+  <key>
+    <name>k</name>
+    <desc>extend slats</desc>
+  </key>
+  <key>
+    <name>CTRL-B</name>
+    <desc>toggle speedbrake</desc>
   </key>
 
 </PropertyList>

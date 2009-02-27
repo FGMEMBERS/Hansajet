@@ -83,3 +83,48 @@ var Autopilot = {
     }
   }
 };
+
+var FlightDirector = {
+  new : func( index, target ) {
+    var obj = {};
+    obj.parents = [FlightDirector];
+    obj.modes = [ "SB", "BL", "FI", "VOR/LOC", "APP", "G/A" ];
+    obj.modeNames = {};
+    obj.modeNames[obj.modes[0]] = "Standby";
+    obj.modeNames[obj.modes[1]] = "Blue left";
+    obj.modeNames[obj.modes[2]] = "Flight instruments";
+    obj.modeNames[obj.modes[3]] = "VOR/Localizer glide slope";
+    obj.modeNames[obj.modes[4]] = "Approach";
+    obj.modeNames[obj.modes[5]] = "Go-around";
+
+    obj.modeN = props.globals.initNode( "instrumentation/fd-controller[" ~ index ~ "]/mode", 0, "INT" );
+    setlistener( obj.modeN, func { obj.statemachine(); }, 0, 0 );
+
+    obj.verticalN = props.globals.getNode  ( "autopilot/flightdirector[" ~ index ~ "]/vertical-deflection-norm", 1 );
+    obj.horizonN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]/horizon-deflection-norm", 1 );
+
+    obj.flagN = props.globals.initNode( target ~ "/flightdirector-flag", 1, "BOOL" );
+
+    settimer( func { obj.statemachine(); }, 15 );
+    print( "Flight Director #", index, " ready on ", target );
+    return obj;
+  },
+
+  statemachine : func {
+    var mode = me.modeN.getValue();
+    if( mode == nil ) mode = 0;
+    print( "FlightDirector mode set to ", me.modes[mode], " : ", me.modeNames[me.modes[mode]] );
+
+    if( mode == 0 ) {
+      # Standby, move bars out of sight
+      me.flagN.setBoolValue( 0 );
+      me.verticalN.setDoubleValue( 1.0 );
+      me.horizonN.setDoubleValue( 1.0 );
+    } else if( mode == 1 ) {
+    } else if( mode == 2 ) {
+    } else if( mode == 3 ) {
+    } else if( mode == 4 ) {
+    } else if( mode == 5 ) {
+    }
+  }
+};

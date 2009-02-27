@@ -3,6 +3,10 @@
   <params>
     <pitch>instrumentation/attitude-indicator[0]/indicated-pitch-deg</pitch>
     <bank>instrumentation/attitude-indicator[0]/indicated-roll-deg</bank>
+    <horizon>instrumentation/attitude-indicator[0]/horizon-deflection-norm</horizon>
+    <vertical>instrumentation/attitude-indicator[0]/vertical-deflection-norm</vertical>
+    <fd>instrumentation/attitude-indicator[0]/flightdirector-flag</fd>
+    <g>instrumentation/attitude-indicator[0]/spin</g>
   </params>
 
   <path>AttitudeIndicator.ac</path>
@@ -14,7 +18,48 @@
     <object-name>HorizonBar</object-name>
     <object-name>VerticalBar</object-name>
     <object-name>Marker</object-name>
+    <object-name>FD</object-name>
+    <object-name>G</object-name>
     <emission include="InstrumentLightEmissionInclude.xml"/>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>FD</object-name>
+    <condition>
+      <property alias="../../../params/fd"/>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>G</object-name>
+    <condition>
+      <less-than>
+        <property alias="../../../../params/g"/>
+        <value>0.5</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>HorizonBar</object-name>
+    <property alias="../../params/horizon"/>
+    <factor>0.039</factor>
+    <axis>
+      <z>1</z>
+    </axis>
+  </animation>
+    
+  <animation>
+    <type>translate</type>
+    <object-name>VerticalBar</object-name>
+    <property alias="../../params/vertical"/>
+    <factor>0.039</factor>
+    <axis>
+      <y>1</y>
+    </axis>
   </animation>
     
   <animation>

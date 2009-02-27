@@ -64,8 +64,8 @@
                            <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>        <!-- integrator time -->
       <Td>0.00001</Td>     <!-- derivator time -->
-      <u_min>-30.0</u_min> <!-- minimum output clamp -->
-      <u_max>30.0</u_max>  <!-- maximum output clamp -->
+      <u_min>-25.0</u_min> <!-- minimum output clamp -->
+      <u_max>25.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
@@ -570,5 +570,101 @@
       <u_max>1.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
+
+  <pid-controller>
+    <name>yaw damper</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/instrumentation/autopilot/yaw-damper</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+       <prop>/instrumentation/slip-skid-ball/indicated-slip-skid</prop>
+    </input>
+    <reference>
+       <value>0.0</value>
+    </reference>
+    <output>
+       <prop>/controls/flight/rudder</prop>
+    </output>
+    <config>
+      <Kp>0.125</Kp>       <!-- proportional gain -->
+      <beta>1.0</beta>     <!-- input value weighing factor -->
+      <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>   <!-- input value weighing factor for -->
+                           <!-- unfiltered derivative error -->
+      <Ti>3.0</Ti>         <!-- integrator time -->
+      <Td>0.0</Td>         <!-- derivator time -->
+      <u_min>-0.5</u_min>  <!-- minimum output clamp -->
+      <u_max>0.5</u_max>   <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- Flight Director -->
+  <filter>
+    <name>horizontal bar deflection filter</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <input>/autopilot/flightdirector/horizon-deflection-norm</input>
+    <output>/instrumentation/attitude-indicator[0]/horizon-deflection-norm</output>
+    <output>/instrumentation/attitude-indicator[1]/horizon-deflection-norm</output>
+    <filter-time>1</filter-time>
+  </filter>
+
+  <filter>
+    <name>vertical bar deflection filter</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <input>/autopilot/flightdirector/vertical-deflection-norm</input>
+    <output>/instrumentation/attitude-indicator[0]/vertical-deflection-norm</output>
+    <output>/instrumentation/attitude-indicator[1]/vertical-deflection-norm</output>
+    <filter-time>1</filter-time>
+  </filter>
+
+  <pid-controller>
+    <name>target roll controller</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/instrumentation/attitude-indicator/flightdirector-flag</prop>
+      <value>false</value>
+    </enable>
+    <input>
+      <prop>/autopilot/internal/heading-bug-error-deg</prop>
+    </input>
+    <reference>
+      <value>0.0</value>
+    </reference>
+    <output>
+      <prop>/autopilot/flightdirector/target-roll-deg</prop>
+    </output>
+    <config>
+      <Kp>-1.0</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>     <!-- input value weighing factor -->
+      <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>   <!-- input value weighing factor for -->
+                           <!-- unfiltered derivative error -->
+      <Ti>10.0</Ti>        <!-- integrator time -->
+      <Td>0.00001</Td>     <!-- derivator time -->
+      <u_min>-25.0</u_min> <!-- minimum output clamp -->
+      <u_max>25.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <filter>
+    <name>blah</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/instrumentation/attitude-indicator/flightdirector-flag</prop>
+      <value>false</value>
+    </enable>
+    <type>gain</type>
+    <gain>
+      <value>0.03</value> <!-- -0.75 .. 0.75 for full deflection -->
+    </gain>
+    <input>/autopilot/flightdirector/target-roll-deg</input>
+    <output>/autopilot/flightdirector/vertical-deflection-norm</output>
+    <u_min>-0.75</u_min>
+    <u_max>0.75</u_max>
+  </filter>
 
 </PropertyList>

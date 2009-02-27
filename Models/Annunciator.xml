@@ -1,0 +1,122 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+  <path>Aircraft/Hansajet/Models/Annunciator.ac</path>
+  <animation>
+    <type>select</type> 
+    <object-name>SlatLH</object-name>
+    <condition>             
+      <less-than-equals>
+        <property>surface-positions/spoilers-pos-norm</property>
+        <value>0.05</value>
+      </less-than-equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type> 
+    <object-name>SlatLHOn</object-name>
+    <condition>             
+      <greater-than>
+        <property>surface-positions/spoilers-pos-norm</property>
+        <value>0.05</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type> 
+    <object-name>SlatRH</object-name>
+    <condition>             
+      <less-than-equals>
+        <property>surface-positions/spoilers-pos-norm</property>
+        <value>0.05</value>
+      </less-than-equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type> 
+    <object-name>SlatRHOn</object-name>
+    <condition>             
+      <greater-than>
+        <property>surface-positions/spoilers-pos-norm</property>
+        <value>0.05</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type> 
+    <object-name>SpeedBrakeExtend</object-name>
+    <condition>             
+      <less-than-equals>
+        <property>surface-positions/speedbrake-pos-norm</property>
+        <value>0.10</value>
+      </less-than-equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type> 
+    <object-name>SpeedBrakeExtendOn</object-name>
+    <condition>             
+      <greater-than>
+        <property>surface-positions/speedbrake-pos-norm</property>
+        <value>0.10</value>
+      </greater-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type> 
+    <object-name>DragChuteJett</object-name>
+    <condition>             
+      <not>
+        <property>instrumentation/annunciator/drag-chute-jett</property>
+      </not>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type> 
+    <object-name>DragChuteJettOn</object-name>
+    <condition>             
+      <property>instrumentation/annunciator/drag-chute-jett</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type> 
+    <object-name>FuelFilterIcedLH</object-name>
+    <condition>             
+      <not>
+        <property>instrumentation/annunciator/left-fuel-filter-iced</property>
+      </not>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type> 
+    <object-name>FuelFilterIcedLHOn</object-name>
+    <condition>             
+      <property>instrumentation/annunciator/left-fuel-filter-iced</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type> 
+    <object-name>FuelFilterIcedRH</object-name>
+    <condition>             
+      <not>
+        <property>instrumentation/annunciator/right-fuel-filter-iced</property>
+      </not>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type> 
+    <object-name>FuelFilterIcedRHOn</object-name>
+    <condition>             
+      <property>instrumentation/annunciator/right-fuel-filter-iced</property>
+    </condition>
+  </animation>
+
+</PropertyList>
+
+
+
+
