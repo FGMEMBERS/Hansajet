@@ -3,6 +3,18 @@
   <path>Aircraft/Hansajet/Models/Autopilot.ac</path>
 
   <animation>
+    <type>material</type>
+    <object-name>Chassis</object-name>
+    <object-name>Turn</object-name>
+    <object-name>Head</object-name>
+    <object-name>Nut</object-name>
+    <object-name>Engage</object-name>
+    <object-name>Altitude</object-name>
+    <object-name>Mach</object-name>
+    <emission include="CockpitLightEmissionInclude.xml"/>
+  </animation>
+
+  <animation>
     <type>rotate</type>
     <object-name>Engage</object-name>
     <property>instrumentation/autopilot/engage</property>

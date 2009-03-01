@@ -7,6 +7,8 @@
 
   <path>Aircraft/Hansajet/Models/Switch.ac</path>
 
+  <animation include="SwitchMaterialEmissionInclude.xml"/>
+
   <offsets>
       <roll-deg>-16</roll-deg>
   </offsets>

@@ -3346,7 +3346,7 @@ refs 3
 11 0.970844 0.353109
 kids 0
 OBJECT poly
-name "box"
+name "Chassis"
 loc 0 -0.00121936 0
 texture "Autopilot.rgb"
 crease 45.000000
