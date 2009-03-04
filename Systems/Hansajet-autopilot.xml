@@ -2,291 +2,174 @@
  
 <PropertyList>
 
-  <!-- =============================================================== -->
-  <!-- Roll Axis Modes                                                 -->
-  <!-- =============================================================== -->
+  <!-- ========================================================================== -->
+  <!-- ========================================================================== -->
+  <!-- ========================================================================== -->
+  <!-- Flight Director Computer -->
+  <!-- ========================================================================== -->
+  <!-- provide the input property for the cdi deflection and normlize to [-1..+1] -->
+  <!-- 
+       use this input if:
+       mode = FI or
+       captured and ( mode = BL or mode = VOR/LOC or mode = APP )
+    -->
+  <filter>
+    <name>LOC deflection input normalizer</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <enable>
+      <condition>
+        <property>/autopilot/flightdirector/serviceable</property>
+        <or>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>FI</value>
+          </equals>
+          <and>
+        <equals>
+          <property>/autopilot/flightdirector/localizer-captured</property>
+          <value>1</value>
+        </equals>
+        <or>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>BL</value>
+          </equals>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>VOR/LOC</value>
+          </equals>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>APP</value>
+          </equals>
+        </or>
+          </and>
+        </or>
+      </condition>
+    </enable>
+    <gain><value>-0.1</value></gain> <!-- input is in range [-10..+10] -->
+    <input>/instrumentation/nav/heading-needle-deflection</input>
+    <output>/autopilot/flightdirector/vertical-deflection-norm</output>
+    <u_min>-1.0</u_min>
+    <u_max>1.0</u_max>
+  </filter>
 
-  <!-- Wing leveler --> 
+  <!-- provide the input property for the heading bug error and normlize to [-1..+1] -->
+  <!-- 
+       use this input if:
+       mode = FI or
+       not captured and ( mode = BL or mode = VOR/LOC or mode = APP )
+    -->
+  <filter>
+    <name>heading bug error input normalizer</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <enable>
+      <condition>
+        <property>/autopilot/flightdirector/serviceable</property>
+        <or>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>FI</value>
+          </equals>
+          <and>
+        <equals>
+          <property>/autopilot/flightdirector/localizer-captured</property>
+          <value>0</value>
+        </equals>
+        <or>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>BL</value>
+          </equals>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>VOR/LOC</value>
+          </equals>
+          <equals>
+            <property>/instrumentation/fd-controller/mode</property>
+            <value>APP</value>
+          </equals>
+        </or>
+          </and>
+        </or>
+      </condition>
+    </enable>
+    <gain><value>0.080</value></gain> <!-- 12.5deg is full deflection (half max. bank angle) -->
+    <input>/autopilot/internal/heading-bug-error-deg</input>
+    <output>/autopilot/flightdirector/vertical-deflection-norm</output>
+    <u_min>-1.0</u_min>
+    <u_max>1.0</u_max>
+  </filter>
+
+  <!-- 
+     Flight Instruments Mode (FI)
+     The vertical bar shows a steering command signal to fly to the selected
+     heading. The heading is selected by setting the heading bug to the desired
+     heading.
+  -->
+
+  <!-- 
+     VOR/Localizer approach mode
+     During VOR or localizer/ILS approaches, the vertical bar shows roll and steering
+     commands to capture and track the selected course. The radial or localizer course
+     is selected on HSI.
+  -->
+
+  <!-- 
+   Flight Director Attitude Indicator 
+   filter the input for the horizontal and vertical bar to provide a smooth 
+   indication and generate output for two attitude indicators
+   -->
+  <filter>
+    <name>horizontal bar deflection filter</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <input>/autopilot/flightdirector/horizon-deflection-norm</input>
+    <output>/instrumentation/attitude-indicator[0]/horizon-deflection-norm</output>
+    <output>/instrumentation/attitude-indicator[1]/horizon-deflection-norm</output>
+    <filter-time>0.3</filter-time>
+  </filter>
+
+  <filter>
+    <name>vertical bar deflection filter</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <input>/autopilot/flightdirector/vertical-deflection-norm</input>
+    <output>/instrumentation/attitude-indicator[0]/vertical-deflection-norm</output>
+    <output>/instrumentation/attitude-indicator[1]/vertical-deflection-norm</output>
+    <filter-time>0.3</filter-time>
+  </filter>
+
+  <!-- Yaw Damper, automatic ball kicker -->
   <pid-controller>
-    <name>Wing Leveler (Turn Coordinator based)</name>
+    <name>yaw damper</name>
     <debug>false</debug>
     <enable>
-      <prop>/autopilot/locks/heading</prop>
-      <value>wing-leveler</value>
+      <condition>
+        <property>/instrumentation/autopilot/yaw-damper</property>
+      </condition>
     </enable>
     <input>
-      <prop>/orientation/yaw-rate-degps</prop>
+       <prop>/instrumentation/slip-skid-ball/indicated-slip-skid</prop>
     </input>
     <reference>
-      <prop>/autopilot/settings/target-turn-rate-degps</prop>
+       <value>0.0</value>
     </reference>
     <output>
-      <prop>/controls/flight/aileron</prop>
+       <prop>/autopilot/internal/rudder-command</prop>
     </output>
     <config>
-      <Kp>0.5</Kp>        <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- Heading Bug Hold.  2 stage cascade controller. -->
-
-  <!-- Stage #1 sets target roll based on diff between current heading -->
-  <!-- and heading bug. -->
-  <pid-controller>
-    <name>Heading Bug Hold (DG based) Stage 1</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/heading</prop>
-      <value>dg-heading-hold</value>
-    </enable>
-    <input>
-      <prop>/autopilot/internal/heading-bug-error-deg</prop>
-    </input>
-    <reference>
-      <value>0.0</value>
-    </reference>
-    <output>
-      <prop>/autopilot/internal/target-roll-deg</prop>
-    </output>
-    <config>
-      <Kp>-1.0</Kp>        <!-- proportional gain -->
+      <Kp>5</Kp>       <!-- proportional gain -->
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>     <!-- derivator time -->
-      <u_min>-25.0</u_min> <!-- minimum output clamp -->
-      <u_max>25.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- Stage #2 drives the ailerons to achieve the desired roll deg. -->
-  <pid-controller>
-    <name>Heading Bug Hold (DG based) Stage 2</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/heading</prop>
-      <value>dg-heading-hold</value>
-    </enable>
-    <input>
-      <prop>/orientation/roll-deg</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/internal/target-roll-deg</prop>
-    </reference>
-    <output>
-      <prop>/controls/flight/aileron</prop>
-    </output>
-    <config>
-      <Kp>0.1</Kp>        <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- True Heading hold.  2 stage cascade controller. -->
-
-  <!-- Stage #1 sets target roll based on diff between current heading -->
-  <!-- and target heading. -->
-  <pid-controller>
-    <name>True Heading Hold (DG based) Stage 1</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/heading</prop>
-      <value>true-heading-hold</value>
-    </enable>
-    <input>
-      <prop>/autopilot/internal/true-heading-error-deg</prop>
-    </input>
-    <reference>
-      <value>0.0</value>
-    </reference>
-    <output>
-      <prop>/autopilot/internal/target-roll-deg</prop>
-    </output>
-    <config>
-      <Kp>-1.0</Kp>        <!-- proportional gain -->
-      <beta>1.0</beta>     <!-- input value weighing factor -->
-      <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>     <!-- derivator time -->
-      <u_min>-20.0</u_min> <!-- minimum output clamp -->
-      <u_max>20.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- Stage #2 drives the ailerons to achieve the desired roll deg. -->
-  <pid-controller>
-    <name>True Heading Hold (DG based) Stage 2</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/heading</prop>
-      <value>true-heading-hold</value>
-    </enable>
-    <input>
-      <prop>/orientation/roll-deg</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/internal/target-roll-deg</prop>
-    </reference>
-    <output>
-      <prop>/controls/flight/aileron</prop>
-    </output>
-    <config>
-      <Kp>0.1</Kp>        <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- Nav1 hold.  2 stage cascade controller. -->
-
-  <!-- Stage #1 sets target roll based on diff between current heading -->
-  <!-- and target heading. -->
-  <pid-controller>
-    <name>Nav1 Hold Stage 1</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/heading</prop>
-      <value>nav1-hold</value>
-    </enable>
-    <input>
-      <prop>/autopilot/internal/nav1-heading-error-deg</prop>
-    </input>
-    <reference>
-      <value>0.0</value>
-    </reference>
-    <output>
-      <prop>/autopilot/internal/target-roll-deg</prop>
-    </output>
-    <config>
-      <Kp>-1.0</Kp>        <!-- proportional gain -->
-      <beta>1.0</beta>     <!-- input value weighing factor -->
-      <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>     <!-- derivator time -->
-      <u_min>-20.0</u_min> <!-- minimum output clamp -->
-      <u_max>20.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- Stage #2 drives the ailerons to achieve the desired roll deg. -->
-  <pid-controller>
-    <name>Nav1 Hold Stage 2</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/heading</prop>
-      <value>nav1-hold</value>
-    </enable>
-    <input>
-      <prop>/orientation/roll-deg</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/internal/target-roll-deg</prop>
-    </reference>
-    <output>
-      <prop>/controls/flight/aileron</prop>
-    </output>
-    <config>
-      <Kp>0.1</Kp>        <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-
- <!-- =============================================================== -->
- <!-- Pitch Axis Modes                                                -->
- <!-- =============================================================== -->
-
- <!-- Simple pitch hold --> 
- <pid-controller>
-    <name>Pitch hold</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/altitude</prop>
-      <value>pitch-hold</value>
-    </enable>
-    <input>
-      <prop>/orientation/pitch-deg</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/settings/target-pitch-deg</prop>
-    </reference>
-    <output>
-      <prop>/controls/flight/elevator-trim</prop>
-    </output>
-    <config>
-      <Kp>-0.05</Kp>      <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>1.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-   </pid-controller>
-
- <!-- Simple angle of attack hold --> 
- <pid-controller>
-    <name>AOA hold</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/altitude</prop>
-      <value>aoa-hold</value>
-    </enable>
-    <input>
-      <prop>/orientation/alpha-deg</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/settings/target-aoa-deg</prop>
-    </reference>
-    <output>
-      <prop>/controls/flight/elevator-trim</prop>
-    </output>
-    <config>
-      <Kp>-0.05</Kp>      <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>0.5</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+      <Ti>45.0</Ti>         <!-- integrator time -->
+      <Td>0.0</Td>         <!-- derivator time -->
+      <u_min>-0.15</u_min>  <!-- minimum output clamp -->
+      <u_max>0.15</u_max>   <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
@@ -313,8 +196,8 @@
     <config>
       <Kp>0.3</Kp>          <!-- proportional gain -->
       <Ki>0.0</Ki>          <!-- integral gain -->
-      <u_min>-16.67</u_min> <!-- minimum output clamp -->
-      <u_max>8.33</u_max>   <!-- maximum output clamp -->
+      <u_min>-33.333</u_min> <!-- minimum output clamp -->
+      <u_max>33.333</u_max>   <!-- maximum output clamp -->
     </config>
   </pi-simple-controller>
 
@@ -333,7 +216,7 @@
       <prop>/autopilot/internal/target-climb-rate-fps</prop>
     </reference>
     <output>
-      <prop>/controls/flight/elevator-trim</prop>
+      <prop>/autopilot/internal/elevator-command</prop>
     </output>
     <config>
       <Kp>-0.01</Kp>      <!-- proportional gain -->
@@ -341,292 +224,28 @@
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
                           <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
+      <Ti>1000.0</Ti>       <!-- integrator time -->
       <Td>0.00001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
       <u_max>1.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
-  <!-- AGL hold.  2 stage cascade controller. -->
+  <!-- Heading Bug Hold.  2 stage cascade controller. -->
 
-  <!-- Stage #1 sets target rate of climb based on diff between current agl -->
-  <!-- and target agl. -->
-  <pi-simple-controller>
-    <name>AGL Hold (Altimeter based) Stage 1</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/altitude</prop>
-      <value>agl-hold</value>
-    </enable>
-    <input>
-      <prop>/position/altitude-agl-ft</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/settings/target-agl-ft</prop>
-    </reference>
-    <output>
-      <prop>/autopilot/internal/target-climb-rate-fps</prop>
-    </output>
-    <config>
-      <Kp>0.3</Kp>          <!-- proportional gain -->
-      <Ki>0.0</Ki>          <!-- integral gain -->
-      <u_min>-16.67</u_min> <!-- minimum output clamp -->
-      <u_max>8.33</u_max>   <!-- maximum output clamp -->
-    </config>
-  </pi-simple-controller>
-
-  <!-- Stage #2 drives the elevator-trim to achieve the desired climb rate. -->
+  <!-- Stage #1 sets target roll based on diff between current heading -->
+  <!-- and heading bug. -->
   <pid-controller>
-    <name>Altitude Hold (Altimeter based) Stage 2</name>
+    <name>Heading Bug Hold (DG based) Stage 1</name>
     <debug>false</debug>
     <enable>
-      <prop>/autopilot/locks/altitude</prop>
-      <value>agl-hold</value>
-    </enable>
-    <input>
-      <prop>/velocities/vertical-speed-fps</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/internal/target-climb-rate-fps</prop>
-    </reference>
-    <output>
-      <prop>/controls/flight/elevator-trim</prop>
-    </output>
-    <config>
-      <Kp>-0.01</Kp>      <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- Glideslope hold. -->
-
-  <!-- Stage #2 drives the elevator-trim to achieve the desired climb rate. -->
-  <pid-controller>
-    <name>Glideslop Hold</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/altitude</prop>
-      <value>gs1-hold</value>
-    </enable>
-    <input>
-      <prop>/velocities/vertical-speed-fps</prop>
-    </input>
-    <reference>
-      <prop>/instrumentation/nav[0]/gs-rate-of-climb</prop>
-    </reference>
-     <output>
-      <prop>/controls/flight/elevator-trim</prop>
-    </output>
-    <config>
-      <Kp>-0.01</Kp>      <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- vertical speed hold -->
-  <pid-controller>
-    <name>Vertical Speed Hold</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/altitude</prop>
-      <value>vertical-speed-hold</value>
-    </enable>
-    <input>
-      <prop>/velocities/vertical-speed-fps</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/settings/vertical-speed-fpm</prop>
-      <scale>0.01667</scale>
-    </reference>
-    <output>
-      <prop>/controls/flight/elevator-trim</prop>
-    </output>
-    <config>
-      <Kp>-0.01</Kp>      <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-
- <!-- =============================================================== -->
- <!-- Velocity Modes                                                  -->
- <!-- =============================================================== -->
-
- <!-- Auto throttle --> 
- <pid-controller>
-    <name>Auto Throttle (5 sec lookahead)</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/speed</prop>
-      <value>speed-with-throttle</value>
-    </enable>
-    <input>
-      <!-- <prop>/autopilot/internal/lookahead-5-sec-airspeed-kt</prop> -->
-      <prop>/velocities/mach</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/settings/target-mach</prop>
-    </reference>
-    <output>
-      <prop>/controls/engines/engine[0]/throttle</prop>
-      <prop>/controls/engines/engine[1]/throttle</prop>
-      <prop>/controls/engines/engine[2]/throttle</prop>
-      <prop>/controls/engines/engine[3]/throttle</prop>
-      <prop>/controls/engines/engine[4]/throttle</prop>
-      <prop>/controls/engines/engine[5]/throttle</prop>
-      <prop>/controls/engines/engine[6]/throttle</prop>
-      <prop>/controls/engines/engine[7]/throttle</prop>
-    </output>
-    <config>
-      <Kp>0.1</Kp>        <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>0.0</u_min>  <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
- <!-- Hold speed by varying pitch trim (Two stage cascading controller) --> 
- <pid-controller>
-    <name>Speed hold (vary pitch trim) Stage #1</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/speed</prop>
-      <value>speed-with-pitch-trim</value>
-    </enable>
-    <input>
-      <prop>/autopilot/internal/lookahead-5-sec-airspeed-kt</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/settings/target-speed-kt</prop>
-    </reference>
-    <output>
-      <prop>/autopilot/settings/target-pitch-deg</prop>
-    </output>
-    <config>
-      <Kp>-1.0</Kp>       <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>1.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-15.0</u_min><!-- minimum output clamp -->
-      <u_max>15.0</u_max> <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
- <pid-controller>
-    <name>Speed hold (vary pitch trim) Stage #2</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/speed</prop>
-      <value>speed-with-pitch-trim</value>
-    </enable>
-    <input>
-      <prop>/orientation/pitch-deg</prop>
-    </input>
-    <reference>
-      <prop>/autopilot/settings/target-pitch-deg</prop>
-    </reference>
-    <output>
-      <prop>/controls/flight/elevator-trim</prop>
-    </output>
-    <config>
-      <Kp>-0.05</Kp>      <!-- proportional gain -->
-      <beta>1.0</beta>    <!-- input value weighing factor -->
-      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
-      <Ti>1.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <pid-controller>
-    <name>yaw damper</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/instrumentation/autopilot/yaw-damper</prop>
-      <value type="bool">true</value>
-    </enable>
-    <input>
-       <prop>/instrumentation/slip-skid-ball/indicated-slip-skid</prop>
-    </input>
-    <reference>
-       <value>0.0</value>
-    </reference>
-    <output>
-       <prop>/controls/flight/rudder</prop>
-    </output>
-    <config>
-      <Kp>0.125</Kp>       <!-- proportional gain -->
-      <beta>1.0</beta>     <!-- input value weighing factor -->
-      <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
-      <Ti>3.0</Ti>         <!-- integrator time -->
-      <Td>0.0</Td>         <!-- derivator time -->
-      <u_min>-0.5</u_min>  <!-- minimum output clamp -->
-      <u_max>0.5</u_max>   <!-- maximum output clamp -->
-    </config>
-  </pid-controller>
-
-  <!-- Flight Director -->
-  <filter>
-    <name>horizontal bar deflection filter</name>
-    <debug>false</debug>
-    <type>exponential</type>
-    <input>/autopilot/flightdirector/horizon-deflection-norm</input>
-    <output>/instrumentation/attitude-indicator[0]/horizon-deflection-norm</output>
-    <output>/instrumentation/attitude-indicator[1]/horizon-deflection-norm</output>
-    <filter-time>1</filter-time>
-  </filter>
-
-  <filter>
-    <name>vertical bar deflection filter</name>
-    <debug>false</debug>
-    <type>exponential</type>
-    <input>/autopilot/flightdirector/vertical-deflection-norm</input>
-    <output>/instrumentation/attitude-indicator[0]/vertical-deflection-norm</output>
-    <output>/instrumentation/attitude-indicator[1]/vertical-deflection-norm</output>
-    <filter-time>1</filter-time>
-  </filter>
-
-  <pid-controller>
-    <name>target roll controller</name>
-    <debug>false</debug>
-    <enable>
-      <prop>/instrumentation/attitude-indicator/flightdirector-flag</prop>
-      <value>false</value>
+      <condition>
+        <equals>
+          <property>/autopilot/locks/heading</property>
+          <value>dg-heading-hold</value>
+        </equals>
+      </condition>
+      <honor-passive>true</honor-passive>
     </enable>
     <input>
       <prop>/autopilot/internal/heading-bug-error-deg</prop>
@@ -635,36 +254,184 @@
       <value>0.0</value>
     </reference>
     <output>
-      <prop>/autopilot/flightdirector/target-roll-deg</prop>
+      <prop>/autopilot/internal/target-roll-deg</prop>
     </output>
     <config>
-      <Kp>-1.0</Kp>        <!-- proportional gain -->
+      <Kp>-2.0</Kp>        <!-- proportional gain -->
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>   <!-- input value weighing factor for -->
+      <gamma>0.1</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>     <!-- derivator time -->
+      <Td>0.0001</Td>     <!-- derivator time -->
       <u_min>-25.0</u_min> <!-- minimum output clamp -->
       <u_max>25.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
-  <filter>
-    <name>blah</name>
+  <!-- Stage #2 drives the ailerons to achieve the desired roll deg. -->
+  <pid-controller>
+    <name>Heading Bug Hold (DG based) Stage 2</name>
     <debug>false</debug>
     <enable>
-      <prop>/instrumentation/attitude-indicator/flightdirector-flag</prop>
-      <value>false</value>
+      <condition>
+        <equals>
+          <property>/autopilot/locks/heading</property>
+          <value>dg-heading-hold</value>
+        </equals>
+      </condition>
     </enable>
-    <type>gain</type>
-    <gain>
-      <value>0.03</value> <!-- -0.75 .. 0.75 for full deflection -->
-    </gain>
-    <input>/autopilot/flightdirector/target-roll-deg</input>
-    <output>/autopilot/flightdirector/vertical-deflection-norm</output>
-    <u_min>-0.75</u_min>
-    <u_max>0.75</u_max>
+    <input>
+      <prop>/orientation/roll-deg</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/internal/target-roll-deg</prop>
+    </reference>
+    <output>
+      <prop>/autopilot/internal/aileron-command</prop>
+    </output>
+    <config>
+      <Kp>0.010</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>280.0</Ti>       <!-- integrator time -->
+      <Td>0.00000</Td>    <!-- derivator time -->
+      <u_min>-1.0</u_min> <!-- minimum output clamp -->
+      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- Wing leveler --> 
+  <pid-controller>
+    <name>Wing Leveler</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <equals>
+          <property>/autopilot/locks/heading</property>
+          <value>wing-leveler</value>
+        </equals>
+      </condition>
+    </enable>
+    <input>
+      <prop>/orientation/yaw-rate-degps</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/settings/target-turn-rate-degps</prop>
+    </reference>
+    <output>
+      <prop>/autopilot/internal/aileron-command</prop>
+    </output>
+    <config>
+      <Kp>0.08</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>5.0</Ti>       <!-- integrator time -->
+      <Td>0.00000</Td>    <!-- derivator time -->
+      <u_min>-1.0</u_min> <!-- minimum output clamp -->
+      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <filter>
+    <name>aileron command filter</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <not-equals>
+          <property>/autopilot/locks/heading</property>
+          <value></value>
+        </not-equals>
+      </condition>
+    </enable>
+    <type>exponential</type>
+    <input>/autopilot/internal/aileron-command</input>
+    <output>/controls/flight/aileron</output>
+    <filter-time>0.5</filter-time>
   </filter>
+
+  <filter>
+    <name>elevator command filter</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <not-equals>
+          <property>/autopilot/locks/altitude</property>
+          <value></value>
+        </not-equals>
+      </condition>
+    </enable>
+    <type>exponential</type>
+    <input>/autopilot/internal/elevator-command</input>
+    <output>/controls/flight/elevator-trim</output>
+    <filter-time>0.5</filter-time>
+  </filter>
+
+  <filter>
+    <name>rudder command filter</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <property>/instrumentation/autopilot/yaw-damper</property>
+      </condition>
+    </enable>
+    <type>exponential</type>
+    <input>/autopilot/internal/rudder-command</input>
+    <output>/controls/flight/rudder-trim</output>
+    <filter-time>0.5</filter-time>
+  </filter>
+
+  <!-- ========================================================================== -->
+  <!-- Provide a relative bearing property for the RMI -->
+  <!-- ========================================================================== -->
+  <pi-simple-controller>
+    <name>nav1 relative bearing</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <property>/instrumentation/nav[0]/data-is-valid</property>
+      </condition>
+    </enable>
+    <input>
+      <prop>/orientation/heading-magnetic-deg</prop>
+    </input>
+    <reference>
+      <prop>/instrumentation/nav[0]/radials/reciprocal-radial-deg</prop>
+    </reference>
+    <output>
+      <prop>/instrumentation/nav[0]/relative-bearing-deg</prop>
+    </output>
+    <config>
+      <Kp>1.0</Kp>          <!-- proportional gain -->
+      <Ki>0.0</Ki>          <!-- integral gain -->
+    </config>
+  </pi-simple-controller>
+
+  <pi-simple-controller>
+    <name>nav1 relative bearing</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <property>/instrumentation/nav[1]/data-is-valid</property>
+      </condition>
+    </enable>
+    <input>
+      <prop>/orientation/heading-magnetic-deg</prop>
+    </input>
+    <reference>
+      <prop>/instrumentation/nav[1]/radials/reciprocal-radial-deg</prop>
+    </reference>
+    <output>
+      <prop>/instrumentation/nav[1]/relative-bearing-deg</prop>
+    </output>
+    <config>
+      <Kp>1.0</Kp>          <!-- proportional gain -->
+      <Ki>0.0</Ki>          <!-- integral gain -->
+    </config>
+  </pi-simple-controller>
 
 </PropertyList>

@@ -27,7 +27,7 @@ var Autopilot = {
     obj.targetMachN     = props.globals.getNode( "autopilot/settings/target-mach", 1 );
     obj.currentMachN    = props.globals.getNode( "velocities/mach", 1 );
     obj.targetAltitudeN = props.globals.getNode( "autopilot/settings/target-altitude-ft", 1 );
-    obj.currentAltitudeN= props.globals.getNode( "instrumentation/altimeter/pressure-alt-ft", 1 );
+    obj.currentAltitudeN= props.globals.initNode( "instrumentation/altimeter/pressure-alt-ft", 0.0 );
     obj.targetTurnN     = props.globals.getNode( "autopilot/settings/target-turn-rate-degps", 1 );
 
     setlistener( obj.engageN,   func { obj.statemachine(); }, 0, 0 );
@@ -35,6 +35,10 @@ var Autopilot = {
     setlistener( obj.machN,     func { obj.statemachine(); }, 0, 0 );
     setlistener( obj.headN,     func { obj.statemachine(); }, 0, 0 );
     setlistener( obj.turnN,     func { obj.statemachine(); }, 0, 0 );
+
+    aircraft.data.add(
+      obj.engageN, obj.altitudeN, obj.machN, obj.headN, obj.turnN
+    );
 
     obj.statemachine();
     print( "Autopilot ready" );
@@ -73,8 +77,7 @@ var Autopilot = {
 
       if( me.headN.getValue() == -1 ) {
         # WARNING: wing level and turn is unstable
-#        me.headingLockN.setValue(MODE_WING_LEVEL);
-        me.headingLockN.setValue(MODE_HEADING_BUG);
+        me.headingLockN.setValue(MODE_WING_LEVEL);
       } else if( me.headN.getValue() == 0 ) {
         me.headingLockN.setValue(MODE_HEADING_BUG);
       } else if( me.headN.getValue() == 1 ) {
@@ -84,47 +87,143 @@ var Autopilot = {
   }
 };
 
+var SB = "SB";
+var BL = "BL";
+var FI = "FI";
+var VOR_LOC = "VOR/LOC";
+var APP = "APP";
+var GA = "G/A";
+
 var FlightDirector = {
   new : func( index, target ) {
     var obj = {};
     obj.parents = [FlightDirector];
-    obj.modes = [ "SB", "BL", "FI", "VOR/LOC", "APP", "G/A" ];
+    obj.modes = [ SB, BL, FI, VOR_LOC, APP, GA ];
     obj.modeNames = {};
     obj.modeNames[obj.modes[0]] = "Standby";
-    obj.modeNames[obj.modes[1]] = "Blue left";
-    obj.modeNames[obj.modes[2]] = "Flight instruments";
-    obj.modeNames[obj.modes[3]] = "VOR/Localizer glide slope";
+    obj.modeNames[obj.modes[1]] = "Blue Left";
+    obj.modeNames[obj.modes[2]] = "Flight Instruments";
+    obj.modeNames[obj.modes[3]] = "VOR/Localizer-Glide Slope";
     obj.modeNames[obj.modes[4]] = "Approach";
-    obj.modeNames[obj.modes[5]] = "Go-around";
+    obj.modeNames[obj.modes[5]] = "Go-Around";
 
-    obj.modeN = props.globals.initNode( "instrumentation/fd-controller[" ~ index ~ "]/mode", 0, "INT" );
-    setlistener( obj.modeN, func { obj.statemachine(); }, 0, 0 );
+    obj.switchPositionN = props.globals.initNode( "instrumentation/fd-controller[" ~ index ~ "]/switch-position", 0, "INT" );
+    obj.altitudeSwitchN = props.globals.initNode( "instrumentation/fd-controller[" ~ index ~ "]/altitude-hold", 0, "BOOL" );
+    obj.modeN = props.globals.getNode( "instrumentation/fd-controller[" ~ index ~ "]/mode", 1 );
+    obj.modeNameN = props.globals.getNode( "instrumentation/fd-controller[" ~ index ~ "]/mode-name", 1 );
+    obj.lockedN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]/localizer-captured", 1 );
+    obj.lockedN.setBoolValue( 0 );
+    obj.isLockMode = 0;
 
     obj.verticalN = props.globals.getNode  ( "autopilot/flightdirector[" ~ index ~ "]/vertical-deflection-norm", 1 );
     obj.horizonN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]/horizon-deflection-norm", 1 );
 
     obj.flagN = props.globals.initNode( target ~ "/flightdirector-flag", 1, "BOOL" );
+    obj.serviceableN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]/serviceable", 1 );
+    obj.serviceableN.setBoolValue( 0 );
 
-    settimer( func { obj.statemachine(); }, 15 );
+    obj.cdiN = props.globals.initNode( "/instrumentation/nav/heading-needle-deflection", 0.0 );
+    obj.signalN = props.globals.initNode( "/instrumentation/nav/signal-quality-norm", 0.0 );
+
+    aircraft.data.add( 
+      obj.switchPositionN, obj.altitudeSwitchN
+    );
+
+    setlistener( obj.switchPositionN, func { obj.statemachine(); }, 0, 0 );
+    setlistener( obj.serviceableN, func { obj.statemachine(); }, 0, 0 );
+    obj.statemachine(); 
+
+    settimer( func {
+      obj.serviceableN.setBoolValue( 1 );
+    }, 5 );
+
     print( "Flight Director #", index, " ready on ", target );
     return obj;
   },
 
   statemachine : func {
-    var mode = me.modeN.getValue();
-    if( mode == nil ) mode = 0;
-    print( "FlightDirector mode set to ", me.modes[mode], " : ", me.modeNames[me.modes[mode]] );
+    var switchPosition = me.switchPositionN.getValue();
+    if( switchPosition == nil ) switchPosition = 0;
 
-    if( mode == 0 ) {
-      # Standby, move bars out of sight
-      me.flagN.setBoolValue( 0 );
+    var mode = me.modes[switchPosition];
+    me.modeN.setValue( mode );
+    me.modeNameN.setValue( me.modeNames[me.modes[switchPosition]] );
+
+    var serviceable = me.serviceableN.getValue();
+    me.flagN.setBoolValue( !serviceable );
+    if( !serviceable ) {
+      me.verticalN.setDoubleValue( 0.0 );
+      me.horizonN.setDoubleValue( 0.0 );
+      return;
+    }
+
+    if( mode == SB ) {
+
+      # Standby, move bars out of sigh(t)
       me.verticalN.setDoubleValue( 1.0 );
       me.horizonN.setDoubleValue( 1.0 );
-    } else if( mode == 1 ) {
-    } else if( mode == 2 ) {
-    } else if( mode == 3 ) {
-    } else if( mode == 4 ) {
-    } else if( mode == 5 ) {
+      me.isLockMode = 0;
+      me.lockedN.setBoolValue( 0 );
+
+    } else if( mode == BL ) {
+
+      # Blue left, localizer back course, no altitude indication
+      me.isLockMode = 1;
+      me.cdilockchecker();
+
+    } else if( mode == FI ) {
+     
+      # Flight Instruments, indication based on heading bug
+      me.isLockMode = 0;
+
+    } else if( mode == VOR_LOC ) {
+
+      # VOR or localizer approach
+      me.isLockMode = 1;
+      me.cdilockchecker();
+
+    } else if( mode == APP ) {
+
+      # localizer approach with glideslope indication
+      me.isLockMode = 1;
+      me.cdilockchecker();
+
+    } else if( mode == GA ) {
+
+      # go around, vertical bar centered and pitch command
+      me.isLockMode = 0;
+      me.verticalN.setDoubleValue( 0.0 );
+      me.horizonN.setDoubleValue( -0.1 );
+
+    } else {
+
+      # unknown mode, should not happen unless someone tampers 
+      # with the switch-position property
+      me.isLockMode = 0;
+      me.switchPositionN.setIntValue(0);
+      
     }
+  },
+
+  # check the cdi deflection if the controller is in a lockable mode
+  # go to locked mode if deflection is less than 10deg
+  cdilockchecker : func {
+    if( !me.isLockMode ) {
+      print( "lockchecker: not a locking mode" );
+      return;
+    }
+
+    cdi = math.abs(me.cdiN.getValue());
+    if( me.signalN.getValue() < 0.5 )
+      cdi = 99;
+    print( "lockchecker: cdi is ", cdi );
+    if( cdi > 9.5 ) {
+      settimer( func { me.cdilockchecker(); }, 0.5 );
+      return;
+    }
+
+    me.lockedN.setBoolValue( 1 );
+
   }
+  
 };

@@ -53,7 +53,7 @@
     </rendering>
 
     <view n="0">
-      <name>Cockpit</name>
+      <name>Cockpit Left Seat</name>
       <type>lookfrom</type>
       <internal type="bool">true</internal>
       <config>
@@ -62,10 +62,27 @@
         <z-offset-m type="double">-6.2</z-offset-m>
         <pitch-offset-deg>-15</pitch-offset-deg>
         <default-field-of-view-deg type="double">55.0</default-field-of-view-deg>
+        <ground-level-nearplane-m type="double">0.01</ground-level-nearplane-m>
       </config>
     </view>
 
-    <view n="100">
+    <view n="101">
+      <name>Cockpit Right Seat</name>
+      <type>lookfrom</type>
+      <internal type="bool">true</internal>
+      <config>
+        <from-model type="bool">true</from-model>
+        <from-model-idx type="int">0</from-model-idx>
+        <ground-level-nearplane-m type="double">0.01</ground-level-nearplane-m>
+        <default-field-of-view-deg type="double">55</default-field-of-view-deg>
+        <pitch-offset-deg>-15</pitch-offset-deg>
+        <x-offset-m type="double">0.35</x-offset-m>
+        <y-offset-m type="double">2.38</y-offset-m>
+        <z-offset-m type="double">-6.2</z-offset-m>
+      </config>
+    </view>
+
+    <view n="102">
       <name>Fuel&amp;Hydraulics Panel</name>
       <type>lookfrom</type>
       <internal archive="y">true</internal>
@@ -81,7 +98,7 @@
       </config>
     </view>
 
-    <view n="101">
+    <view n="103">
       <name>Overhead Panel</name>
       <type>lookfrom</type>
       <internal archive="y">true</internal>
@@ -96,7 +113,6 @@
         <z-offset-m archive="y"> -6.200 </z-offset-m> <!--Back-->
       </config>
     </view>
-
 
     <systems>
       <path>Aircraft/Hansajet/Systems/Hansajet-systems.xml</path>
@@ -137,6 +153,24 @@
 
   <input>
     <keyboard>
+      <key n="89">
+        <name>Y</name>
+        <desc>Disable Yaw damper</desc>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/autopilot/yaw-damper</property>
+          <value>0</value>
+        </binding>
+      </key>
+      <key n="121">
+        <name>y</name>
+        <desc>Enable Yaw damper</desc>
+        <binding>
+          <command>property-assign</command>
+          <property>/instrumentation/autopilot/yaw-damper</property>
+          <value>1</value>
+        </binding>
+      </key>
     </keyboard>
   </input>
 
@@ -219,13 +253,70 @@
     <turn-indicator n="1">
       <serviceable type="bool" archive="y">true</serviceable>
     </turn-indicator>
-  </instrumentation>
 
+    <adf n="0">
+      <serviceable type="bool" archive="y">true</serviceable>
+      <frequencies>
+        <selected-khz type="int">543</selected-khz>
+        <standby-khz type="int">1234</standby-khz>
+      </frequencies>
+      <indicated-bearing-deg type="double">90</indicated-bearing-deg>
+      <error-deg type="double">2</error-deg>
+      <mode>adf</mode>
+      <rotation-deg type="double">0</rotation-deg>
+      <volume-norm type="double">0.5</volume-norm>
+    </adf>
+
+
+    <adf n="1">
+      <serviceable type="bool" archive="y">true</serviceable>
+      <frequencies>
+        <selected-khz type="int">654</selected-khz>
+        <standby-khz type="int">1234</standby-khz>
+      </frequencies>
+      <indicated-bearing-deg type="double">90</indicated-bearing-deg>
+      <error-deg type="double">2.5</error-deg>
+      <mode>adf</mode>
+      <rotation-deg type="double">0</rotation-deg>
+      <volume-norm type="double">0.5</volume-norm>
+    </adf>
+
+  </instrumentation>
 
   <nasal>
     <Hansajet>
       <file>Aircraft/Hansajet/Nasal/Hansajet.nas</file>
       <file>Aircraft/Hansajet/Nasal/WheelSpinner.nas</file>
+      <file>Aircraft/Hansajet/Nasal/SelectorSwitch.nas</file>
+      <file>Aircraft/Hansajet/Models/Radio/kr87.nas</file>
+      <script><![CDATA[
+        kr87.new("/instrumentation/adf[0]");
+        kr87.new("/instrumentation/adf[1]");
+        SelectorSwitch.new( 
+          "instrumentation/rmi[0]/needle1-switch-position",
+          "instrumentation/rmi[0]/needle1-rotation-deg", [
+          "instrumentation/nav[0]/relative-bearing-deg",
+          "instrumentation/adf[0]/indicated-bearing-deg"
+          ]);
+        SelectorSwitch.new( 
+          "instrumentation/rmi[0]/needle2-switch-position",
+          "instrumentation/rmi[0]/needle2-rotation-deg", [
+          "instrumentation/nav[1]/relative-bearing-deg",
+          "instrumentation/adf[1]/indicated-bearing-deg"
+          ]);
+        SelectorSwitch.new( 
+          "instrumentation/rmi[1]/needle1-switch-position",
+          "instrumentation/rmi[1]/needle1-rotation-deg", [
+          "instrumentation/nav[0]/relative-bearing-deg",
+          "instrumentation/adf[0]/indicated-bearing-deg"
+          ]);
+        SelectorSwitch.new( 
+          "instrumentation/rmi[1]/needle2-switch-position",
+          "instrumentation/rmi[1]/needle2-rotation-deg", [
+          "instrumentation/nav[1]/relative-bearing-deg",
+          "instrumentation/adf[1]/indicated-bearing-deg"
+          ]);
+      ]]></script>
     </Hansajet>
     <Autopilot>
       <file>Aircraft/Hansajet/Systems/Hansajet-autopilot.nas</file>

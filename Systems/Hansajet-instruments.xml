@@ -88,6 +88,16 @@
     <number>1</number>
   </nav-radio>
 
+  <adf>
+    <name>adf</name>
+    <number>0</number>
+  </adf>
+
+  <adf>
+    <name>adf</name>
+    <number>1</number>
+  </adf>
+
   <dme>
     <name>dme</name>
     <number>0</number>

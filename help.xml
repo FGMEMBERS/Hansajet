@@ -21,5 +21,13 @@
     <name>CTRL-B</name>
     <desc>toggle speedbrake</desc>
   </key>
+  <key>
+    <name>y</name>
+    <desc>Enable yaw damper</desc>
+  </key>
+  <key>
+    <name>Y</name>
+    <desc>Disable yaw damper</desc>
+  </key>
 
 </PropertyList>

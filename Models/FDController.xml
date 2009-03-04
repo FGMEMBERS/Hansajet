@@ -16,7 +16,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Mode</object-name>
-    <property>instrumentation/fd-controller/mode</property>
+    <property>instrumentation/fd-controller/switch-position</property>
     <factor>-32</factor>
     <axis>
       <x>1</x>
@@ -41,9 +41,9 @@
       <z>0</z>
     </axis>
     <center>
-      <x-m>0.00289014</x-m>
-      <y-m>0.0334909</y-m>
-      <z-m>-0.0334909</z-m>
+      <x-m>0.00255068</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.00871898</z-m>
     </center>
   </animation>
 
@@ -56,7 +56,7 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/fd-controller/mode</property>
+        <property>instrumentation/fd-controller/switch-position</property>
         <step>-1</step>
         <min>0</min>
         <max>5</max>
@@ -73,7 +73,7 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/fd-controller/mode</property>
+        <property>instrumentation/fd-controller/switch-position</property>
         <step>1</step>
         <min>0</min>
         <max>5</max>
