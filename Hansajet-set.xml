@@ -189,18 +189,7 @@
       <beacon type="bool">0</beacon>
     </lighting>
   </controls>
-<!--
-  <engines>
-    <engine n="0">
-      <n1>30</n1>
-      <running>1</running>
-    </engine>
-    <engine n="1">
-      <n1>30</n1>
-      <running>1</running>
-    </engine>
-  </engines>
--->
+
   <systems>
     <pitot n="0">
       <serviceable type="bool" archive="y">true</serviceable>
@@ -219,6 +208,12 @@
     </static>
 
   </systems>
+
+  <autopilot>
+    <flightdirector n="0"> 
+      <serviceable type="bool" archive="y">true</serviceable>
+    </flightdirector> 
+  </autopilot>
 
   <instrumentation>
     <altimeter n="0">
@@ -253,6 +248,20 @@
     <turn-indicator n="1">
       <serviceable type="bool" archive="y">true</serviceable>
     </turn-indicator>
+    <attitude-indicator n="0">
+      <config>
+        <spin-thresh>0.6</spin-thresh>
+        <max-roll-error-deg>90</max-roll-error-deg>
+        <max-pitch-error-deg>10</max-pitch-error-deg>
+      </config>
+    </attitude-indicator>
+    <attitude-indicator n="1">
+      <config>
+        <spin-thresh>0.7</spin-thresh>
+        <max-roll-error-deg>90</max-roll-error-deg>
+        <max-pitch-error-deg>9</max-pitch-error-deg>
+      </config>
+    </attitude-indicator>
 
     <adf n="0">
       <serviceable type="bool" archive="y">true</serviceable>
@@ -322,7 +331,7 @@
       <file>Aircraft/Hansajet/Systems/Hansajet-autopilot.nas</file>
       <script><![CDATA[
         Autopilot.new();
-        FlightDirector.new(0, "/instrumentation/attitude-indicator[0]" );
+        FlightDirector.new(0, "/instrumentation/attitude-indicator[0]", "/instrumentation/nav[0]" );
       ]]></script>
     </Autopilot>
   </nasal>
