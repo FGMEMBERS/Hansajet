@@ -186,6 +186,15 @@
   </animation>
 
   <animation>
+    <type>select</type>
+    <object-name>NavLight.L.Flash</object-name>
+    <object-name>NavLight.R.Flash</object-name>
+    <condition>
+      <property>controls/lighting/nav-lights</property>
+    </condition>
+  </animation>
+
+  <animation>
     <type>rotate</type>
     <object-name>Elevator.Left</object-name>
     <property>surface-positions/elevator-pos-norm</property>
@@ -605,6 +614,92 @@
       <z-m>2.32</z-m>
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/light.xml</path>
+    <name>LandingLightCone-LH</name>
+    <offsets>
+      <x-m>-1.57987</x-m>
+      <y-m>-2.67583</y-m>
+      <z-m>1.90971</z-m>
+      <pitch-deg>-10</pitch-deg>
+      <heading-deg>10</heading-deg>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>LandingLightCone-LH</object-name>
+    <condition>
+      <property>controls/lighting/landing-lights[0]</property>
+    </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/light.xml</path>
+    <name>LandingLightCone-RH</name>
+    <offsets>
+      <x-m>-1.57987</x-m>
+      <y-m>2.67583</y-m>
+      <z-m>1.90971</z-m>
+      <pitch-deg>-10</pitch-deg>
+      <heading-deg>-10</heading-deg>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>LandingLightCone-RH</object-name>
+    <condition>
+      <property>controls/lighting/landing-lights[1]</property>
+    </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/light.xml</path>
+    <name>TaxiLightCone</name>
+    <offsets>
+      <x-m>-7.80482</x-m>
+      <y-m>0</y-m>
+      <z-m>0.572664</z-m>
+      <pitch-deg>-3</pitch-deg>
+      <heading-deg>0</heading-deg>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>TaxiLightCone</object-name>
+    <condition>
+      <property>controls/lighting/taxi-light</property>
+    </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/BeaconFlash.xml</path>
+    <name>Beacon-1</name>
+    <offsets>
+      <x-m>5.50293</x-m>
+      <y-m>0</y-m>
+      <z-m>4.62717</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/BeaconFlash.xml</path>
+    <name>Beacon-2</name>
+    <offsets>
+      <x-m>1.14814</x-m>
+      <y-m>0</y-m>
+      <z-m>0.987675</z-m>
+    </offsets>
+  </model>
+  <animation>
+    <type>select</type>
+    <object-name>Beacon-1</object-name>
+    <object-name>Beacon-2</object-name>
+    <condition>
+      <property>controls/lighting/beacon</property>
+    </condition>
+  </animation>
+
 
   <animation>
     <type>translate</type>

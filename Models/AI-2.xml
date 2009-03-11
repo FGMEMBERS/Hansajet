@@ -45,14 +45,87 @@
   </animation>
 
   <animation>
-    <type>translate</type>
+    <type>rotate</type>
     <object-name>HorizonBar</object-name>
     <property alias="/params/horizon"/>
-    <factor>0.039</factor>
+    <interpolation>
+      <entry>
+        <ind>-1.0</ind>
+        <dep>30.0</dep>
+      </entry>
+      <entry>
+        <ind>1.0</ind>
+        <dep>-30.0</dep>
+      </entry>
+    </interpolation>
     <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-0.060</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>VerticalBar</object-name>
+    <condition>
+      <greater-than>
+        <property alias="/params/vertical"/>
+        <value>-1.1</value>
+      </greater-than>
+      <less-than>
+        <property alias="/params/vertical"/>
+        <value>1.1</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>HorizonBar</object-name>
+    <condition>
+      <greater-than>
+        <property alias="/params/horizon"/>
+        <value>-1.1</value>
+      </greater-than>
+      <less-than>
+        <property alias="/params/horizon"/>
+        <value>1.1</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>VerticalBar</object-name>
+    <property alias="/params/vertical"/>
+    <interpolation>
+      <entry>
+        <ind>-1.0</ind>
+        <dep>-30.0</dep>
+      </entry>
+      <entry>
+        <ind>1.0</ind>
+        <dep>30.0</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x>0</x>
+      <y>0</y>
       <z>1</z>
     </axis>
+    <center>
+      <x-m>-0.060</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
   </animation>
+
 
   <animation>
     <type>translate</type>
@@ -61,16 +134,6 @@
     <factor>0.0039</factor>
     <axis>
       <z>1</z>
-    </axis>
-  </animation>
-    
-  <animation>
-    <type>translate</type>
-    <object-name>VerticalBar</object-name>
-    <property alias="/params/vertical"/>
-    <factor>0.039</factor>
-    <axis>
-      <y>1</y>
     </axis>
   </animation>
     

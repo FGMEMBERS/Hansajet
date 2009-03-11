@@ -41,7 +41,7 @@
 
   <model>
     <path>Aircraft/Hansajet/Models/MasterCautionLight.ac</path>
-    <name>MasterCautionLight-1</name>
+    <name>MasterCautionLight-2</name>
     <offsets>
       <x-m>0</x-m>
       <y-m>-0.416948</y-m>
@@ -51,7 +51,7 @@
 
   <model>
     <path>Aircraft/Hansajet/Models/AI.xml</path>
-    <name>AttitudeIndicator</name>
+    <name>AttitudeIndicator-1</name>
     <offsets>
       <x-m>0</x-m>
       <y-m>-0.416948</y-m>
@@ -61,7 +61,7 @@
 
   <model>
     <path>Aircraft/Hansajet/Models/MasterCautionLight.ac</path>
-    <name>MasterCautionLight-2</name>
+    <name>MasterCautionLight-1</name>
     <offsets>
       <x-m>0</x-m>
       <y-m>0.416948</y-m>
@@ -71,7 +71,7 @@
 
   <model>
     <path>Aircraft/Hansajet/Models/AI-2.xml</path>
-    <name>AttitudeIndicator</name>
+    <name>AttitudeIndicator-2</name>
     <offsets>
       <x-m>0</x-m>
       <y-m>0.418188</y-m>

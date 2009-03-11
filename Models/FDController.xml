@@ -16,7 +16,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Mode</object-name>
-    <property>instrumentation/fd-controller/switch-position</property>
+    <property>autopilot/flightdirector/switch-position</property>
     <factor>-32</factor>
     <axis>
       <x>1</x>
@@ -33,7 +33,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Alt</object-name>
-    <property>instrumentation/fd-controller/altitude-hold</property>
+    <property>autopilot/flightdirector/altitude-hold</property>
     <factor>-32</factor>
     <axis>
       <x>0</x>
@@ -56,7 +56,7 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/fd-controller/switch-position</property>
+        <property>autopilot/flightdirector/switch-position</property>
         <step>-1</step>
         <min>0</min>
         <max>5</max>
@@ -73,7 +73,7 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/fd-controller/switch-position</property>
+        <property>autopilot/flightdirector/switch-position</property>
         <step>1</step>
         <min>0</min>
         <max>5</max>
@@ -84,7 +84,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Alt</object-name>
-    <property>instrumentation/fd-controller/altitude-hold</property>
+    <property>autopilot/flightdirector/altitude-hold</property>
     <factor>-32</factor>
     <axis>
       <x>0</x>
@@ -107,7 +107,7 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-toggle</command>
-        <property>instrumentation/fd-controller/altitude-hold</property>
+        <property>autopilot/flightdirector/altitude-hold</property>
       </binding>
     </action>
   </animation>
