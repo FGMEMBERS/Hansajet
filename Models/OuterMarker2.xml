@@ -2,7 +2,7 @@
 <PropertyList>
   
   <params>
-    <value>instrumentation/marker-beacon/outer-light</value>
+    <value>instrumentation/marker-beacon/outer</value>
     <test>instrumentation/marker-beacon[1]/outer-light-test</test>
   </params>
   

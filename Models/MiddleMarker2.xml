@@ -2,7 +2,7 @@
 <PropertyList>
   
   <params>
-    <value>instrumentation/marker-beacon/middle-light</value>
+    <value>instrumentation/marker-beacon/middle</value>
     <test>instrumentation/marker-beacon[1]/middle-light-test</test>
   </params>
   
