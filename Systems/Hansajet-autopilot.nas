@@ -15,11 +15,11 @@ var Autopilot = {
     var obj = {};
     obj.parents = [Autopilot];
 
-    obj.engageN         = props.globals.initNode( "instrumentation/autopilot/engage", 0, "BOOL" );
-    obj.altitudeN       = props.globals.initNode( "instrumentation/autopilot/altitude-hold", 0, "BOOL" );
-    obj.machN           = props.globals.initNode( "instrumentation/autopilot/mach-hold", 0, "BOOL" );
-    obj.headN           = props.globals.initNode( "instrumentation/autopilot/head", 0, "INT" );
-    obj.turnN           = props.globals.initNode( "instrumentation/autopilot/turn", 0, "INT" );
+    obj.engageN         = props.globals.initNode( "autopilot/controls/engage", 0, "BOOL" );
+    obj.altitudeN       = props.globals.initNode( "autopilot/controls/altitude-hold", 0, "BOOL" );
+    obj.machN           = props.globals.initNode( "autopilot/controls/mach-hold", 0, "BOOL" );
+    obj.headN           = props.globals.initNode( "autopilot/controls/head", 0, "INT" );
+    obj.turnN           = props.globals.initNode( "autopilot/controls/turn", 0, "INT" );
     obj.headingLockN    = props.globals.getNode( "autopilot/locks/heading", 1 );
     obj.altitudeLockN   = props.globals.getNode( "autopilot/locks/altitude", 1 );
     obj.speedLockN      = props.globals.getNode( "autopilot/locks/speed", 1 );
@@ -30,17 +30,17 @@ var Autopilot = {
     obj.currentAltitudeN= props.globals.initNode( "instrumentation/altimeter/pressure-alt-ft", 0.0 );
     obj.targetTurnN     = props.globals.getNode( "autopilot/settings/target-turn-rate-degps", 1 );
 
-    setlistener( obj.engageN,   func { obj.statemachine(); }, 0, 0 );
-    setlistener( obj.altitudeN, func { obj.statemachine(); }, 0, 0 );
-    setlistener( obj.machN,     func { obj.statemachine(); }, 0, 0 );
-    setlistener( obj.headN,     func { obj.statemachine(); }, 0, 0 );
-    setlistener( obj.turnN,     func { obj.statemachine(); }, 0, 0 );
+#    setlistener( obj.engageN,   func { obj.statemachine(); }, 0, 0 );
+#    setlistener( obj.altitudeN, func { obj.statemachine(); }, 0, 0 );
+#    setlistener( obj.machN,     func { obj.statemachine(); }, 0, 0 );
+#    setlistener( obj.headN,     func { obj.statemachine(); }, 0, 0 );
+#    setlistener( obj.turnN,     func { obj.statemachine(); }, 0, 0 );
 
-    aircraft.data.add(
-      obj.engageN, obj.altitudeN, obj.machN, obj.headN, obj.turnN
-    );
+#    aircraft.data.add(
+#      obj.engageN, obj.altitudeN, obj.machN, obj.headN, obj.turnN
+#    );
 
-    obj.statemachine();
+#    obj.statemachine();
     print( "Autopilot ready" );
     return obj;
   },
@@ -95,7 +95,7 @@ var APP = "APP";
 var GA = "G/A";
 
 var FlightDirector = {
-  new : func( index, target ) {
+  new : func( index, attitudeindicator, nav ) {
     var obj = {};
     obj.parents = [FlightDirector];
     obj.modes = [ SB, BL, FI, VOR_LOC, APP, GA ];
@@ -107,38 +107,47 @@ var FlightDirector = {
     obj.modeNames[obj.modes[4]] = "Approach";
     obj.modeNames[obj.modes[5]] = "Go-Around";
 
-    obj.switchPositionN = props.globals.initNode( "instrumentation/fd-controller[" ~ index ~ "]/switch-position", 0, "INT" );
-    obj.altitudeSwitchN = props.globals.initNode( "instrumentation/fd-controller[" ~ index ~ "]/altitude-hold", 0, "BOOL" );
-    obj.modeN = props.globals.getNode( "instrumentation/fd-controller[" ~ index ~ "]/mode", 1 );
-    obj.modeNameN = props.globals.getNode( "instrumentation/fd-controller[" ~ index ~ "]/mode-name", 1 );
-    obj.lockedN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]/localizer-captured", 1 );
+    obj.rootN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]", 1 );
+
+    obj.switchPositionN = obj.rootN.initNode( "switch-position", 0, "INT" );
+    obj.altitudeSwitchN = obj.rootN.initNode( "altitude-hold", 0, "BOOL" );
+    obj.currentAltitudeMode = obj.altitudeSwitchN.getValue();
+    obj.modeN = obj.rootN.getNode( "mode", 1 );
+    obj.modeNameN = obj.rootN.getNode( "mode-name", 1 );
+    obj.lockedN = obj.rootN.getNode( "localizer-captured", 1 );
     obj.lockedN.setBoolValue( 0 );
     obj.isLockMode = 0;
 
-    obj.verticalN = props.globals.getNode  ( "autopilot/flightdirector[" ~ index ~ "]/vertical-deflection-norm", 1 );
-    obj.horizonN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]/horizon-deflection-norm", 1 );
-
-    obj.flagN = props.globals.initNode( target ~ "/flightdirector-flag", 1, "BOOL" );
-    obj.serviceableN = props.globals.getNode( "autopilot/flightdirector[" ~ index ~ "]/serviceable", 1 );
+    obj.verticalN = obj.rootN.getNode  ( "vertical-deflection-norm", 1 );
+    obj.horizonN = obj.rootN.getNode( "horizon-deflection-norm", 1 );
+    obj.serviceableN = obj.rootN.initNode( "serviceable", 1, "BOOL" );
     obj.serviceableN.setBoolValue( 0 );
 
-    obj.cdiN = props.globals.initNode( "/instrumentation/nav/heading-needle-deflection", 0.0 );
-    obj.signalN = props.globals.initNode( "/instrumentation/nav/signal-quality-norm", 0.0 );
+    obj.flagN = props.globals.initNode( attitudeindicator ~ "/flightdirector-flag", 1, "BOOL" );
+    obj.cdiN = props.globals.initNode( nav ~ "/heading-needle-deflection", 0.0 );
+    obj.signalN = props.globals.initNode( nav ~ "/signal-quality-norm", 0.0 );
+
+    obj.targetAltitudeN = props.globals.getNode( "autopilot/settings/target-altitude-ft", 1 );
+    obj.currentAltitudeN= props.globals.initNode( "instrumentation/altimeter/pressure-alt-ft", 0.0 );
 
     aircraft.data.add( 
-      obj.switchPositionN, obj.altitudeSwitchN
+      obj.switchPositionN, 
+      obj.altitudeSwitchN
     );
 
     setlistener( obj.switchPositionN, func { obj.statemachine(); }, 0, 0 );
     setlistener( obj.serviceableN, func { obj.statemachine(); }, 0, 0 );
-    obj.statemachine(); 
+    setlistener( obj.altitudeSwitchN, func { obj.statemachine(); }, 0, 0 );
 
-    settimer( func {
-      obj.serviceableN.setBoolValue( 1 );
-    }, 5 );
+    obj.reset();
 
-    print( "Flight Director #", index, " ready on ", target );
+    print( "Flight Director #", index, " ready on ", attitudeindicator );
     return obj;
+  },
+
+  reset : func {
+    me.serviceableN.setBoolValue( 0 );
+    me.serviceableN.setBoolValue( 1 );
   },
 
   statemachine : func {
@@ -157,11 +166,17 @@ var FlightDirector = {
       return;
     }
 
+    # altitude-lock off/on transition: latch current altitude
+    var v = me.altitudeSwitchN.getValue();
+    if( me.currentAltitudeMode == 0 and v == 1 )
+      me.targetAltitudeN.setDoubleValue( me.currentAltitudeN.getValue() );
+    me.currentAltitudeMode = v;
+
     if( mode == SB ) {
 
       # Standby, move bars out of sigh(t)
-      me.verticalN.setDoubleValue( 1.0 );
-      me.horizonN.setDoubleValue( 1.0 );
+      me.verticalN.setDoubleValue( 1.2 );
+      me.horizonN.setDoubleValue( -1.2 );
       me.isLockMode = 0;
       me.lockedN.setBoolValue( 0 );
 
@@ -174,7 +189,9 @@ var FlightDirector = {
     } else if( mode == FI ) {
      
       # Flight Instruments, indication based on heading bug
+      # unlock lock
       me.isLockMode = 0;
+      me.lockedN.setBoolValue( 0 );
 
     } else if( mode == VOR_LOC ) {
 
@@ -217,12 +234,15 @@ var FlightDirector = {
     if( me.signalN.getValue() < 0.5 )
       cdi = 99;
     print( "lockchecker: cdi is ", cdi );
-    if( cdi > 9.5 ) {
+    if( cdi > 5.0 ) {
       settimer( func { me.cdilockchecker(); }, 0.5 );
       return;
     }
 
-    me.lockedN.setBoolValue( 1 );
+    if( me.isLockMode ) {
+      me.lockedN.setBoolValue( 1 );
+      print( "localizer locked!" );
+    }
 
   }
   
