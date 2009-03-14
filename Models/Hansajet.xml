@@ -189,6 +189,7 @@
     <type>select</type>
     <object-name>NavLight.L.Flash</object-name>
     <object-name>NavLight.R.Flash</object-name>
+    <object-name>NavLight.Tail.Flash</object-name>
     <condition>
       <property>controls/lighting/nav-lights</property>
     </condition>
