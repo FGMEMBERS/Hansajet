@@ -8,7 +8,7 @@
 
   <animation>
     <type>material</type>
-    <object-name>disk</object-name>
+    <object-name>Face</object-name>
     <object-name>Scale10000</object-name>
     <object-name>Scale1000</object-name>
     <object-name>Scale100</object-name>

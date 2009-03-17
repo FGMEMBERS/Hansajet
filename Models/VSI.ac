@@ -1663,7 +1663,7 @@ refs 3
 53 1 1
 kids 0
 OBJECT poly
-name "disk"
+name "Face"
 loc 0.00095 7.45058e-09 7.45058e-09
 texture "VSI.rgb"
 crease 45.000000

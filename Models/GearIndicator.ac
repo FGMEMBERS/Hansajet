@@ -786,7 +786,7 @@ refs 3
 36 0.437295 0.903611
 kids 0
 OBJECT poly
-name "disk"
+name "Face"
 loc 0.00095 5.58794e-09 5.58794e-09
 texture "GearIndicator.rgb"
 crease 45.000000

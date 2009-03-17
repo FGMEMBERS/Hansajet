@@ -823,7 +823,7 @@ refs 4
 81 1 1
 kids 0
 OBJECT poly
-name "disk"
+name "Face"
 loc 0.00095 5.58794e-09 5.58794e-09
 texture "FuelFus.rgb"
 crease 45.000000

@@ -18,7 +18,7 @@
 
   <animation>
     <type>material</type>
-    <object-name>disk</object-name>
+    <object-name>Face</object-name>
     <object-name>Left</object-name>
     <object-name>Right</object-name>
     <emission include="InstrumentLightEmissionInclude.xml"/>

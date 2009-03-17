@@ -25,7 +25,7 @@ refs 5
 3 0.018385 0.0862024
 kids 0
 OBJECT poly
-name "disk"
+name "Face"
 loc 0.00095 5.58794e-09 5.58794e-09
 texture "RPMIndicaor.rgb"
 crease 45.000000

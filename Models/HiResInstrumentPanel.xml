@@ -229,6 +229,18 @@
     </offsets>
   </model>
 
+<!--
+  <model>
+    <path>Aircraft/Instruments-3d/RDR-160/RDR-160.xml</path>
+    <name>RDR160</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>-0.18</y-m>
+      <z-m>-0.10</z-m>
+    </offsets>
+  </model>
+-->
+
   <model>
     <path>Aircraft/Hansajet/Models/GearLever.xml</path>
     <name>GearLever</name>
