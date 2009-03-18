@@ -17,8 +17,9 @@
   <animation>
     <type>rotate</type>
     <object-name>Engage</object-name>
-    <property>autopilot/controls/engage</property>
-    <factor>-32</factor>
+    <property>autopilot/locks/passive-mode</property>
+    <factor>32</factor>
+    <offset-deg>-32</offset-deg>
     <axis>
       <x>0</x>
       <y>1</y>
@@ -41,7 +42,7 @@
       <repeatable>false</repeatable>
       <binding>
         <command>property-toggle</command>
-        <property>autopilot/controls/engage</property>
+        <property>autopilot/locks/passive-mode</property>
       </binding>
     </action>
   </animation>

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
- 
-<PropertyList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../../Docs/XMLSchema/autopilot.xsd">
+
+<PropertyList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Docs/XMLSchema/autopilot.xsd">
   <!-- ========================================================================== -->
   <!-- 
     HFB 320 Hansa Jet Flight Director/Autopilot digital filter configuration
@@ -66,7 +65,6 @@
     Right  perform standard rate (4min) turn to the right
     
   -->
-  
   <!-- ========================================================================== -->
   <!-- provide the input property for the cdi deflection and normlize to [-1..+1] -->
   <!-- 
@@ -108,7 +106,8 @@
         </or>
       </condition>
     </enable>
-    <gain><value>0.1</value></gain> <!-- input is in range [-10..+10] -->
+    <gain>0.1</gain>
+    <!-- input is in range [-10..+10] -->
     <input>/instrumentation/nav/heading-needle-deflection</input>
     <output>/autopilot/flightdirector/vertical-deflection-norm</output>
     <u_min>-1.0</u_min>
@@ -155,14 +154,25 @@
         </or>
       </condition>
     </enable>
-    <gain><value>0.080</value></gain> <!-- 12.5deg is full deflection (half max. bank angle) -->
+    <gain>0.080</gain>
+    <!-- 12.5deg is full deflection (half max. bank angle) -->
     <input>/autopilot/internal/heading-bug-error-deg</input>
     <output>/autopilot/flightdirector/vertical-deflection-norm</output>
     <u_min>-1.0</u_min>
     <u_max>1.0</u_max>
   </filter>
 
-  <!-- ========= go around, pitch hardcoded ========= -->
+  <!-- ===================================================== -->
+  <filter>
+    <name>roll filter</name>
+    <debug>false</debug>
+    <type>double-exponential</type>
+    <filter-time>0.1</filter-time>
+    <input>/orientation/roll-deg</input>
+    <output>/autopilot/internal/roll-deg</output>
+  </filter>
+
+  <!-- ========= go around, pitch up, wings level  ========= -->
   <pi-simple-controller>
     <name>Pitch G/A Filter</name>
     <debug>false</debug>
@@ -180,8 +190,36 @@
       <prop>/autopilot/flightdirector/horizon-deflection-norm</prop>
     </output>
     <config>
-      <Kp>0.033</Kp>          <!-- proportional gain -->
-      <Ki>0.0</Ki>          <!-- integral gain -->
+      <Kp>0.033</Kp>
+      <!-- proportional gain -->
+      <Ki>0.0</Ki>
+      <!-- integral gain -->
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pi-simple-controller>
+
+  <pi-simple-controller>
+    <name>Roll G/A Filter</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/flightdirector/mode</prop>
+      <value>G/A</value>
+    </enable>
+    <input>
+      <prop>/autopilot/internal/roll-deg</prop>
+    </input>
+    <reference>
+      <value>0</value>
+    </reference>
+    <output>
+      <prop>/autopilot/flightdirector/vertical-deflection-norm</prop>
+    </output>
+    <config>
+      <Kp>0.08</Kp>
+      <!-- proportional gain -->
+      <Ki>0.0</Ki>
+      <!-- integral gain -->
       <u_min>-1.0</u_min>
       <u_max>1.0</u_max>
     </config>
@@ -211,8 +249,10 @@
       <prop>/autopilot/flightdirector/horizon-deflection-norm</prop>
     </output>
     <config>
-      <Kp>0.002</Kp>          <!-- proportional gain, 500ft for full deflection -->
-      <Ki>0.0</Ki>          <!-- integral gain -->
+      <Kp>0.002</Kp>
+      <!-- proportional gain, 500ft for full deflection -->
+      <Ki>0.0</Ki>
+      <!-- integral gain -->
       <u_min>-1.0</u_min>
       <u_max>1.0</u_max>
     </config>
@@ -267,73 +307,67 @@
       <prop>/autopilot/internal/target-roll-deg</prop>
     </output>
     <config>
-      <Kp>-2.0</Kp>            <!--  roll out at half bank angle -->
-      <Ki>0.0</Ki>                <!-- just scale the value, stage 2 integrates -->
-      <u_min>-25.0</u_min> <!-- max. bank angle is 25deg -->
+      <Kp>-2.0</Kp>
+      <!--  roll out at half bank angle -->
+      <Ki>0.0</Ki>
+      <!-- just scale the value, stage 2 integrates -->
+      <u_min>-25.0</u_min>
+      <!-- max. bank angle is 25deg -->
       <u_max>25.0</u_max>
     </config>
   </pi-simple-controller>
 
-  <pi-simple-controller>
-    <name>Heading Hold Stage 2</name>
+  <pid-controller>
+    <name>AP wings level/turn</name>
+    <debug>false</debug>
     <enable>
       <condition>
         <equals>
           <property>/autopilot/locks/heading</property>
-          <value>dg-heading-hold</value>
+          <value>wing-leveler</value>
         </equals>
       </condition>
     </enable>
-    <debug>false</debug>
     <input>
-      <prop>/orientation/roll-deg</prop>
+      <prop>/orientation/yaw-rate-degps</prop>
     </input>
     <reference>
-      <prop>/autopilot/internal/target-roll-deg</prop>
+      <prop>/autopilot/settings/target-turn-rate-degps</prop>
     </reference>
     <output>
-      <prop>/autopilot/internal/aileron-command</prop>
+      <prop>/autopilot/internal/target-roll-deg</prop>
     </output>
     <config>
-      <Kp>0.003</Kp>
-      <alpha>0.1</alpha>
+      <Kp>2.0</Kp>
       <beta>1.0</beta>
+      <alpha>0.1</alpha>
       <gamma>0.0</gamma>
-      <Ti>10000.0</Ti>
-      <Td>0.0000</Td>
-      <u_min>-1.0</u_min>
-      <u_max>1.0</u_max>
+      <Ti>1.0</Ti>
+      <Td>0.00000</Td>
+      <u_min>-25.0</u_min>
+      <u_max>25.0</u_max>
     </config>
-  </pi-simple-controller>
-  
-  <!-- 
-    Two stage altitude hold based on altitude
-    
-  -->  
+  </pid-controller>
+
+
+  <!-- Two stage altitude hold based on Flight Director
+       Horizontal bar deflection -->
   <pi-simple-controller>
     <name>Altitude Hold (Altitude based) Stage 1</name>
     <debug>false</debug>
-    <enable>
-      <prop>/autopilot/locks/altitude</prop>
-      <value>altitude-hold</value>
-    </enable>
     <input>
-      <prop>/position/altitude-ft</prop>
+      <prop>/autopilot/flightdirector/horizon-deflection-norm</prop>
     </input>
-    <reference>
-      <prop>/autopilot/settings/target-altitude-ft</prop>
-    </reference>
+    <reference>0.0</reference>
     <output>
       <prop>/autopilot/internal/target-climb-rate-fps</prop>
     </output>
     <config>
-      <Kp>0.1</Kp>          <!-- proportional gain -->
-      <Ki>0.0</Ki>          <!-- integral gain -->
-      <u_min>-50.000</u_min> <!-- max. rod 3000fpm -->
-      <u_max>33.333</u_max> <!-- max roc 2000fpm -->
+      <Kp>-33.333</Kp>
+      <Ki>0.0</Ki>
     </config>
   </pi-simple-controller>
-  
+
   <pid-controller>
     <name>Altitude Hold (Altitude based) Stage 2</name>
     <debug>false</debug>
@@ -355,13 +389,13 @@
       <beta>1.0</beta>
       <alpha>0.1</alpha>
       <gamma>0.0</gamma>
-      <Ti>1000.0</Ti> 
+      <Ti>1000.0</Ti>
       <Td>0.00001</Td>
-      <u_min>-1.0</u_min> 
+      <u_min>-1.0</u_min>
       <u_max>1.0</u_max>
     </config>
   </pid-controller>
-  
+
   <!-- Yaw Damper, automatic ball kicker -->
   <pid-controller>
     <name>yaw damper</name>
@@ -372,67 +406,114 @@
       </condition>
     </enable>
     <input>
-       <prop>/instrumentation/slip-skid-ball/indicated-slip-skid</prop>
+      <prop>/instrumentation/slip-skid-ball/indicated-slip-skid</prop>
     </input>
     <reference>
-       <value>0.0</value>
+      <value>0.0</value>
     </reference>
     <output>
-       <prop>/autopilot/internal/rudder-command</prop>
+      <prop>/autopilot/internal/rudder-command</prop>
     </output>
     <config>
-      <Kp>5</Kp>       <!-- proportional gain -->
-      <beta>1.0</beta>     <!-- input value weighing factor -->
-      <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
-      <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
-      <Ti>45.0</Ti>         <!-- integrator time -->
-      <Td>0.0</Td>         <!-- derivator time -->
-      <u_min>-0.15</u_min>  <!-- minimum output clamp -->
-      <u_max>0.15</u_max>   <!-- maximum output clamp -->
+      <Kp>5</Kp>
+      <!-- proportional gain -->
+      <beta>1.0</beta>
+      <!-- input value weighing factor -->
+      <alpha>0.1</alpha>
+      <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>
+      <!-- input value weighing factor for -->
+      <!-- unfiltered derivative error -->
+      <Ti>45.0</Ti>
+      <!-- integrator time -->
+      <Td>0.0</Td>
+      <!-- derivator time -->
+      <u_min>-0.15</u_min>
+      <!-- minimum output clamp -->
+      <u_max>0.15</u_max>
+      <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
 
+  <!-- Compute aileron deflection based on roll command -->
+  <pi-simple-controller>
+    <name>Roll/Aileron Computer</name>
+    <enable>
+      <condition>
+        <not-equals>
+          <property>/autopilot/locks/heading</property>
+          <value/>
+        </not-equals>
+      </condition>
+    </enable>
+    <debug>false</debug>
+    <input>
+      <prop>/autopilot/internal/roll-deg</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/internal/target-roll-deg</prop>
+    </reference>
+    <output>
+      <prop>/autopilot/internal/aileron-command</prop>
+    </output>
+    <config>
+      <Kp>0.003</Kp>
+      <alpha>0.1</alpha>
+      <beta>1.0</beta>
+      <gamma>0.0</gamma>
+      <Ti>10000.0</Ti>
+      <Td>0.0000</Td>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pi-simple-controller>
+
   <!-- 
-    Output filter for the servos, Pass output commands thru a low pass
-    to avoid fast control inputs and simulate slow movement of the servos
+    Output filter for the servos, Pass output commands thru a noise spike filter
+    to avoid fast control inputs and simulate slow movement of the servos. 
+    Disable output if a/p is in passive-mode
       -->
   <filter>
     <name>aileron command filter</name>
     <debug>false</debug>
     <enable>
-      <condition> 
+      <condition>
         <!-- enable aileron servo if autopilot is engaged and any heading mode is locked -->
-        <property>/autopilot/controls/engage</property>
+        <not>
+          <property>/autopilot/locks/passive-mode</property>
+        </not>
         <not-equals>
           <property>/autopilot/locks/heading</property>
-          <value></value>
+          <value/>
         </not-equals>
       </condition>
     </enable>
-    <type>exponential</type>
     <input>/autopilot/internal/aileron-command</input>
     <output>/controls/flight/aileron</output>
-    <filter-time>0.5</filter-time>
+    <type>noise-spike</type>
+    <max-rate-of-change>0.1</max-rate-of-change>
   </filter>
 
   <filter>
     <name>elevator command filter</name>
     <debug>false</debug>
     <enable>
-    <property>/autopilot/controls/engage</property>
-    <condition>
+      <condition>
+        <!-- enable aileron servo if autopilot is engaged and any altitude mode is locked -->
+        <not>
+          <property>/autopilot/locks/passive-mode</property>
+        </not>
         <not-equals>
           <property>/autopilot/locks/altitude</property>
-          <value></value>
+          <value/>
         </not-equals>
       </condition>
     </enable>
-    <type>exponential</type>
     <input>/autopilot/internal/elevator-command</input>
     <output>/controls/flight/elevator-trim</output>
-    <filter-time>0.5</filter-time>
+    <type>noise-spike</type>
+    <max-rate-of-change>0.1</max-rate-of-change>
   </filter>
 
   <filter>
@@ -443,12 +524,15 @@
         <property>/instrumentation/autopilot/yaw-damper</property>
       </condition>
     </enable>
-    <type>exponential</type>
     <input>/autopilot/internal/rudder-command</input>
     <output>/controls/flight/rudder-trim</output>
-    <filter-time>0.5</filter-time>
+    <type>noise-spike</type>
+    <max-rate-of-change>0.1</max-rate-of-change>
   </filter>
 
+  <!-- ========================================================================== -->
+  <!-- Other filters, not related to the autopilot                                -->
+  <!-- ========================================================================== -->
   <!-- ========================================================================== -->
   <!-- Provide a relative bearing property for the RMI -->
   <!-- ========================================================================== -->
@@ -470,8 +554,10 @@
       <prop>/instrumentation/nav[0]/relative-bearing-deg</prop>
     </output>
     <config>
-      <Kp>1.0</Kp>          <!-- proportional gain -->
-      <Ki>0.0</Ki>          <!-- integral gain -->
+      <Kp>1.0</Kp>
+      <!-- proportional gain -->
+      <Ki>0.0</Ki>
+      <!-- integral gain -->
     </config>
   </pi-simple-controller>
 
@@ -493,8 +579,10 @@
       <prop>/instrumentation/nav[1]/relative-bearing-deg</prop>
     </output>
     <config>
-      <Kp>1.0</Kp>          <!-- proportional gain -->
-      <Ki>0.0</Ki>          <!-- integral gain -->
+      <Kp>1.0</Kp>
+      <!-- proportional gain -->
+      <Ki>0.0</Ki>
+      <!-- integral gain -->
     </config>
   </pi-simple-controller>
 
