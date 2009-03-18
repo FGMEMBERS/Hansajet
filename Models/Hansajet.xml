@@ -607,11 +607,21 @@
   </animation>
 
   <model>
-    <path>Aircraft/Hansajet/Models/haze.xml</path>
+    <path>Aircraft/Hansajet/Models/haze-1.xml</path>
     <name>haze</name>
     <offsets>
       <x-m>3.7</x-m>
       <y-m>1.57</y-m>
+      <z-m>2.32</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/haze-2.xml</path>
+    <name>haze</name>
+    <offsets>
+      <x-m>3.7</x-m>
+      <y-m>-1.57</y-m>
       <z-m>2.32</z-m>
     </offsets>
   </model>

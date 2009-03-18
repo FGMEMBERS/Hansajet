@@ -2,7 +2,6 @@
 
 <PropertyList>
 
-  <particlesystem>
     <type>normal</type>
     <name>haze</name>
     <texture>noise3.png</texture>
@@ -27,7 +26,7 @@
       <phi-min-deg>-1.50</phi-min-deg>
       <phi-max-deg>1.50</phi-max-deg>
       <speed-mps>
-        <property>engines/engine/n1</property>
+        <property alias="/params/n1"/>
         <factor>6</factor>
       </speed-mps>
       <rotation-speed>
@@ -102,7 +101,5 @@
       <gravity>true</gravity>
       <wind>true</wind>
     </program>
-
-  </particlesystem>
 
 </PropertyList>

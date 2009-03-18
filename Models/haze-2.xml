@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+  <params>
+    <n1>engines/engine[0]/n1</n1>
+  </params>
+
+  <particlesystem include="haze.xml"/>
+</PropertyList>
