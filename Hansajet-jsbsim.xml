@@ -831,7 +831,7 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
-           <property>fcs/elevator-pos-norm</property>
+           <abs><property>fcs/elevator-pos-norm</property></abs>
            <value>0.04</value>
        </product>
     </function>
