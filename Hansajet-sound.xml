@@ -134,7 +134,25 @@
       </position>
       <volume>
         <property>sim/current-view/internal</property>
-        <factor>-1</factor>
+        <factor>0.2</factor>
+      </volume>
+      <reference-dist>5.0</reference-dist>
+      <max-dist>10.0</max-dist>
+    </flap>
+
+    <flap>
+      <name>slats</name>
+      <path>Sounds/flaps.wav</path>
+      <property>/surface-positions/spoilers-pos-norm</property>
+      <mode>in-transit</mode>
+      <position>
+        <x>6.5</x>
+        <y>0</y>
+        <z>2.5</z>
+      </position>
+      <volume>
+        <property>sim/current-view/internal</property>
+        <factor>0.2</factor>
       </volume>
       <reference-dist>5.0</reference-dist>
       <max-dist>10.0</max-dist>
