@@ -32,6 +32,23 @@
 
   <animation>
     <type>rotate</type>
+    <object-name>Trim</object-name>
+    <property>autopilot/flightdirector/trim-position</property>
+    <factor>-1</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>-0.0312302</y-m>
+      <z-m>-0.0073302</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
     <object-name>Alt</object-name>
     <property>autopilot/flightdirector/altitude-hold</property>
     <factor>-32</factor>
@@ -77,6 +94,72 @@
         <step>1</step>
         <min>0</min>
         <max>5</max>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <object-name>TrimPickLeft</object-name>
+    <type>pick</type>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>-1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <object-name>TrimPickRight</object-name>
+    <type>pick</type>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <object-name>Trim</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>3</button>
+      <repeatable>true</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+    <action>
+      <button>4</button>
+      <repeatable>true</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>-1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
       </binding>
     </action>
   </animation>
