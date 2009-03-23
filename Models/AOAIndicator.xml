@@ -13,6 +13,8 @@
     <object-name>Needle</object-name>
     <property alias="../../params/value"/>
     <factor>-6</factor>
+    <min-deg>-150</min-deg>
+    <max-deg>90</max-deg>
     <axis>
       <x>1</x>
       <y>0</y>
