@@ -336,6 +336,57 @@ var smoothToggleProperty = func(prop) {
   interpolate( prop, getprop(prop) > 0.5 ? 0.0 : 1.0, 1 );
 }
 
+var Dragchute = {
+  new : func {
+    var obj = {};
+    obj.parents = [Dragchute];
+
+    obj.length = aircraft.door.new( "sim/model/Hansajet/Dragchute/length", 0.5 );
+    obj.size = aircraft.door.new( "sim/model/Hansajet/Dragchute/size", 1 );
+    obj.twist = aircraft.door.new( "sim/model/Hansajet/Dragchute/twist", 2.9 );
+    aircraft.light.new( "sim/model/Hansajet/Dragchute/freq", [ 3, 3 ] ).switch(1);
+    setlistener( "sim/model/Hansajet/Dragchute/freq/state", func(n) {
+      n.getValue() ? obj.twist.open() : obj.twist.close();
+    }, 0, 0 );
+
+    obj.dragchuteJett = props.globals.getNode( "instrumentation/annunciator/drag-chute-jett", 1 );
+    obj.dragchuteJett.setBoolValue( 0 );
+
+    obj.pack();
+
+    setlistener( "controls/flight/drag-chute", func(n) { obj.chuteListener(n); }, 1, 0 );
+
+    #open the chute if 80 percent extended
+    setlistener( "sim/model/Hansajet/Dragchute/length/position-norm", func(n) {
+      if( n.getValue() > 0.8 )
+        obj.size.open();
+    }, 0, 0 );
+
+    return obj;
+  },
+
+  chuteListener : func(n) {
+    if( n.getValue() and getprop( "instrumentation/annunciator/drag-chute-jett" ) == 0 ) {
+      me.dragchuteJett.setBoolValue( 1 );
+      me.length.open();
+    }
+  },
+
+  jettison : func {
+  },
+
+  pack : func {
+    me.length.setpos( 0.0 );
+    me.length.close();
+    me.size.setpos( 0.0 );
+    me.size.close();
+    me.dragchuteJett.setBoolValue( 0 );
+    print( "Dragchute packed and ready for use" );
+  }
+};
+
+var dragchute = nil;
+
 var initialize = func {
   print( "Hansa Jet nasal systems initializing..." );
   var hydraulicSystem = nil;
@@ -375,6 +426,7 @@ var initialize = func {
   append( updateClients, WindshieldHeater.new( 0 ) );
 #  append( updateClients, WindshieldHeater.new( 1 ) );
 
+  dragchute = Dragchute.new();
   HansajetTimer();
   savedata();
   print( "Hansa Jet nasal systems initialized" );

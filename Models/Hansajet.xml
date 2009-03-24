@@ -409,6 +409,61 @@
   </animation>
 
   <animation>
+    <object-name>DragchuteLever</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-assign</command>
+        <property>controls/flight/drag-chute</property>
+        <value type="bool">true</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property>controls/flight/drag-chute</property>
+          <value type="bool">false</value>
+        </binding>
+      </mod-up>
+    </action>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>DragchuteLever</object-name>
+    <property>controls/flight/drag-chute</property>
+    <factor>0.10</factor>
+    <axis>
+      <x1-m>-7.15643</x1-m>
+      <y1-m>-0.158946</y1-m>
+      <z1-m>1.68031</z1-m>
+      <x2-m>-6.94389</x2-m>
+      <y2-m>-0.159045</y2-m>
+      <z2-m>1.80291</z2-m>
+    </axis>
+  </animation>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/Dragchute.xml</path>
+    <name>Dragchute</name>
+    <offsets>
+      <x-m>6.37034</x-m>
+      <y-m>0.0</y-m>
+      <z-m>2.44586</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>Dragchute</object-name>
+    <condition>
+      <property>instrumentation/annunciator/drag-chute-jett</property>
+    </condition>
+  </animation>
+
+  <animation>
     <type>rotate</type>
     <object-name>SpeedbrakeLever</object-name>
     <property>controls/flight/speedbrake</property>

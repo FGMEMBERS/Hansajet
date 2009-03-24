@@ -114,6 +114,8 @@
       </config>
     </view>
 
+    <menubar include="GUI/Menubar.xml"/>
+
     <systems>
       <path>Aircraft/Hansajet/Systems/Hansajet-systems.xml</path>
       <autopilot>
@@ -171,6 +173,45 @@
           <value>1</value>
         </binding>
       </key>
+      <key n="98">
+        <name>b</name>
+        <desc>Apply all brakes, jettision dragchut (ALT-b)</desc>
+        <binding>
+          <condition>
+            <property>devices/status/keyboard/alt</property>
+          </condition>
+          <command>nasal</command>
+          <script>controls.deployChute(1)</script>
+        </binding>
+
+        <binding>
+          <condition>
+            <not>
+              <property>devices/status/keyboard/alt</property>
+            </not>
+          </condition>
+          <command>nasal</command>
+          <script>controls.applyBrakes(1)</script>
+        </binding>
+        <mod-up>
+          <binding>
+            <condition>
+              <property>devices/status/keyboard/alt</property>
+            </condition>
+            <command>nasal</command>
+            <script>controls.deployChute(0)</script>
+          </binding>
+          <binding>
+            <condition>
+              <not>
+                <property>devices/status/keyboard/alt</property>
+              </not>
+            </condition>
+            <command>nasal</command>
+            <script>controls.applyBrakes(0)</script>
+          </binding>
+        </mod-up>
+       </key>
     </keyboard>
   </input>
 
