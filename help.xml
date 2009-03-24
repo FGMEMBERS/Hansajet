@@ -9,6 +9,9 @@
   <line>3. Click START LH and START RH to start engines</line>
   <line>4. Wait for red lights below IGNITION switches to go out</line>
   <line>5. Turn OFF IGNITION for both engines</line>
+  <line>------------------------------------</line>
+  <line>http://wiki.flightgear.org/index.php/Hansajet</line>
+  <line>http://www.hansajet.de/</line>
   <key>
     <name>j</name>
     <desc>retract slats</desc>
@@ -18,7 +21,19 @@
     <desc>extend slats</desc>
   </key>
   <key>
-    <name>CTRL-B</name>
+    <name>b</name>
+    <desc>apply brakes</desc>
+  </key>
+  <key>
+    <name>ALT-b</name>
+    <desc>deploy drag chute</desc>
+  </key>
+  <key>
+    <name>B</name>
+    <desc>toggle park brake</desc>
+  </key>
+  <key>
+    <name>CTRL-b</name>
     <desc>toggle speedbrake</desc>
   </key>
   <key>
