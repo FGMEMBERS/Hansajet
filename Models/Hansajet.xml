@@ -66,6 +66,19 @@
   </model>
 
   <model>
+    <path>Aircraft/Hansajet/Models/AudioPanel/AudioPanel.xml</path>
+    <name>PilotIntercomPanel</name>
+    <offsets>
+      <x-m>-6.35044</x-m>
+      <y-m>-0.854144</y-m>
+      <z-m>1.87498</z-m>
+      <pitch-deg>12</pitch-deg>
+      <heading-deg>-5</heading-deg>
+      <roll-deg>1</roll-deg>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/SlatSwitch.xml</path>
     <name>SlatSwitch</name>
     <offsets>
@@ -556,7 +569,7 @@
     <type>rotate</type>
     <object-name>Trimwheel</object-name>
     <property>controls/flight/elevator-trim</property>
-    <factor>-180</factor>
+    <factor>-360</factor>
     <center>
       <x-m>-6.64147</x-m>
       <y-m>0.100189</y-m>
