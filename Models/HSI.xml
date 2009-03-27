@@ -535,6 +535,8 @@
     <object-name>Miles1</object-name>
     <property alias="../../params/dme-dist"/>
     <factor>-0.1</factor>
+    <step>1</step>
+    <scroll>.1</scroll>
     <axis>
       <x>0</x>
       <y>1</y>
@@ -548,6 +550,7 @@
     <property alias="../../params/dme-dist"/>
     <factor>-0.01</factor>
     <step>10</step>
+    <scroll>.1</scroll>
     <axis>
       <x>0</x>
       <y>1</y>
@@ -561,6 +564,7 @@
     <property alias="../../params/dme-dist"/>
     <factor>-0.001</factor>
     <step>100</step>
+    <scroll>.1</scroll>
     <axis>
       <x>0</x>
       <y>1</y>
