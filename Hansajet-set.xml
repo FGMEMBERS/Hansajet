@@ -254,6 +254,14 @@
     <flightdirector n="0"> 
       <serviceable type="bool" archive="y">true</serviceable>
     </flightdirector> 
+    <settings>
+      <max-roc-fpm type="double">2000</max-roc-fpm>
+      <max-rod-fpm type="double">-2000</max-rod-fpm>
+      <max-pitch-deg type="double">10.0</max-pitch-deg>
+      <min-pitch-deg type="double">-5.0</min-pitch-deg>
+      <go-around-pitch-deg type="double">8.0</go-around-pitch-deg>
+      <standard-turn-rate-degps type="double">1.5</standard-turn-rate-degps>
+    </settings>
   </autopilot>
 
   <instrumentation>
