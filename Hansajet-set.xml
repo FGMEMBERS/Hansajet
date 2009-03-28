@@ -261,6 +261,8 @@
       <min-pitch-deg type="double">-5.0</min-pitch-deg>
       <go-around-pitch-deg type="double">8.0</go-around-pitch-deg>
       <standard-turn-rate-degps type="double">1.5</standard-turn-rate-degps>
+      <cdi-filter-time type="double">1.0</cdi-filter-time>
+      <nav-intercept-angle-deg2 type="double">90</nav-intercept-angle-deg2>
     </settings>
   </autopilot>
 
