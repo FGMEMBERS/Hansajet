@@ -470,7 +470,7 @@ ok  Right   perform standard rate (4min) turn to the right
 
   <pid-controller>
     <name>AP:Pitch Hold</name>
-    <debug>true</debug>
+    <debug>false</debug>
     <enable>
       <condition>
         <equals>
