@@ -319,9 +319,28 @@
     </animation>
 
     <animation>
-        <type>translate</type>
+        <type>rotate</type>
         <object-name>GSBar</object-name>
         <property alias="../../params/gs-needle-deflection"/>
+        <factor>5.71</factor> <!-- 20 / 3.5 -->
+        <max-deg>20</max-deg>
+        <min-deg>-20</min-deg>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>0</x-m>
+            <y-m>-0.0193344</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+<!--
+    <animation>
+        <type>translate</type>
+        <object-name>GSBar</object-name>
         <interpolation>
           <entry>
             <ind>-0.7</ind>
@@ -338,6 +357,7 @@
             <z>1</z>
         </axis>
     </animation>
+-->
 
     <animation>
         <type>pick</type>

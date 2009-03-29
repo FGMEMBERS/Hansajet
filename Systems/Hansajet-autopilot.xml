@@ -223,7 +223,7 @@ ok  Right   perform standard rate (4min) turn to the right
   </pid-controller>
 
   <pi-simple-controller>
-    <!-- compute vertical needle deflection based on roll -->
+    <!-- compute horizontal needle deflection based on pitch -->
     <name>FD:Pitch Command Computer</name>
     <debug>false</debug>
     <enable>
@@ -293,9 +293,11 @@ ok  Right   perform standard rate (4min) turn to the right
       </condition>
     </enable>
     <input>/instrumentation/nav/gs-needle-deflection</input>
-    <gain>0.1</gain>
+    <gain>0.286</gain> <!-- +/- 3.5 deg, stupid factor 5 of navradio.cxx -->
     <!-- provide input for the needle low pass filter -->
     <output>/autopilot/flightdirector/horizon-deflection-norm</output>
+    <min>-1.0</min>
+    <max>1.0</max>
   </filter>
 
 <!-- ====================================================================== -->
