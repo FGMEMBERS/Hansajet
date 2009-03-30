@@ -659,6 +659,17 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
 
  <aerodynamics>
 
+  <alphalimits unit="DEG">
+    <min>-5</min>
+    <max>10.0</max>
+  </alphalimits>
+
+  <hysteresis_limits unit="DEG">
+    <min>8.0</min>
+    <max>16.0</max>
+  </hysteresis_limits>
+
+
   <axis name="LIFT">
 
     <function name="aero/coefficient/CLalpha">
@@ -946,6 +957,17 @@ Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
               2.0     -0.300
             </tableData>
           </table>
+       </product>
+    </function>
+
+    <function name="aero/coefficient/Cmflap">
+       <description>Pitch_moment_due_to_flaps</description>
+       <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>metrics/cbarw-ft</property>
+           <property>fcs/flap-pos-norm</property>
+           <value>0.1</value>
        </product>
     </function>
 

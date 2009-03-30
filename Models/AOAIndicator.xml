@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>orientation/alpha-deg</value>
+    <value>instrumentation/aoa-indexer/aoa-deg</value>
   </params>
 
   <path>AOAIndicator.ac</path>

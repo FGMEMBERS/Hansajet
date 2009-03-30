@@ -33,7 +33,7 @@ vh  FI    Flight Instruments
     Valid VOR/LOC signal is deflection less than half left/half right
     Valid GS signal is: approaching from below and less than two dots below
     
-v   APP
+vh  APP
     Show raw data course correction commands
     
 vh  GA    Go Around
@@ -626,4 +626,85 @@ ok  Right   perform standard rate (4min) turn to the right
     </config>
   </pi-simple-controller>
 
+  <!-- compute property for AOA indicator -->
+  <filter>
+    <name>OTHER:aoa-indexer</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <input>
+      <property>/fdm/jsbsim/aero/alpha-deg</property>
+      <scale>
+        <!-- mach 0.05 gives full indication (approx 30kts) -->
+        <property>/fdm/jsbsim/velocities/mach</property>
+        <scale>-20</scale>
+        <min>-1.0</min>
+        <max>0.0</max>
+      </scale>
+      <offset>
+        <!-- gravity forces the pickup down, airspeed up -->
+        <!-- no speed: indicated aoa=-90 -->
+        <property>/fdm/jsbsim/velocities/mach</property>
+        <scale>-600</scale>
+        <offset>30</offset>
+        <min>0.0</min>
+        <max>90.0</max>
+      </offset>
+    </input>
+    <output>
+      <property>/instrumentation/aoa-indexer/aoa-deg</property>
+      <value>0.0</value>
+    </output>
+    <gain>-1.0</gain>
+    <min>-90</min>
+    <max>90</max>
+  </filter>
+
+  <!-- capture the localizer in VOR/LOC mode -->
+  <filter>
+    <name>FD:localizer capture</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <!-- not VOR/LOC: reset capture -->
+      <condition>
+        <not-equals>
+          <property>/autopilot/flightdirector/mode</property>
+          <value>VOR/LOC</value>
+        </not-equals>
+      </condition>
+      <value>0.0</value>
+    </input>
+    <input>
+      <!-- if captures, hold capture -->
+      <condition>
+        <equals>
+          <property>/autopilot/internal/localizer-capture</property>
+          <value>1.0</value>
+        </equals>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <condition>
+        <and>
+        <greater-than>
+          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
+          <value>-5.0</value>
+        </greater-than>
+        <less-than>
+          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
+          <value>5.0</value>
+        </less-than>
+        </and>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <value>0.0</value>
+    </input>
+    <output>
+      <property>/autopilot/internal/localizer-capture</property>
+    </output>
+  </filter>
 </PropertyList>
