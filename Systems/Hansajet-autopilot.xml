@@ -85,6 +85,16 @@ ok  Right   perform standard rate (4min) turn to the right
             <property>/autopilot/flightdirector/mode</property>
             <value>G/A</value>
           </equals>
+          <and>
+            <equals>
+              <property>/autopilot/flightdirector/mode</property>
+              <value>VOR/LOC</value>
+            </equals>
+            <equals>
+              <property>/autopilot/internal/localizer-capture</property>
+              <value>0</value>
+            </equals>
+          </and>
         </or>
       </condition>
     </enable>
@@ -92,10 +102,16 @@ ok  Right   perform standard rate (4min) turn to the right
     <reference>
       <!-- FI: follow heading bug -->
       <condition>
-        <equals>
-          <property>/autopilot/flightdirector/mode</property>
-          <value>FI</value>
-        </equals>
+        <or>
+          <equals>
+            <property>/autopilot/flightdirector/mode</property>
+            <value>FI</value>
+          </equals>
+          <equals>
+            <property>/autopilot/flightdirector/mode</property>
+            <value>VOR/LOC</value>
+          </equals>
+        </or>
       </condition>
       <!-- 
         reference is heading-bug-error. Suggest max. bank angle
@@ -137,6 +153,16 @@ ok  Right   perform standard rate (4min) turn to the right
             <property>/autopilot/flightdirector/mode</property>
             <value>BL</value>
           </equals>
+          <and>
+            <equals>
+              <property>/autopilot/flightdirector/mode</property>
+              <value>VOR/LOC</value>
+            </equals>
+            <equals>
+              <property>/autopilot/internal/localizer-capture</property>
+              <value>1</value>
+            </equals>
+          </and>
         </or>
       </condition>
     </enable>
@@ -144,10 +170,16 @@ ok  Right   perform standard rate (4min) turn to the right
     <gain>
       <!-- APP: front course. Present raw data -->
       <condition>
-        <equals>
-          <property>/autopilot/flightdirector/mode</property>
-          <value>APP</value>
-        </equals>
+        <or>
+          <equals>
+            <property>/autopilot/flightdirector/mode</property>
+            <value>APP</value>
+          </equals>
+          <equals>
+            <property>/autopilot/flightdirector/mode</property>
+            <value>VOR/LOC</value>
+          </equals>
+        </or>
       </condition>
       <value>0.1</value>
     </gain>
@@ -688,14 +720,14 @@ ok  Right   perform standard rate (4min) turn to the right
     <input>
       <condition>
         <and>
-        <greater-than>
-          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
-          <value>-5.0</value>
-        </greater-than>
         <less-than>
           <property>/instrumentation/nav[0]/heading-needle-deflection</property>
-          <value>5.0</value>
+          <value>5</value>
         </less-than>
+        <greater-than>
+          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
+          <value>-5</value>
+        </greater-than>
         </and>
       </condition>
       <value>1.0</value>
