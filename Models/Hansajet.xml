@@ -79,6 +79,32 @@
   </model>
 
   <model>
+    <path>Aircraft/Hansajet/Models/NavitecT1.ac</path>
+    <name>Clock-Pilot</name>
+    <offsets>
+      <x-m>-7.00</x-m>
+      <y-m>-0.74</y-m>
+      <z-m>1.87</z-m>
+      <pitch-deg>-20</pitch-deg>
+      <heading-deg>33</heading-deg>
+      <roll-deg>0</roll-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/NavitecT1.ac</path>
+    <name>Clock-Pilot</name>
+    <offsets>
+      <x-m>-7.00</x-m>
+      <y-m>0.74</y-m>
+      <z-m>1.87</z-m>
+      <pitch-deg>-20</pitch-deg>
+      <heading-deg>-33</heading-deg>
+      <roll-deg>0</roll-deg>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/SlatSwitch.xml</path>
     <name>SlatSwitch</name>
     <offsets>
