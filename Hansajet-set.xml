@@ -253,6 +253,7 @@
   <autopilot>
     <flightdirector n="0"> 
       <serviceable type="bool" archive="y">true</serviceable>
+      <switch-position type="int" archive="y">0</switch-position>
     </flightdirector> 
     <settings>
       <max-roc-fpm type="double">2000</max-roc-fpm>
@@ -382,7 +383,6 @@
       <file>Aircraft/Hansajet/Systems/Hansajet-autopilot.nas</file>
       <script><![CDATA[
         Autopilot.new();
-        FlightDirector.new(0, "/instrumentation/attitude-indicator[0]", "/instrumentation/nav[0]" );
       ]]></script>
     </Autopilot>
   </nasal>

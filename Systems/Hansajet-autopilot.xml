@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
-<PropertyList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Docs/XMLSchema/autopilot.xsd">
+<PropertyList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="../../../Docs/XMLSchema/autopilot.xsd">
   <!-- ========================================================================== -->
   <!-- 
     HFB 320 Hansa Jet Flight Director/Autopilot digital filter configuration
@@ -15,15 +16,18 @@
   <!-- 
     Flight Director Modes
     ============
-vh  SB    Standby   
+
+    SB=0, BL=1, FI=2, VOR/LOC=3, APP=4, GA=5
+
+    SB    Standby   
     No indication, vertical and horizontal bars are moved out of sight
     
-vh  BL   Blue Left
+    BL   Blue Left
     No pitch/altitude indication, horziontal bar moved out of sight.
     Vertical bar shows course correction commands
     Used for backcourse ILS approaches
     
-vh  FI    Flight Instruments
+    FI    Flight Instruments
     Vertical bar shows roll command to the heading of the heading bug
     Horziontal bar shows pitch command if altitude-hold is engaged
         
@@ -33,10 +37,10 @@ vh  FI    Flight Instruments
     Valid VOR/LOC signal is deflection less than half left/half right
     Valid GS signal is: approaching from below and less than two dots below
     
-vh  APP
+    APP
     Show raw data course correction commands
     
-vh  GA    Go Around
+    GA    Go Around
     Horziontal Bar shows commands fixed pitch up, Vertical Bar commands wings level 
     
     
@@ -78,17 +82,17 @@ ok  Right   perform standard rate (4min) turn to the right
       <condition>
         <or>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>FI</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>2</value> <!-- FI -->
           </equals>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>G/A</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>5</value> <!-- G/A -->
           </equals>
           <and>
             <equals>
-              <property>/autopilot/flightdirector/mode</property>
-              <value>VOR/LOC</value>
+              <property>/autopilot/flightdirector/switch-position</property>
+              <value>3</value> <!-- VOR/LOC -->
             </equals>
             <equals>
               <property>/autopilot/internal/localizer-capture</property>
@@ -104,12 +108,12 @@ ok  Right   perform standard rate (4min) turn to the right
       <condition>
         <or>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>FI</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>2</value> <!-- FI -->
           </equals>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>VOR/LOC</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>3</value> <!-- VOR/LOC -->
           </equals>
         </or>
       </condition>
@@ -146,17 +150,17 @@ ok  Right   perform standard rate (4min) turn to the right
       <condition>
         <or>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>APP</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>4</value> <!-- APP -->
           </equals>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>BL</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>1</value> <!-- BL -->
           </equals>
           <and>
             <equals>
-              <property>/autopilot/flightdirector/mode</property>
-              <value>VOR/LOC</value>
+              <property>/autopilot/flightdirector/switch-position</property>
+              <value>3</value> <!-- VOR/LOC -->
             </equals>
             <equals>
               <property>/autopilot/internal/localizer-capture</property>
@@ -172,12 +176,12 @@ ok  Right   perform standard rate (4min) turn to the right
       <condition>
         <or>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>APP</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>4</value> <!-- APP -->
           </equals>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>VOR/LOC</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>3</value> <!-- VOR/LOC -->
           </equals>
         </or>
       </condition>
@@ -262,12 +266,12 @@ ok  Right   perform standard rate (4min) turn to the right
       <condition>
         <or>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>FI</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>2</value> <!-- FI -->
           </equals>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>G/A</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>5</value> <!-- G/A -->
           </equals>
         </or>
       </condition>
@@ -278,8 +282,8 @@ ok  Right   perform standard rate (4min) turn to the right
     <reference>
       <condition>
         <equals>
-          <property>/autopilot/flightdirector/mode</property>
-          <value>FI</value>
+          <property>/autopilot/flightdirector/switch-position</property>
+          <value>2</value> <!-- FI -->
         </equals>
         <property>/autopilot/flightdirector/altitude-hold</property>
       </condition>
@@ -290,8 +294,8 @@ ok  Right   perform standard rate (4min) turn to the right
     <reference>
       <condition>
         <equals>
-          <property>/autopilot/flightdirector/mode</property>
-          <value>FI</value>
+          <property>/autopilot/flightdirector/switch-position</property>
+          <value>2</value> <!-- FI -->
         </equals>
         <not>
           <property>/autopilot/flightdirector/altitude-hold</property>
@@ -318,10 +322,17 @@ ok  Right   perform standard rate (4min) turn to the right
     <debug>false</debug>
     <enable>
       <condition>
-        <equals>
-          <property>/autopilot/flightdirector/mode</property>
-          <value>APP</value>
-        </equals>
+        <property>/instrumentation/nav/has-gs</property>
+        <or>
+          <equals>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>3</value> <!-- VOR/LOC -->
+          </equals>
+          <equals>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>4</value> <!-- APP -->
+          </equals>
+        </or>
       </condition>
     </enable>
     <input>/instrumentation/nav/gs-needle-deflection</input>
@@ -342,16 +353,33 @@ ok  Right   perform standard rate (4min) turn to the right
     <type>exponential</type>
     <input>
       <condition>
+        <not>
+          <property>/autopilot/flightdirector/serviceable</property>
+        </not>
+      </condition>
+      <value>0</value>
+    </input>
+    <input>
+      <condition>
         <!-- move out of sight -->
         <or>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>SB</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>0</value> <!-- SB -->
           </equals>
           <equals>
-            <property>/autopilot/flightdirector/mode</property>
-            <value>BL</value>
+            <property>/autopilot/flightdirector/switch-position</property>
+            <value>1</value> <!-- BL -->
           </equals>
+          <and>
+            <equals>
+              <property>/autopilot/flightdirector/switch-position</property>
+              <value>4</value> <!-- APP -->
+            </equals>
+            <not>
+              <property>/instrumentation/nav/has-gs</property>
+            </not>
+          </and>
         </or>
       </condition>
       <value>1.2</value>
@@ -372,10 +400,18 @@ ok  Right   perform standard rate (4min) turn to the right
     <type>exponential</type>
     <input>
       <condition>
+        <not>
+          <property>/autopilot/flightdirector/serviceable</property>
+        </not>
+      </condition>
+      <value>0</value>
+    </input>
+    <input>
+      <condition>
         <!-- move out of sight -->
         <equals>
-          <property>/autopilot/flightdirector/mode</property>
-          <value>SB</value>
+          <property>/autopilot/flightdirector/switch-position</property>
+          <value>0</value> <!-- SB -->
         </equals>
       </condition>
       <value>1.2</value>
@@ -388,6 +424,22 @@ ok  Right   perform standard rate (4min) turn to the right
     <output>/instrumentation/attitude-indicator[1]/vertical-deflection-norm</output>
     <filter-time>0.3</filter-time>
   </filter>
+
+  <!-- Provide output for the OFF-flag in the Attitude Indicators -->
+  <filter>
+    <name>FD:serviceable-flag</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+      <property>/autopilot/flightdirector/serviceable</property>
+      <offset>1</offset>
+      <scale>-1</scale>
+    </input>
+    <output>/instrumentation/attitude-indicator[0]/flightdirector-flag</output>
+    <output>/instrumentation/attitude-indicator[1]/flightdirector-flag</output>
+  </filter>
+
 
 <!-- ====================================================================== -->
 <!-- =============== Auto Pilot =========================================== -->
@@ -701,14 +753,14 @@ ok  Right   perform standard rate (4min) turn to the right
       <!-- not VOR/LOC: reset capture -->
       <condition>
         <not-equals>
-          <property>/autopilot/flightdirector/mode</property>
-          <value>VOR/LOC</value>
+          <property>/autopilot/flightdirector/switch-position</property>
+          <value>3</value> <!-- VOR/LOC -->
         </not-equals>
       </condition>
       <value>0.0</value>
     </input>
     <input>
-      <!-- if captures, hold capture -->
+      <!-- if captured, hold capture -->
       <condition>
         <equals>
           <property>/autopilot/internal/localizer-capture</property>
@@ -739,4 +791,54 @@ ok  Right   perform standard rate (4min) turn to the right
       <property>/autopilot/internal/localizer-capture</property>
     </output>
   </filter>
+
+  <!-- capture the glideslope in VOR/LOC mode -->
+  <filter>
+    <name>FD:glideslope capture</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <!-- not VOR/LOC: reset capture -->
+      <condition>
+        <not-equals>
+          <property>/autopilot/flightdirector/switch-position</property>
+          <value>3</value> <!-- VOR/LOC -->
+        </not-equals>
+      </condition>
+      <value>0.0</value>
+    </input>
+    <input>
+      <!-- if captured, hold capture -->
+      <condition>
+        <equals>
+          <property>/autopilot/internal/glideslope-capture</property>
+          <value>1.0</value>
+        </equals>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <condition>
+        <and>
+        <less-than>
+          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
+          <value>0</value>
+        </less-than>
+        <greater-than>
+          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
+          <value>-0.5</value>
+        </greater-than>
+        </and>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <value>0.0</value>
+    </input>
+    <output>
+      <property>/autopilot/internal/glideslope-capture</property>
+    </output>
+  </filter>
+
 </PropertyList>
