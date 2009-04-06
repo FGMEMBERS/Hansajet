@@ -79,7 +79,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/NavitecT1.ac</path>
+    <path>Aircraft/Hansajet/Models/NavitecT1-1.xml</path>
     <name>Clock-Pilot</name>
     <offsets>
       <x-m>-7.00</x-m>
@@ -92,7 +92,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/NavitecT1.ac</path>
+    <path>Aircraft/Hansajet/Models/NavitecT1-2.xml</path>
     <name>Clock-Pilot</name>
     <offsets>
       <x-m>-7.00</x-m>
