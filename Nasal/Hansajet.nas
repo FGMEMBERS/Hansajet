@@ -171,7 +171,9 @@ Engine.update = func( dt ) {
   }
 
   me.cutoffNode.setBoolValue( cutoff );
+
 };
+
 
 var Engines = {};
 Engines.new = func(count) {

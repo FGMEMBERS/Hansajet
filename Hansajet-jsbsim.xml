@@ -44,6 +44,10 @@ take off distance at 16,500lb: 2,300ft - with one engine cut at v1: 3,600ft
 climbt to 20,000ft at 16,000lb 6min, 10sec. Fuel consumed 420lb
 Single engine climb speed 300ft/min at 20,000ft, TOM 16,500lb
 
+Airfoil, according to http://www.ae.uiuc.edu/m-selig/ads/aircraft.html
+wing root NACA 65A(1.5)13                          
+wing tip  NACA 63A(1.8)11
+
 -->
 
   <!-- AXIS

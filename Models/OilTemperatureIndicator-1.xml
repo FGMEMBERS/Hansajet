@@ -12,7 +12,8 @@
     <type>rotate</type>
     <object-name>Needle</object-name>
     <property alias="../../params/value"/>
-    <factor>-0.9</factor>
+    <factor>-0.5</factor>
+    <offset-deg>13.5</offset-deg>
     <axis>
       <x>1</x>
       <y>0</y>

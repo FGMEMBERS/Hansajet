@@ -343,6 +343,104 @@ ok  Right   perform standard rate (4min) turn to the right
     <max>1.0</max>
   </filter>
 
+  <!-- capture the localizer in VOR/LOC mode -->
+  <filter>
+    <name>FD:localizer capture</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <!-- not VOR/LOC: reset capture -->
+      <condition>
+        <not-equals>
+          <property>/autopilot/flightdirector/switch-position</property>
+          <value>3</value> <!-- VOR/LOC -->
+        </not-equals>
+      </condition>
+      <value>0.0</value>
+    </input>
+    <input>
+      <!-- if captured, hold capture -->
+      <condition>
+        <equals>
+          <property>/autopilot/internal/localizer-capture</property>
+          <value>1.0</value>
+        </equals>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <condition>
+        <and>
+        <less-than>
+          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
+          <value>5</value>
+        </less-than>
+        <greater-than>
+          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
+          <value>-5</value>
+        </greater-than>
+        </and>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <value>0.0</value>
+    </input>
+    <output>
+      <property>/autopilot/internal/localizer-capture</property>
+    </output>
+  </filter>
+
+  <!-- capture the glideslope in VOR/LOC mode -->
+  <filter>
+    <name>FD:glideslope capture</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <gain>1.0</gain>
+    <input>
+      <!-- not VOR/LOC: reset capture -->
+      <condition>
+        <not-equals>
+          <property>/autopilot/flightdirector/switch-position</property>
+          <value>3</value> <!-- VOR/LOC -->
+        </not-equals>
+      </condition>
+      <value>0.0</value>
+    </input>
+    <input>
+      <!-- if captured, hold capture -->
+      <condition>
+        <equals>
+          <property>/autopilot/internal/glideslope-capture</property>
+          <value>1.0</value>
+        </equals>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <condition>
+        <and>
+        <less-than>
+          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
+          <value>0</value>
+        </less-than>
+        <greater-than>
+          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
+          <value>-0.5</value>
+        </greater-than>
+        </and>
+      </condition>
+      <value>1.0</value>
+    </input>
+    <input>
+      <value>0.0</value>
+    </input>
+    <output>
+      <property>/autopilot/internal/glideslope-capture</property>
+    </output>
+  </filter>
+
 <!-- ====================================================================== -->
 <!-- =============== Needle Driver Filter ================================= -->
 <!-- ====================================================================== -->
@@ -743,102 +841,30 @@ ok  Right   perform standard rate (4min) turn to the right
     <max>90</max>
   </filter>
 
-  <!-- capture the localizer in VOR/LOC mode -->
+  <!-- Compute Oil Temperature (JSBSim does not compute it) -->
   <filter>
-    <name>FD:localizer capture</name>
+    <name>OTHER:Oil Temperature 0</name>
     <debug>false</debug>
-    <type>gain</type>
-    <gain>1.0</gain>
+    <type>exponential</type>
     <input>
-      <!-- not VOR/LOC: reset capture -->
-      <condition>
-        <not-equals>
-          <property>/autopilot/flightdirector/switch-position</property>
-          <value>3</value> <!-- VOR/LOC -->
-        </not-equals>
-      </condition>
-      <value>0.0</value>
+      <property>/engines/engine[0]/egt_degf</property>
+      <scale>0.30</scale>
+      <offset>/environment/temperature-degf</offset>
     </input>
-    <input>
-      <!-- if captured, hold capture -->
-      <condition>
-        <equals>
-          <property>/autopilot/internal/localizer-capture</property>
-          <value>1.0</value>
-        </equals>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <condition>
-        <and>
-        <less-than>
-          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
-          <value>5</value>
-        </less-than>
-        <greater-than>
-          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
-          <value>-5</value>
-        </greater-than>
-        </and>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <value>0.0</value>
-    </input>
-    <output>
-      <property>/autopilot/internal/localizer-capture</property>
-    </output>
+    <output>/engines/engine[0]/oil-temperature-degf</output>
+    <filter-time>120</filter-time>
   </filter>
 
-  <!-- capture the glideslope in VOR/LOC mode -->
   <filter>
-    <name>FD:glideslope capture</name>
+    <name>OTHER:Oil Temperature 1</name>
     <debug>false</debug>
-    <type>gain</type>
-    <gain>1.0</gain>
+    <type>exponential</type>
     <input>
-      <!-- not VOR/LOC: reset capture -->
-      <condition>
-        <not-equals>
-          <property>/autopilot/flightdirector/switch-position</property>
-          <value>3</value> <!-- VOR/LOC -->
-        </not-equals>
-      </condition>
-      <value>0.0</value>
+      <property>/engines/engine[1]/egt_degf</property>
+      <scale>0.30</scale>
+      <offset>/environment/temperature-degf</offset>
     </input>
-    <input>
-      <!-- if captured, hold capture -->
-      <condition>
-        <equals>
-          <property>/autopilot/internal/glideslope-capture</property>
-          <value>1.0</value>
-        </equals>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <condition>
-        <and>
-        <less-than>
-          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
-          <value>0</value>
-        </less-than>
-        <greater-than>
-          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
-          <value>-0.5</value>
-        </greater-than>
-        </and>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <value>0.0</value>
-    </input>
-    <output>
-      <property>/autopilot/internal/glideslope-capture</property>
-    </output>
+    <output>/engines/engine[1]/oil-temperature-degf</output>
+    <filter-time>120</filter-time>
   </filter>
-
 </PropertyList>
