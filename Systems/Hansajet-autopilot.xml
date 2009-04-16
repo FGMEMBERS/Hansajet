@@ -667,204 +667,250 @@ ok  Right   perform standard rate (4min) turn to the right
     <reference>autopilot/settings/target-pitch-deg</reference>
     <output>/autopilot/internal/elevator-command</output>
     <config>
-      <Kp>-0.05</Kp>
-      <beta>1.0</beta>
-      <alpha>0.1</alpha>
-      <gamma>0.0</gamma>
-      <Ti>10.0</Ti>
-      <Td>0.0</Td>
-      <u_min>-0.50</u_min>
-      <u_max>0.50</u_max>
+    <Kp>-0.05</Kp>
+    <beta>1.0</beta>
+    <alpha>0.1</alpha>
+    <gamma>0.0</gamma>
+    <Ti>10.0</Ti>
+    <Td>0.0</Td>
+    <u_min>-0.50</u_min>
+    <u_max>0.50</u_max>
     </config>
-  </pid-controller>
+    </pid-controller>
 
-<!-- ====================================================================== -->
-<!-- =============== Yaw Axis ============================================= -->
-<!-- ====================================================================== -->
-  <!-- Yaw Damper, automatic ball kicker -->
-  <pid-controller>
+    <!-- ====================================================================== -->
+    <!-- =============== Yaw Axis ============================================= -->
+    <!-- ====================================================================== -->
+    <!-- Yaw Damper, automatic ball kicker -->
+    <pid-controller>
     <name>AP:Yaw Damper</name>
     <debug>false</debug>
     <enable>
-      <condition>
-        <property>/instrumentation/autopilot/yaw-damper</property>
-      </condition>
+    <condition>
+    <property>/instrumentation/autopilot/yaw-damper</property>
+    </condition>
     </enable>
     <input>/instrumentation/slip-skid-ball/indicated-slip-skid</input>
     <reference>0.0</reference>
     <output>/autopilot/internal/rudder-command</output>
     <config>
-      <Kp>5</Kp>
-      <beta>1.0</beta>
-      <alpha>0.1</alpha>
-      <gamma>0.0</gamma>
-      <Ti>45.0</Ti>
-      <Td>0.0</Td>
-      <u_min>-0.15</u_min>
-      <u_max>0.15</u_max>
+    <Kp>5</Kp>
+    <beta>1.0</beta>
+    <alpha>0.1</alpha>
+    <gamma>0.0</gamma>
+    <Ti>45.0</Ti>
+    <Td>0.0</Td>
+    <u_min>-0.15</u_min>
+    <u_max>0.15</u_max>
     </config>
-  </pid-controller>
+    </pid-controller>
 
-  <!-- ========================================================================== -->
-  <!-- Server Driver - Pass output commands thru a noise spike filter to avoid    -->
-  <!-- rapid control inputs and simulate slow movement o the servos               -->
-  <!-- Disable servos in passive-mode                                             -->
-  <!-- ========================================================================== -->
-  <filter>
+    <!-- ========================================================================== -->
+    <!-- Server Driver - Pass output commands thru a noise spike filter to avoid    -->
+    <!-- rapid control inputs and simulate slow movement o the servos               -->
+    <!-- Disable servos in passive-mode                                             -->
+    <!-- ========================================================================== -->
+    <filter>
     <name>SERVO-DRIVER:aileron</name>
     <debug>false</debug>
     <feedback-if-disabled>true</feedback-if-disabled>
     <enable>
-      <condition>
-        <!-- enable aileron servo if any heading mode is locked -->
-        <not>
-          <property>/autopilot/locks/passive-mode</property>
-        </not>
-        <not-equals>
-          <property>/autopilot/locks/heading</property>
-          <value/>
-        </not-equals>
-      </condition>
+    <condition>
+    <!-- enable aileron servo if any heading mode is locked -->
+    <not>
+    <property>/autopilot/locks/passive-mode</property>
+    </not>
+    <not-equals>
+    <property>/autopilot/locks/heading</property>
+    <value/>
+    </not-equals>
+    </condition>
     </enable>
     <input>/autopilot/internal/aileron-command</input>
     <output>/controls/flight/aileron</output>
     <type>noise-spike</type>
     <max-rate-of-change>0.1</max-rate-of-change>
-  </filter>
+    </filter>
 
-  <filter>
+    <filter>
     <name>SERVO-DRIVER:elevator</name>
     <debug>false</debug>
     <feedback-if-disabled>true</feedback-if-disabled>
     <enable>
-      <condition>
-        <!-- enable aileron servo if any altitude mode is locked -->
-        <not>
-          <property>/autopilot/locks/passive-mode</property>
-        </not>
-        <not-equals>
-          <property>/autopilot/locks/altitude</property>
-          <value/>
-        </not-equals>
-      </condition>
+    <condition>
+    <!-- enable aileron servo if any altitude mode is locked -->
+    <not>
+    <property>/autopilot/locks/passive-mode</property>
+    </not>
+    <not-equals>
+    <property>/autopilot/locks/altitude</property>
+    <value/>
+    </not-equals>
+    </condition>
     </enable>
     <input>/autopilot/internal/elevator-command</input>
     <output>/controls/flight/elevator-trim</output>
     <type>noise-spike</type>
     <max-rate-of-change>0.1</max-rate-of-change>
-  </filter>
+    </filter>
 
-  <filter>
+    <filter>
     <name>SERVO-DRIVER:rudder</name>
     <debug>false</debug>
     <feedback-if-disabled>true</feedback-if-disabled>
     <enable>
-      <condition>
-        <property>/instrumentation/autopilot/yaw-damper</property>
-      </condition>
+    <condition>
+    <property>/instrumentation/autopilot/yaw-damper</property>
+    </condition>
     </enable>
     <input>/autopilot/internal/rudder-command</input>
     <output>/controls/flight/rudder-trim</output>
     <type>noise-spike</type>
-    <max-rate-of-change>0.1</max-rate-of-change>
-  </filter>
+    <max-rate-of-change>0.10</max-rate-of-change>
+    </filter>
 
-  <!-- ========================================================================== -->
-  <!-- Other filters, not related to the autopilot                                -->
-  <!-- ========================================================================== -->
+    <!-- ========================================================================== -->
+    <!-- Other filters, not related to the autopilot                                -->
+    <!-- ========================================================================== -->
 
-  <!-- ========================================================================== -->
-  <!-- Provide a relative bearing property for the RMI -->
-  <!-- ========================================================================== -->
-  <pi-simple-controller>
+    <!-- ========================================================================== -->
+    <!-- Provide a relative bearing property for the RMI -->
+    <!-- ========================================================================== -->
+    <pi-simple-controller>
     <name>OTHER:NAV1 relative bearing</name>
     <debug>false</debug>
     <enable>
-      <condition>
-        <property>/instrumentation/nav[0]/data-is-valid</property>
-      </condition>
+    <condition>
+    <property>/instrumentation/nav[0]/data-is-valid</property>
+    </condition>
     </enable>
     <input>/orientation/heading-magnetic-deg</input>
     <reference>/instrumentation/nav[0]/radials/reciprocal-radial-deg</reference>
     <output>/instrumentation/nav[0]/relative-bearing-deg</output>
     <config>
-      <Kp>1.0</Kp>
+    <Kp>1.0</Kp>
     </config>
-  </pi-simple-controller>
+    </pi-simple-controller>
 
-  <pi-simple-controller>
+    <pi-simple-controller>
     <name>OTHER:NAV2 relative bearing</name>
     <debug>false</debug>
     <enable>
-      <condition>
-        <property>/instrumentation/nav[1]/data-is-valid</property>
-      </condition>
+    <condition>
+    <property>/instrumentation/nav[1]/data-is-valid</property>
+    </condition>
     </enable>
     <input>/orientation/heading-magnetic-deg</input>
     <reference>/instrumentation/nav[1]/radials/reciprocal-radial-deg</reference>
     <output>/instrumentation/nav[1]/relative-bearing-deg</output>
     <config>
-      <Kp>1.0</Kp>
+    <Kp>1.0</Kp>
     </config>
-  </pi-simple-controller>
+    </pi-simple-controller>
 
-  <!-- compute property for AOA indicator -->
-  <filter>
+    <!-- compute property for AOA indicator -->
+    <filter>
     <name>OTHER:aoa-indexer</name>
     <debug>false</debug>
     <type>gain</type>
     <input>
-      <property>/fdm/jsbsim/aero/alpha-deg</property>
-      <scale>
-        <!-- mach 0.05 gives full indication (approx 30kts) -->
-        <property>/fdm/jsbsim/velocities/mach</property>
-        <scale>-20</scale>
-        <min>-1.0</min>
-        <max>0.0</max>
-      </scale>
-      <offset>
-        <!-- gravity forces the pickup down, airspeed up -->
-        <!-- no speed: indicated aoa=-90 -->
-        <property>/fdm/jsbsim/velocities/mach</property>
-        <scale>-600</scale>
-        <offset>30</offset>
-        <min>0.0</min>
-        <max>90.0</max>
-      </offset>
+    <property>/fdm/jsbsim/aero/alpha-deg</property>
+    <scale>
+    <!-- mach 0.05 gives full indication (approx 30kts) -->
+    <property>/fdm/jsbsim/velocities/mach</property>
+    <scale>-20</scale>
+    <min>-1.0</min>
+    <max>0.0</max>
+    </scale>
+    <offset>
+    <!-- gravity forces the pickup down, airspeed up -->
+    <!-- no speed: indicated aoa=-90 -->
+    <property>/fdm/jsbsim/velocities/mach</property>
+    <scale>-600</scale>
+    <offset>30</offset>
+    <min>0.0</min>
+    <max>90.0</max>
+    </offset>
     </input>
     <output>
-      <property>/instrumentation/aoa-indexer/aoa-deg</property>
-      <value>0.0</value>
+    <property>/instrumentation/aoa-indexer/aoa-deg</property>
+    <value>0.0</value>
     </output>
     <gain>-1.0</gain>
     <min>-90</min>
     <max>90</max>
-  </filter>
+    </filter>
 
-  <!-- Compute Oil Temperature (JSBSim does not compute it) -->
-  <filter>
-    <name>OTHER:Oil Temperature 0</name>
-    <debug>false</debug>
-    <type>exponential</type>
-    <input>
-      <property>/engines/engine[0]/egt_degf</property>
-      <scale>0.30</scale>
-      <offset>/environment/temperature-degf</offset>
-    </input>
-    <output>/engines/engine[0]/oil-temperature-degf</output>
-    <filter-time>120</filter-time>
-  </filter>
+    <!-- Compute Oil Temperature (JSBSim does not compute it) -->
+	<!--
+target-oil-temp = egt + (rho_air*ias*C+D)*(ambient-egt)
+	-->
+	<filter>
+	<name>OTHER:Oil Temperature</name>
+	<debug>false</debug>
+	<type>gain</type>
+	<input>
+	<property>/environment/density-slugft3</property>
+	<scale>
+	<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+	<scale>0.05</scale>
+	</scale>
+	<offset>0.73</offset>
+	</input>
+	<gain>1</gain>
+	<output>/engines/cooling-factor</output>
+	</filter>
 
-  <filter>
-    <name>OTHER:Oil Temperature 1</name>
-    <debug>false</debug>
-    <type>exponential</type>
-    <input>
-      <property>/engines/engine[1]/egt_degf</property>
-      <scale>0.30</scale>
-      <offset>/environment/temperature-degf</offset>
-    </input>
-    <output>/engines/engine[1]/oil-temperature-degf</output>
-    <filter-time>120</filter-time>
-  </filter>
+	<filter>
+	<name>OTHER:Oil Temperature 0</name>
+	<debug>false</debug>
+	<type>exponential</type>
+	<input>
+	<property>/engines/engine[0]/egt_degf</property>
+	<offset>
+	<property>/engines/cooling-factor</property>
+	<scale>
+	<property>/environment/temperature-degf</property>
+	<offset>
+	<property>/engines/engine[0]/egt_degf</property>
+	<scale>-1.0</scale>
+	</offset>
+	</scale>
+	</offset>
+	</input>
+	<output>/engines/engine[0]/oil-temperature-degf</output>
+	<!-- engine running, filter time is 120
+	engine off, filter time is 600 -->
+	<filter-time>
+	<property>/engines/engine[0]/running</property>
+	<scale>-480</scale>
+	<offset>600</offset>
+	</filter-time>
+	</filter>
+
+	<filter>
+	<name>OTHER:Oil Temperature 1</name>
+	<debug>false</debug>
+	<type>exponential</type>
+	<input>
+	<property>/engines/engine[1]/egt_degf</property>
+	<offset>
+	<property>/engines/cooling-factor</property>
+	<scale>
+	<property>/environment/temperature-degf</property>
+	<offset>
+	<property>/engines/engine[1]/egt_degf</property>
+	<scale>-1.0</scale>
+	</offset>
+	</scale>
+	</offset>
+	</input>
+	<output>/engines/engine[1]/oil-temperature-degf</output>
+	<!-- behave a little different/faster than engine 0 -->
+	<filter-time>
+	<property>/engines/engine[1]/running</property>
+	<scale>-400</scale>
+	<offset>500</offset>
+	</filter-time>
+	</filter>
 </PropertyList>
