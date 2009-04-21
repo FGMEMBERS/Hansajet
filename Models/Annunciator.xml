@@ -1,24 +1,52 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <path>Aircraft/Hansajet/Models/Annunciator.ac</path>
+  <!-- operations manual page 8-8.1
+       the annunciator lights illuminate in the slat fully extended
+       position and during the retraction cycle. They are extinguished
+       in the fully retracted position -->
   <animation>
     <type>select</type> 
     <object-name>SlatLH</object-name>
     <condition>             
-      <less-than-equals>
-        <property>surface-positions/spoilers-pos-norm</property>
-        <value>0.05</value>
-      </less-than-equals>
+      <or>
+        <less-than>
+          <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
+          <value>0.01</value>
+        </less-than>
+        <and>
+          <less-than>
+            <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
+            <value>0.99</value>
+          </less-than>
+          <greater-than>
+            <property>fdm/jsbsim/fcs/slat-switch</property>
+            <value>0.5</value>
+          </greater-than>
+        </and>
+      </or>
     </condition>
   </animation>
   <animation>
     <type>select</type> 
     <object-name>SlatLHOn</object-name>
     <condition>             
-      <greater-than>
-        <property>surface-positions/spoilers-pos-norm</property>
-        <value>0.05</value>
-      </greater-than>
+      <or>
+        <greater-than>
+          <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
+          <value>0.99</value>
+        </greater-than>
+        <and>
+          <greater-than>
+            <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
+            <value>0.01</value>
+          </greater-than>
+          <less-than>
+            <property>fdm/jsbsim/fcs/slat-switch</property>
+            <value>0.5</value>
+          </less-than>
+        </and>
+      </or>
     </condition>
   </animation>
 
@@ -26,20 +54,44 @@
     <type>select</type> 
     <object-name>SlatRH</object-name>
     <condition>             
-      <less-than-equals>
-        <property>surface-positions/spoilers-pos-norm</property>
-        <value>0.05</value>
-      </less-than-equals>
+      <or>
+        <less-than>
+          <property>fdm/jsbsim/fcs/slat[1]/position-norm</property>
+          <value>0.01</value>
+        </less-than>
+        <and>
+          <less-than>
+            <property>fdm/jsbsim/fcs/slat[1]/position-norm</property>
+            <value>0.99</value>
+          </less-than>
+          <greater-than>
+            <property>fdm/jsbsim/fcs/slat-switch</property>
+            <value>0.5</value>
+          </greater-than>
+        </and>
+      </or>
     </condition>
   </animation>
   <animation>
     <type>select</type> 
     <object-name>SlatRHOn</object-name>
     <condition>             
-      <greater-than>
-        <property>surface-positions/spoilers-pos-norm</property>
-        <value>0.05</value>
-      </greater-than>
+      <or>
+        <greater-than>
+          <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
+          <value>0.99</value>
+        </greater-than>
+        <and>
+          <greater-than>
+            <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
+            <value>0.01</value>
+          </greater-than>
+          <less-than>
+            <property>fdm/jsbsim/fcs/slat-switch</property>
+            <value>0.5</value>
+          </less-than>
+        </and>
+      </or>
     </condition>
   </animation>
 

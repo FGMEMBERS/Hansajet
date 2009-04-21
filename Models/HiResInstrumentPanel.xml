@@ -50,6 +50,16 @@
   </model>
 
   <model>
+    <path>Aircraft/Hansajet/Models/WarningPanel.xml</path>
+    <name>WarningPanel</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.222394</y-m>
+      <z-m>0.0281781</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/AI.xml</path>
     <name>AttitudeIndicator-1</name>
     <offsets>

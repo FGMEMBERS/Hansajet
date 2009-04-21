@@ -342,7 +342,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Slat.Left</object-name>
-    <property>surface-positions/spoilers-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
     <factor>14</factor>
     <axis>
       <x1-m>-1.57</x1-m>
@@ -357,7 +357,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Slat.Right</object-name>
-    <property>surface-positions/spoilers-pos-norm</property>
+    <property>fdm/jsbsim/fcs/slat[1]/position-norm</property>
     <factor>-14</factor>
     <axis>
       <x1-m>-1.57</x1-m>
@@ -796,6 +796,7 @@
       <z-m>0.987675</z-m>
     </offsets>
   </model>
+
   <animation>
     <type>select</type>
     <object-name>Beacon-1</object-name>
@@ -805,6 +806,18 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>rotate</type>
+    <object-name>NoseGear</object-name>
+    <property>gear/gear[0]/steering-norm</property>
+    <factor>-47</factor>
+    <axis>
+      <x1-m>-7.47356</x1-m>
+      <z1-m>0.524918</z1-m>
+      <x2-m>-7.47346</x2-m>
+      <z2-m>0.870741</z2-m>
+    </axis>
+  </animation>
 
   <animation>
     <type>translate</type>
