@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>consumables/fuel/used-kg</value>
+    <value>fdm/jsbsim/propulsion/total-fuel-consumed-kg</value>
   </params>
 
   <path>FuelUsed.ac</path>

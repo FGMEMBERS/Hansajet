@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<system name="Engines">
+
+  <property>propulsion/reset-fuel-consumed</property>
+
+  <channel name="Engine 1">
+    <pid name="propulsion/engine[0]/fuel-consumed-lbs">
+      <input>propulsion/engine[0]/fuel-flow-rate-pps</input>
+      <trigger>propulsion/reset-fuel-consumed</trigger>
+      <kp>0</kp>
+      <ki>1</ki>
+      <kd>0</kd>
+    </pid>
+  </channel>
+
+  <channel name="Engine 2">
+    <pid name="propulsion/engine[1]/fuel-consumed-lbs">
+      <input>propulsion/engine[1]/fuel-flow-rate-pps</input>
+      <trigger>propulsion/reset-fuel-consumed</trigger>
+      <kp>0</kp>
+      <ki>1</ki>
+      <kd>0</kd>
+    </pid>
+  </channel>
+
+  <channel name="All Engines">
+    <summer name="propulsion/total-fuel-consumed-lbs">
+      <input>propulsion/engine[0]/fuel-consumed-lbs</input>
+      <input>propulsion/engine[1]/fuel-consumed-lbs</input>
+    </summer>
+
+    <pure_gain name="propulsion/total-fuel-consumed-kg">
+      <input>propulsion/total-fuel-consumed-lbs</input>
+      <gain>0.45454</gain>
+    </pure_gain>
+
+  </channel>
+
+</system>

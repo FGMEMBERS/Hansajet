@@ -218,9 +218,7 @@ wing tip  NACA 63A(1.8)11
       <roll>   0.00 </roll>
       <yaw>   0.00 </yaw>
     </orient>
-    <feed>0</feed>
     <feed>1</feed>
-    <feed>3</feed>
     <thruster file="direct">
      <location unit="M">
        <x> 3.61 </x>
@@ -246,9 +244,7 @@ wing tip  NACA 63A(1.8)11
       <roll>   0.00 </roll>
       <yaw>   0.00 </yaw>
     </orient>
-    <feed>0</feed>
     <feed>2</feed>
-    <feed>4</feed>
     <thruster file="direct">
      <location unit="M">
        <x> 3.61 </x>
@@ -263,6 +259,9 @@ wing tip  NACA 63A(1.8)11
     </thruster>
   </engine>
 
+  <!-- operations manual 14.0 -->
+  <!-- fuel for the engines is fed from the wing tanks, fuel transfer from the 
+       fuselage tank and from the tip tanks is controlled automatically -->
   <!-- Fuselage Tank -->
   <tank type="FUEL" number="0">
      <location unit="M">
@@ -270,7 +269,7 @@ wing tip  NACA 63A(1.8)11
        <y>  0.00 </y>
        <z>  1.08 </z>
      </location>
-     <capacity unit="LBS"> 1100 </capacity>
+     <capacity unit="LBS"> 1103 </capacity>
      <contents unit="LBS"> 880 </contents>
   </tank>
 
@@ -281,8 +280,8 @@ wing tip  NACA 63A(1.8)11
        <y> -2.61 </y>
        <z> 1.89 </z>
      </location>
-     <capacity unit="LBS"> 1870 </capacity>
-     <contents unit="LBS"> 440 </contents>
+     <capacity unit="LBS"> 2072 </capacity>
+     <contents unit="LBS"> 1900 </contents>
   </tank>
 
   <!-- Right Wing Tank -->
@@ -292,8 +291,8 @@ wing tip  NACA 63A(1.8)11
        <y> 2.61 </y>
        <z> 1.89 </z>
      </location>
-     <capacity unit="LBS"> 1870 </capacity>
-     <contents unit="LBS"> 440 </contents>
+     <capacity unit="LBS"> 2072 </capacity>
+     <contents unit="LBS"> 1900 </contents>
   </tank>
 
   <!-- Left Tip Tank -->
@@ -303,8 +302,8 @@ wing tip  NACA 63A(1.8)11
        <y> -6.71 </y>
        <z> 2.32  </z>
      </location>
-     <capacity unit="LBS"> 990 </capacity>
-     <contents unit="LBS"> 330 </contents>
+     <capacity unit="LBS"> 970 </capacity>
+     <contents unit="LBS"> 485 </contents>
   </tank>
 
   <tank type="FUEL" number="4">
@@ -313,8 +312,8 @@ wing tip  NACA 63A(1.8)11
        <y> 6.71 </y>
        <z> 2.32  </z>
      </location>
-     <capacity unit="LBS"> 990 </capacity>
-     <contents unit="LBS"> 330 </contents>
+     <capacity unit="LBS"> 970 </capacity>
+     <contents unit="LBS"> 485 </contents>
   </tank>
 
  </propulsion>
@@ -568,7 +567,7 @@ wing tip  NACA 63A(1.8)11
   <!-- operations manual section 8.9 -->
   <!-- driven by hydraulic system II (normal) and system I (emergency) -->
   <!-- electrical system: generator bus -->
-  <!-- automatically retract at approx 98% N1 -->
+  <!-- automatically retract at throttle pos for approx 98% N1 -->
   <channel name="Speedbrake">
    <kinematic name="Speedbrake Control">
      <input>fcs/speedbrake-cmd-norm</input>
@@ -661,6 +660,9 @@ wing tip  NACA 63A(1.8)11
   </channel>
 
  </flight_control>
+
+ <system file="Fuel"/>
+ <system file="Engines"/>
 
  <aerodynamics>
 

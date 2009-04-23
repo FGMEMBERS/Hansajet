@@ -128,10 +128,9 @@ HydraulicSystem.update = func( dt ) {
 # ...
 # Startup procedure Hansa Jet
 # Stop=off
-# FuelPump(any)=on
-# Ignition=on
+# FuelPump(WingTankMain/Aux)=on
 # Start=on
-# Ignition-Light: Function unknown
+# Throttle=Idle at %xRPM
 ############################################################################
 
 var Engine = {};
@@ -143,37 +142,94 @@ Engine.new = func(index, cutoffNode) {
   obj.controlsRootNode = props.globals.getNode( "controls/engines/engine[" ~ index ~ "]", 1 );
   obj.engineRootNode = props.globals.getNode( "engines/engine[" ~ index ~ "]", 1 );
   obj.n1Node = obj.engineRootNode.getNode( "n1", 1 );
+  obj.ignitionNode = obj.engineRootNode.initNode( "ignition", 0, "BOOL" );
+  obj.starterNode = obj.engineRootNode.initNode( "starter", 0, "BOOL" );
+  obj.starterOnTime = 0;
+  obj.crankingNode = obj.engineRootNode.initNode( "cranking", 0, "BOOL" );
 
   obj.cutoffNode = obj.controlsRootNode.getNode( "cutoff", 1 );
+  obj.throttleNode = obj.controlsRootNode.getNode( "throttle", 1 );
+  obj.throttleTakeOffNode = obj.controlsRootNode.initNode( "throttle-take-off", 0, "BOOL" );
+  obj.throttleLowNode = obj.controlsRootNode.initNode( "throttle-low", 0, "BOOL" );
+  setlistener( obj.throttleNode, func(n) { obj.throttleListener(n); }, 1, 0 );
   obj.runningNode = obj.engineRootNode.getNode( "running", 1 );
 
-  obj.ignitionNode = obj.controlsRootNode.getNode( "ignition", 1 );
+  obj.ignitionSwitchNode = obj.controlsRootNode.initNode( "ignition", 0, "BOOL" );
+  obj.ignitionSwitchOnTime = 0;
+  obj.ignitionSwitchLast = obj.ignitionSwitchNode.getValue();
+
   obj.ignitionLightNode = obj.controlsRootNode.getNode( "ignition-light", 1 );
+
+  obj.fuelPressureNode = obj.engineRootNode.initNode("fuel-pressure-psi", 0.0 );
 
   print( "Engine handler #" ~ index ~ " created" );
   return obj;
 };
 
+Engine.throttleListener = func(n) {
+  var throttlePos = n.getValue();
+  me.throttleTakeOffNode.setBoolValue( throttlePos > 0.98 );
+  me.throttleLowNode.setBoolValue( throttlePos < 0.50 );
+};
+
+#ignition auto off at 37% N1
+
+# operations manual page 12-12
 Engine.update = func( dt ) {
+  var throttle = me.throttleNode.getValue();
 
-  var cutoff = me.enginesOffNode.getValue();
-  if( cutoff == 0 ) {
-    # cutoff = is_there_fuel?
+  #immediate start: cut off
+  if( me.enginesOffNode.getValue() ) {
+    me.cutoffNode.setBoolValue( 1 );
+    me.ignitionNode.setBoolValue( 0 );
+    me.crankingNode.setBoolValue( 0 );
+    return;
   }
 
-  if( cutoff == 0 and me.runningNode.getValue() == 0 ) {
-    # engine not running, we need ignition 
-    cutoff = (me.ignitionNode.getValue() == 0);
-    if( cutoff == 0 ) {
-      # so we have fuel and ignition, wait for n1
-      cutoff = (me.n1Node.getValue() < 5);
+  if( me.starterNode.getValue() ) {
+    me.starterOnTime += dt;
+    me.crankingNode.getValue() == 0 and me.crankingNode.setBoolValue( 1 );
+#  } else {
+#    if( me.starterOnTime < 2.5 ) {
+#      print( "starter time to short");
+#      me.cutoffNode.setBoolValue( 1 );
+#      me.ignitionNode.setBoolValue( 0 );
+#      me.crankingNode.setBoolValue( 0 );
+#      me.starterOnTime = 0;
+#      return;
+#    }
+#    me.starterOnTime = 0;
+  }
+
+  var ignition = 0;
+  # ignition and starter cut off at 37% RPM
+  if( me.n1Node.getValue() > 37 ) {
+    if( me.crankingNode.getValue() ) {
+      me.crankingNode.setBoolValue( 0 );
+      ignition = 0;
     }
+  } else {
+    if ( throttle > 0.1 ) ignition = 1;
   }
 
+  # ignition by ignition switch limited to 45 seconds
+  var v = me.ignitionSwitchNode.getValue();
+  if( v ) {
+    if( v != me.ignitionSwitchLast ) {
+      me.ignitionSwitchOnTime = timeNode.getValue();
+    }
+    ignition = (timeNode.getValue() - me.ignitionSwitchOnTime) < 45;
+  } 
+  me.ignitionSwitchLast = v;
+
+  me.ignitionNode.getValue() != ignition and me.ignitionNode.setBoolValue( ignition );
+
+  var cutoff = 0;
+  if( cutoff == 0 ) cutoff = (throttle < 0.05);
+  if( cutoff == 0 ) cutoff = (me.fuelPressureNode.getValue() < 8.0);
   me.cutoffNode.setBoolValue( cutoff );
 
 };
-
 
 var Engines = {};
 Engines.new = func(count) {
@@ -192,6 +248,116 @@ Engines.new = func(count) {
 Engines.update = func( dt ) {
   foreach( var engine; me.engines ) {
     engine.update( dt );
+  }
+};
+
+####################################################################
+var FuelPump = {};
+
+FuelPump.new = func(base) {
+  var obj = {};
+  obj.parents = [FuelPump];
+  obj.baseNode = base;
+
+  var n = base.getNode( "enable-prop" );
+  if( n != nil ) {
+    obj.enableNode = props.globals.initNode( n.getValue(), 0, "BOOL" );
+  } else {
+    obj.enableNode = base.initNode( "enabled", 0, "BOOL" );
+  }
+
+  n = base.getNode( "source-tank", 1 );
+  obj.sourceNode = props.globals.initNode( "/consumables/fuel/tank[" ~ n.getValue() ~ "]/level-gal_us", 0.0 );
+  obj.destinationNodes = [];
+  foreach( n; base.getChildren("destination-tank") ) {
+    append( obj.destinationNodes,
+      props.globals.initNode( "/consumables/fuel/tank[" ~ n.getValue() ~ "]/level-gal_us", 0.0 ) );
+  }
+
+  obj.max_fuel_flow_gps = base.initNode( "max-fuel-flow-pph", 0.0 ).getValue() / 3600 / 6.6;
+  obj.serviceableNode = base.initNode( "serviceable", 1, "BOOL" );
+
+  v = base.getNode( "name" );
+  if( v != nil )
+    v = v.getValue();
+  else
+    v = "unnamed";
+  print( "FUEL PUMP ", v, " initialized" );
+  return obj;
+};
+
+FuelPump.update = func(dt) {
+  #if its of, go away
+  !me.enableNode.getValue() and return;
+  #if its broken, go away
+  !me.serviceableNode.getValue() and return;
+
+  # compute fuel flow
+  var transfer_fuel = me.max_fuel_flow_gps * dt;
+  #consume fuel, up to the available level
+  var source_level = me.sourceNode.getValue();
+  if( transfer_fuel > source_level )
+    transfer_fuel = source_level;
+  source_level -= transfer_fuel;
+  me.sourceNode.setDoubleValue( source_level );
+
+  #devide fuel by number of destinations
+  transfer_fuel /= size(me.destinationNodes);  
+
+  foreach( var n; me.destinationNodes ) {
+    n.setDoubleValue( n.getValue() + transfer_fuel );
+  }
+}
+
+FuelPump.hasFuel = func {
+  return me.sourceNode.getValue() > 0.01;
+};
+
+####################################################################
+
+var FuelTransferUnit = {};
+
+FuelTransferUnit.new = func(base) {
+  var obj = {};
+  obj.parents = [FuelTransferUnit];
+  obj.pumpEnableNode = props.globals.initNode( base.getNode("pump",1).getValue() ~ "/enabled",0,"BOOL");
+  obj.on = base.getNode("on-level-kg", 1 ).getValue() * 2.2;
+  obj.off = base.getNode("off-level-kg", 1 ).getValue() * 2.2;
+  return obj;
+};
+
+FuelTransferUnit.update = func(dt, level ) {
+  level < me.on  and me.pumpEnableNode.setBoolValue( 1 );
+  level > me.off and me.pumpEnableNode.setBoolValue( 0 );
+}
+
+####################################################################
+
+var AutoSequencer = {};
+
+AutoSequencer.new = func(base) {
+  var obj = {};
+  obj.parents = [AutoSequencer];
+  obj.baseNode = base;
+  var n = base.getNode("tank-number", 1 );
+  obj.tankLevelNode = props.globals.initNode( "consumables/fuel/tank[" ~ n.getValue() ~ "]/level-gal_us", 0.0 );
+  obj.enabledNode = base.initNode( "enabled", 0, "BOOL" );
+  obj.serviceableNode = base.initNode( "serviceable", 1, "BOOL" );
+
+  obj.transferUnits = [];
+  foreach( n; base.getChildren( "transfer-unit" ) )
+    append( obj.transferUnits, FuelTransferUnit.new( n ) );
+
+  print( "AUTO SEQUENCER: ready" );
+  return obj;
+};
+
+AutoSequencer.update = func(dt) {
+  !me.enabledNode.getValue() and return;
+  !me.serviceableNode.getValue() and return;
+
+  foreach( var n; me.transferUnits ) {
+    n.update(dt, me.tankLevelNode.getValue() * 6.6 );
   }
 };
 
@@ -414,6 +580,21 @@ var CourseErrorComputer = {
 
 var dragchute = nil;
 
+var initialize_fuelsystem = func {
+  var n = props.globals.getNode("/systems/fuel");
+  n == nil and return;
+
+  foreach( var nn; n.getChildren( "fuel-pump" ) ) {
+    append( updateClients, FuelPump.new( nn ) );
+  }
+
+  foreach( var nn; n.getChildren( "auto-sequencer" ) ) {
+    append( updateClients, AutoSequencer.new( nn ) );
+  }
+
+  return;
+};
+
 var initialize = func {
   print( "Hansa Jet nasal systems initializing..." );
   var hydraulicSystem = nil;
@@ -448,12 +629,14 @@ var initialize = func {
   hydraulicSystem.addLoad( hydraulicElement );
   append( updateClients, hydraulicSystem );
 
-  append( updateClients, FuelTanks.new(5) );
+#  append( updateClients, FuelTanks.new(5) );
   append( updateClients, Engines.new(2) );
   append( updateClients, WindshieldHeater.new( 0 ) );
 #  append( updateClients, WindshieldHeater.new( 1 ) );
 
   append( updateClients, CourseErrorComputer.new( "/instrumentation/nav[0]", "/instrumentation/heading-indicator[0]" ) );
+
+  initialize_fuelsystem();  
 
   dragchute = Dragchute.new();
   HansajetTimer();

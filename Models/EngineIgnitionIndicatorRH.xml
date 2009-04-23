@@ -2,13 +2,13 @@
 <PropertyList>
 
   <params>
-    <value>engines/engine[1]/running</value>
+    <value>engines/engine[1]/ignition</value>
     <test>engines/engine[1]/ignition-light-test</test>
   </params>
 
   <path>ControlLight-Red.ac</path>
 
-  <animation include="ControlLightInvertedLightSelectAnimation.xml"/>
+  <animation include="ControlLightLightSelectAnimation.xml"/>
   <animation include="ControlLightPickAnimation.xml"/>
   <animation include="ControlLightTranslateAnimation.xml"/>
 

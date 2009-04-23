@@ -39,6 +39,8 @@
     </axis>
   </animation>
 
+  <!-- TODO: implement dimming switch functionality -->
+
   <!-- operations manual page 8.8-1:
        illuminates, at 195KIAS if slats are not retracted -->
   <animation>
@@ -49,7 +51,7 @@
         <property alias="/params/test"/>
         <and>
           <greater-than>
-            <property>instrumentation/airspeed-indicator[1]/indicated-speed-kt</property>
+            <property>instrumentation/airspeed-indicator[0]/indicated-speed-kt</property>
             <value>195</value>
           </greater-than>
           <or>
@@ -95,13 +97,19 @@
     </condition>
   </animation>
 
+  <!-- operation manual 14.2.7
+       each fuel pump supplies fuel with a pressure of approx 14 psi -->
+  <!-- assume: low pressure is 10psi -->
   <animation>
     <type>select</type>
     <object-name>Caution.No1EngFuelPressLow</object-name>
     <condition>
       <or>
         <property alias="/params/test"/>
-        <property>instrumentation/warning-panel/no1-eng-fuel-press-low</property>
+        <less-than>
+          <property>engines/engine[0]/fuel-pressure-psi</property>
+          <value>10</value>
+        </less-than>
       </or>
     </condition>
   </animation>
@@ -112,7 +120,10 @@
     <condition>
       <or>
         <property alias="/params/test"/>
-        <property>instrumentation/warning-panel/no2-eng-fuel-press-low</property>
+        <less-than>
+          <property>engines/engine[1]/fuel-pressure-psi</property>
+          <value>10</value>
+        </less-than>
       </or>
     </condition>
   </animation>
@@ -250,6 +261,7 @@
   <!-- operations manual 16.11.6 -->
   <!-- illuminates if level in reservoir drops below 1 US GAL -->
   <!-- low level shutoff test button also illuminates -->
+  <!-- TODO: not implemented -->
   <animation>
     <type>select</type>
     <object-name>Caution.HydLowLevel</object-name>
@@ -277,17 +289,32 @@
     </condition>
   </animation>
 
+  <!-- operations manual 17.4.3 -->
+  <!-- illuminate gear-switch is down and anti skid switch is off -->
+  <!-- extinguishes if anti skid switch is on or gear switch is up
+       and main gear uplocks engage -->
+  <!-- TODO: check for uplocks -->
   <animation>
     <type>select</type>
     <object-name>Caution.AntiSkidOff</object-name>
     <condition>
       <or>
         <property alias="/params/test"/>
-        <property>instrumentation/warning-panel/anti-skid-off</property>
+        <and>
+          <property>controls/gear/gear-down</property>
+          <not>
+            <property>controls/gear/anti-skid</property>
+          </not>
+        </and>
       </or>
     </condition>
   </animation>
 
+  <!-- operations manual 17.1.3 -->
+  <!-- illuminates if throttle below 13mm +/- 0.5mm above idle and gear
+       retracted; extinguishes if throttle above 13mm or all three gear
+       locked -->
+  <!-- TODO: not yet implemented -->
   <animation>
     <type>select</type>
     <object-name>Caution.LandingGear</object-name>
@@ -441,6 +468,10 @@
     </condition>
   </animation>
 
+  <!-- operation manual 14.5.2 -->
+  <!-- illuminates at 660kg (1455lbs) total fuel. 
+       at "Envelope B Procedure, illuminates at 440kg (970lbs) kg total fuel -->
+  <!-- TODO: not implemented -->
   <animation>
     <type>select</type>
     <object-name>Caution.FuelLowLevel</object-name>

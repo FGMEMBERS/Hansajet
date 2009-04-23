@@ -4,6 +4,10 @@
   <path>Hansajet.ac</path>
 
   <model>
+    <path>Models/Aircraft/marker.xml</path>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/HiResInstrumentPanel.xml</path>
     <name>HiResInstrumentPanel</name>
     <offsets>
@@ -806,6 +810,10 @@
     </condition>
   </animation>
 
+  <!-- operations manual page 17-10: 
+       rotate handwheel: clockwise for right turn, ccw for left turn
+       245deg handwheel movement from neutral position gives full 47deg
+       nose wheel deflection to either side -->
   <animation>
     <type>rotate</type>
     <object-name>NoseGear</object-name>

@@ -6,7 +6,7 @@
     <test>controls/antistall/pusher-valve-test[1]</test>
   </params>
 
-  <path>ControlLight-Red.ac</path>
+  <path>ControlLight-Green.ac</path>
 
   <animation include="ControlLightLightSelectAnimation.xml"/>
   <animation include="ControlLightPickAnimation.xml"/>

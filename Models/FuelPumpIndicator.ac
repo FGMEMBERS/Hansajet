@@ -190,7 +190,7 @@ refs 3
 11 0.0669873 0.25
 kids 0
 OBJECT poly
-name "Light2boff"
+name "Light2aoff"
 loc 0.00019 -0.00490088 -0.00874618
 crease 45.000000
 numvert 13
@@ -466,7 +466,7 @@ refs 3
 0 0.5 0.5
 kids 0
 OBJECT poly
-name "Light1boff"
+name "Light1aoff"
 loc 0.00019 -0.00490088 0.00874613
 crease 45.000000
 numvert 13
@@ -558,7 +558,7 @@ refs 3
 12 0.5 0.5
 kids 0
 OBJECT poly
-name "Light1aoff"
+name "Light1boff"
 loc 0.00019 0.00625804 0.00814294
 crease 45.000000
 numvert 13
@@ -650,7 +650,7 @@ refs 3
 0 0.5 0.5
 kids 0
 OBJECT poly
-name "Light1a"
+name "Light1b"
 loc 0.0002 0.00625804 0.00814294
 crease 45.000000
 numvert 13
@@ -742,7 +742,7 @@ refs 3
 12 0.5 0.5
 kids 0
 OBJECT poly
-name "Light1b"
+name "Light1a"
 loc 0.0002 -0.00490088 0.00874613
 crease 45.000000
 numvert 13
@@ -1018,7 +1018,7 @@ refs 3
 12 0 0.5
 kids 0
 OBJECT poly
-name "Light2b"
+name "Light2a"
 loc 0.0002 -0.00490088 -0.00874618
 crease 45.000000
 numvert 13
@@ -1110,7 +1110,7 @@ refs 3
 11 0.0669873 0.25
 kids 0
 OBJECT poly
-name "Light2a"
+name "Light2b"
 loc 0.0002 0.00625804 -0.00814299
 crease 45.000000
 numvert 13
