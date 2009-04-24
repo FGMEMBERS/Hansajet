@@ -9,6 +9,7 @@
     <switch name="/systems/fuel/fuel-pump[3]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[3]/max-pressure-psi">
+        /systems/fuel/fuel-pump[3]/serviceable gt 0.5
         /controls/fuel/tank[1]/boost-pump[0] gt 0.5
         /consumables/fuel/tank[1]/level-lbs gt 0.0
       </test>
@@ -17,7 +18,7 @@
     <!-- lag filter to build up pressure slowly -->
     <lag_filter name="/systems/fuel/fuel-pump[3]/filtered-pressure-psi">
       <input>/systems/fuel/fuel-pump[3]/pressure-psi</input>
-      <c1>0.099</c1>
+      <c1>0.198</c1>
     </lag_filter>
 
     <!-- create ideal pump output if switch is on and fuel available -->
@@ -25,6 +26,7 @@
     <switch name="/systems/fuel/fuel-pump[4]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[4]/max-pressure-psi">
+        /systems/fuel/fuel-pump[4]/serviceable gt 0.5
         /controls/fuel/tank[1]/boost-pump[1] gt 0.5
         /consumables/fuel/tank[1]/level-lbs gt 0.0
       </test>
@@ -33,7 +35,7 @@
     <!-- lag filter to build up pressure slowly -->
     <lag_filter name="/systems/fuel/fuel-pump[4]/filtered-pressure-psi">
       <input>/systems/fuel/fuel-pump[4]/pressure-psi</input>
-      <c1>0.11</c1>
+      <c1>0.22</c1>
     </lag_filter>
 
     <!-- add pressure from main and aux pump -->
@@ -51,6 +53,7 @@
     <switch name="/systems/fuel/fuel-pump[5]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[5]/max-pressure-psi">
+        /systems/fuel/fuel-pump[5]/serviceable gt 0.5
         /controls/fuel/tank[2]/boost-pump[0] gt 0.5
         /consumables/fuel/tank[2]/level-lbs gt 0.0
       </test>
@@ -59,7 +62,7 @@
     <!-- lag filter to build up pressure slowly -->
     <lag_filter name="/systems/fuel/fuel-pump[5]/filtered-pressure-psi">
       <input>/systems/fuel/fuel-pump[5]/pressure-psi</input>
-      <c1>0.12</c1>
+      <c1>0.22</c1>
     </lag_filter>
 
     <!-- create ideal pump output if switch is on and fuel available -->
@@ -67,6 +70,7 @@
     <switch name="/systems/fuel/fuel-pump[6]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[6]/max-pressure-psi">
+        /systems/fuel/fuel-pump[6]/serviceable gt 0.5
         /controls/fuel/tank[2]/boost-pump[1] gt 0.5
         /consumables/fuel/tank[2]/level-lbs gt 0.0
       </test>
@@ -75,7 +79,7 @@
     <!-- lag filter to build up pressure slowly -->
     <lag_filter name="/systems/fuel/fuel-pump[6]/filtered-pressure-psi">
       <input>/systems/fuel/fuel-pump[6]/pressure-psi</input>
-      <c1>0.098</c1>
+      <c1>0.198</c1>
     </lag_filter>
 
     <!-- add pressure from main and aux pump -->

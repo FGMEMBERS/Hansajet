@@ -545,8 +545,8 @@ wing tip  NACA 63A(1.8)11
     <switch name="slat extend">
       <default value="0"/>
       <test logic="OR" value="1">
-        fcs/spoiler-cmd-norm > 0.5
-        fcs/flap-pos-deg > 5
+        fcs/spoiler-cmd-norm gt 0.5
+        fcs/flap-pos-deg gt 5
       </test>
     </switch>
 
@@ -569,20 +569,23 @@ wing tip  NACA 63A(1.8)11
   <!-- electrical system: generator bus -->
   <!-- automatically retract at throttle pos for approx 98% N1 -->
   <channel name="Speedbrake">
-   <kinematic name="Speedbrake Control">
-     <input>fcs/speedbrake-cmd-norm</input>
-     <traverse>
-       <setting>
-          <position> 0 </position>
-          <time>     0 </time>
-       </setting>
-       <setting>
-          <position> 1 </position>
-          <time>     1 </time>
-       </setting>
-     </traverse>
-     <output>fcs/speedbrake-pos-norm</output>
-   </kinematic>
+
+    <switch name="Speedbrake Extend">
+      <default value="1"/>
+      <test logic="OR" value="0">
+        fcs/throttle-cmd-norm[0] ge 0.98
+        fcs/throttle-cmd-norm[1] ge 0.98
+      </test>
+      <test value="0">
+        fcs/speedbrake-cmd-norm lt 0.5
+      </test>
+    </switch>
+
+    <actuator name="Speedbrake Actuator">
+      <input>fcs/speedbrake-extend</input>
+      <rate_limit>1.0</rate_limit>
+      <output>fcs/speedbrake-pos-norm</output>
+    </actuator>
 
   </channel>
 

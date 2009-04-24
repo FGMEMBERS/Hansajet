@@ -252,51 +252,46 @@
     <!-- operations manual 14.2.6: 
          fuselage pump transfers to both wing tanks -->
     <fuel>
-      <pressure-psi>14</pressure-psi>
-      <low-level-warning-kg>440</low-level-warning-kg>
+      <pressure-psi type="double">14</pressure-psi>
+      <low-level-warning-kg type="double">440</low-level-warning-kg>
       <fuel-pump n="0">
         <name>fuselage pump</name>
-        <source-tank>0</source-tank>
-        <destination-tank>1</destination-tank>
-        <destination-tank>2</destination-tank>
-        <max-fuel-flow-pph>5000</max-fuel-flow-pph>
+        <source-tank type="int">0</source-tank>
+        <destination-tank type="int">1</destination-tank>
+        <destination-tank type="int">2</destination-tank>
+        <max-fuel-flow-pph type="double">5000</max-fuel-flow-pph>
       </fuel-pump>
       <fuel-pump n="1">
         <name>left tip pump</name>
-        <source-tank>3</source-tank>
-        <destination-tank>1</destination-tank>
-        <max-fuel-flow-pph>5000</max-fuel-flow-pph>
+        <source-tank type="int">3</source-tank>
+        <destination-tank type="int">1</destination-tank>
+        <max-fuel-flow-pph type="double">5000</max-fuel-flow-pph>
       </fuel-pump>
       <fuel-pump n="2">
         <name>right tip pump</name>
-        <source-tank>4</source-tank>
-        <destination-tank>2</destination-tank>
-        <max-fuel-flow-pph>5000</max-fuel-flow-pph>
+        <source-tank type="int">4</source-tank>
+        <destination-tank type="int">2</destination-tank>
+        <max-fuel-flow-pph type="double">5000</max-fuel-flow-pph>
       </fuel-pump>
       <fuel-pump n="3">
         <name>left main wing pump</name>
-        <source-tank>1</source-tank>
-        <max-pressure-psi>14</max-pressure-psi>
-      </fuel-pump>
-      <fuel-pump n="3">
-        <name>left main wing pump</name>
-        <source-tank>1</source-tank>
-        <max-pressure-psi>14</max-pressure-psi>
+        <source-tank type="int">1</source-tank>
+        <max-pressure-psi type="double">14</max-pressure-psi>
       </fuel-pump>
       <fuel-pump n="4">
         <name>left aux wing pump</name>
-        <source-tank>1</source-tank>
-        <max-pressure-psi>14</max-pressure-psi>
+        <source-tank type="int">1</source-tank>
+        <max-pressure-psi type="double">14</max-pressure-psi>
       </fuel-pump>
       <fuel-pump n="5">
         <name>right main wing pump</name>
-        <source-tank>2</source-tank>
-        <max-pressure-psi>14</max-pressure-psi>
+        <source-tank type="int">2</source-tank>
+        <max-pressure-psi type="double">14</max-pressure-psi>
       </fuel-pump>
       <fuel-pump n="6">
         <name>right aux wing pump</name>
-        <source-tank>2</source-tank>
-        <max-pressure-psi>14</max-pressure-psi>
+        <source-tank type="int">2</source-tank>
+        <max-pressure-psi type="double">14</max-pressure-psi>
       </fuel-pump>
 
       <!-- LH auto sequencer -->
