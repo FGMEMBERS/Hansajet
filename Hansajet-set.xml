@@ -139,9 +139,8 @@
 
     <flaps>
       <setting>0.000</setting> <!-- Flaps 0 -->
-      <setting>0.200</setting> <!-- Flaps 10 -->
       <setting>0.400</setting> <!-- Flaps 20 -->
-      <setting>0.600</setting> <!-- Flaps 30 -->
+      <setting>0.800</setting> <!-- Flaps 40 -->
       <setting>1.000</setting> <!-- Flaps 50 -->
     </flaps>
 
