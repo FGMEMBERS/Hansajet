@@ -119,6 +119,26 @@
       <pitch-deg>180</pitch-deg>
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/BleedAirLH.xml</path>
+    <name>SlatSwitch</name>
+    <offsets>
+      <x-m>-6.63893</x-m>
+      <y-m>-0.04</y-m>
+      <z-m>1.60326</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/BleedAirRH.xml</path>
+    <name>SlatSwitch</name>
+    <offsets>
+      <x-m>-6.63893</x-m>
+      <y-m>0.04</y-m>
+      <z-m>1.60326</z-m>
+    </offsets>
+  </model>
 <!--
   <model>
     <path>Aircraft/Hansajet/Models/LandingLightBeam.xml</path>

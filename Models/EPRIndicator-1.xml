@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>engines/engine[0]/epr</value>
+    <value>fdm/jsbsim/propulsion/engine[0]/epr-corrected</value>
   </params>
 
   <path>EPRIndicator.ac</path>
