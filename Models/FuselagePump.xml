@@ -10,7 +10,7 @@
 <PropertyList>
 
   <params>
-    <value>controls/fuel/tank[0]/boost-pump[0]</value>
+    <value>systems/fuel/fuel-pump[0]/enabled</value>
   </params>
 
   <model include="Switch3.xml"/>

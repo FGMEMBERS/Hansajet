@@ -2,6 +2,50 @@
 
 <system name="Fuel">
 
+  <channel name="Fuel Quantity Sensors">
+
+    <!-- Fuselage -->
+    <switch name="/consumables/fuel/tank[0]/empty">
+      <default value="0.0"/>
+      <test value="1.0">
+        /consumables/fuel/tank[0]/level-lbs lt 10.0
+      </test>
+    </switch>
+
+    <!-- Left Wing -->
+    <switch name="/consumables/fuel/tank[1]/empty">
+      <default value="0.0"/>
+      <test value="1.0">
+        /consumables/fuel/tank[1]/level-lbs lt 10.0
+      </test>
+    </switch>
+
+    <!-- Right Wing -->
+    <switch name="/consumables/fuel/tank[2]/empty">
+      <default value="0.0"/>
+      <test value="1.0">
+        /consumables/fuel/tank[2]/level-lbs lt 10.0
+      </test>
+    </switch>
+
+    <!-- Left Tip -->
+    <switch name="/consumables/fuel/tank[3]/empty">
+      <default value="0.0"/>
+      <test value="1.0">
+        /consumables/fuel/tank[3]/level-lbs lt 10.0
+      </test>
+    </switch>
+
+    <!-- Right Tip -->
+    <switch name="/consumables/fuel/tank[4]/empty">
+      <default value="0.0"/>
+      <test value="1.0">
+        /consumables/fuel/tank[4]/level-lbs lt 10.0
+      </test>
+    </switch>
+
+  </channel>
+
   <channel name="Fuel Pressure 1">
 
     <!-- create ideal pump output if switch is on and fuel available -->
@@ -10,7 +54,7 @@
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[3]/max-pressure-psi">
         /systems/fuel/fuel-pump[3]/serviceable gt 0.5
-        /controls/fuel/tank[1]/boost-pump[0] gt 0.5
+        /systems/fuel/fuel-pump[3]/enabled gt 0.5
         /consumables/fuel/tank[1]/level-lbs gt 0.0
       </test>
     </switch>
@@ -27,7 +71,7 @@
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[4]/max-pressure-psi">
         /systems/fuel/fuel-pump[4]/serviceable gt 0.5
-        /controls/fuel/tank[1]/boost-pump[1] gt 0.5
+        /systems/fuel/fuel-pump[4]/enabled gt 0.5
         /consumables/fuel/tank[1]/level-lbs gt 0.0
       </test>
     </switch>
@@ -54,7 +98,7 @@
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[5]/max-pressure-psi">
         /systems/fuel/fuel-pump[5]/serviceable gt 0.5
-        /controls/fuel/tank[2]/boost-pump[0] gt 0.5
+        /systems/fuel/fuel-pump[5]/enabled gt 0.5
         /consumables/fuel/tank[2]/level-lbs gt 0.0
       </test>
     </switch>
@@ -71,7 +115,7 @@
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[6]/max-pressure-psi">
         /systems/fuel/fuel-pump[6]/serviceable gt 0.5
-        /controls/fuel/tank[2]/boost-pump[1] gt 0.5
+        /systems/fuel/fuel-pump[6]/enabled gt 0.5
         /consumables/fuel/tank[2]/level-lbs gt 0.0
       </test>
     </switch>
