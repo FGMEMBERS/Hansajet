@@ -495,42 +495,82 @@ wing tip  NACA 63A(1.8)11
 
   </channel>
 
+  <!-- operations manual section 8.7 -->
+  <!-- driven by combined hydraulic system I and II -->
+  <!-- TODO: stop if flap asymmetry is greater than 6deg -->
+  <!-- electrical system: battery bus -->
   <channel name="Flaps">
-   <kinematic name="Flaps Control">
-     <input>fcs/flap-cmd-norm</input>
-     <traverse>
-       <setting>
-          <position>  0 </position>
-          <time>      0 </time>
-       </setting>
-       <setting>
-          <position> 20 </position>
-          <time>      4 </time>
-       </setting>
-       <setting>
-          <position> 40 </position>
-          <time>      4 </time>
-       </setting>
-       <setting>
-          <position> 50 </position>
-          <time>      2 </time>
-       </setting>
-     </traverse>
-     <output>fcs/flap-pos-deg</output>
-   </kinematic>
 
-   <aerosurface_scale name="flap normalization">
-      <input>fcs/flap-pos-deg</input>
-      <domain>
-        <min>  0 </min>
-        <max> 50 </max>
-      </domain>
+    <switch name="fcs/flap-cmd-norm-conditional">
+      <default value="fcs/flap-cmd-norm-conditional"/>
+      <test logic="OR" value="fcs/flap-cmd-norm">
+          /systems/hydraulic/system[0]/pressure-psi gt 2000
+          /systems/hydraulic/system[1]/pressure-psi gt 2000
+      </test>
+    </switch>
+
+    <actuator name="flaps actuator left">
+      <input>fcs/flap-cmd-norm-conditional</input>
+      <rate_limit>0.1</rate_limit>
+      <output>fcs/flap[0]/position-norm</output>
+    </actuator>
+
+    <aerosurface_scale name="fcs/flap[0]/position-deg">
+      <input>fcs/flap[0]/position-norm</input>
       <range>
-        <min> 0 </min>
-        <max> 1 </max>
+        <min>0</min>
+        <max>50</max>
       </range>
+    </aerosurface_scale>
+
+    <actuator name="flaps actuator right">
+      <input>fcs/flap-cmd-norm-conditional</input>
+      <rate_limit>0.1</rate_limit>
+      <output>fcs/flap[1]/position-norm</output>
+    </actuator>
+
+    <aerosurface_scale name="fcs/flap[1]/position-deg">
+      <input>fcs/flap[1]/position-norm</input>
+      <range>
+        <min>0</min>
+        <max>50</max>
+      </range>
+    </aerosurface_scale>
+
+    <fcs_function name="flap position transmitter">
+      <description>flap position transmitter</description>
+      <function>
+        <product>
+          <sum>
+            <property>fcs/flap[0]/position-norm</property>
+            <property>fcs/flap[1]/position-norm</property>
+          </sum>
+          <value>0.5</value>
+        </product>
+      </function>
       <output>fcs/flap-pos-norm</output>
-   </aerosurface_scale>
+    </fcs_function>
+
+    <aerosurface_scale name="flap position degree">
+      <input>fcs/flap-pos-norm</input>
+      <range>
+        <min>0</min>
+        <max>50</max>
+      </range>
+      <output>fcs/flap-pos-deg</output>
+    </aerosurface_scale>
+
+    <fcs_function name="fcs/flap-asymmetry">
+      <function>
+        <abs>
+          <difference>
+            <property>fcs/flap[0]/position-deg</property>
+            <property>fcs/flap[1]/position-deg</property>
+          </difference>
+        </abs>
+      </function>
+    </fcs_function>
+
   </channel>
 
   <!-- operations manual section 8.8 -->
@@ -542,7 +582,8 @@ wing tip  NACA 63A(1.8)11
       <default value="0"/>
       <test logic="OR" value="1">
         fcs/spoiler-cmd-norm gt 0.5
-        fcs/flap-pos-deg gt 5
+        fcs/flap[0]/position-deg gt 5
+        fcs/flap[1]/position-deg gt 5
       </test>
     </switch>
 
@@ -662,6 +703,9 @@ wing tip  NACA 63A(1.8)11
 
  <system file="Fuel"/>
  <system file="Engines"/>
+ <system file="DC"/>
+ <system file="AC"/>
+ <system file="AC400Hz"/>
 
  <aerodynamics>
 
@@ -700,14 +744,24 @@ wing tip  NACA 63A(1.8)11
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
-           <table>
-             <independentVar lookup="row">fcs/flap-pos-norm</independentVar>
-             <tableData>
-              0.00 0.00
-              0.20 0.35
-              1.00 0.89
-             </tableData>
-           </table>
+           <sum>
+             <table>
+               <independentVar lookup="row">fcs/flap[0]/position-norm</independentVar>
+               <tableData>
+                0.00 0.00
+                0.20 0.17
+                1.00 0.44
+               </tableData>
+             </table>
+             <table>
+               <independentVar lookup="row">fcs/flap[1]/position-norm</independentVar>
+               <tableData>
+                0.00 0.00
+                0.20 0.17
+                1.00 0.44
+               </tableData>
+             </table>
+           </sum>
        </product>
     </function>
 
@@ -806,12 +860,15 @@ wing tip  NACA 63A(1.8)11
 
     <function name="aero/coefficient/CDflap">
        <description>Drag_due_to_flaps</description>
-         <product>
-           <property>aero/qbar-psf</property>
-           <property>metrics/Sw-sqft</property>
-           <property>fcs/flap-pos-deg</property>
-           <value> 0.00197 </value>
-         </product>
+       <product>
+         <property>aero/qbar-psf</property>
+         <property>metrics/Sw-sqft</property>
+         <value>0.00495</value>
+         <sum>
+           <property>fcs/flap[0]/position-norm</property>
+           <property>fcs/flap[1]/position-norm</property>
+         </sum>
+       </product>
     </function>
 
     <function name="aero/coefficient/CDgear">
@@ -942,6 +999,8 @@ wing tip  NACA 63A(1.8)11
        </product>
     </function>
 
+    <!-- TODO: Roll moment due to asymmetric flaps -->
+
     <function name="aero/coefficient/Cldr">
        <description>Roll_moment_due_to_rudder</description>
        <product>
@@ -985,6 +1044,7 @@ wing tip  NACA 63A(1.8)11
        </product>
     </function>
 
+<!--
     <function name="aero/coefficient/Cmflap">
        <description>Pitch_moment_due_to_flaps</description>
        <product>
@@ -995,6 +1055,7 @@ wing tip  NACA 63A(1.8)11
            <value>0.1</value>
        </product>
     </function>
+-->
 
     <function name="aero/coefficient/Cmq">
        <description>Pitch_moment_due_to_pitch_rate</description>

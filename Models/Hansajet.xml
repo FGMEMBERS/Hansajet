@@ -306,23 +306,23 @@
   <animation>
     <type>rotate</type>
     <object-name>Flap.Left</object-name>
-    <property>surface-positions/flap-pos-norm</property>
-    <factor>-50.0</factor>
+    <property>fdm/jsbsim/fcs/flap[0]/position-deg</property>
+    <factor>1.0</factor>
     <axis>
-      <x1-m>1.31932</x1-m>
-      <y1-m>-1.17276</y1-m>
-      <z1-m>1.45726</z1-m>
-      <x2-m>-0.0543465</x2-m>
-      <y2-m>-4.16786</y2-m>
-      <z2-m>1.79295</z2-m>
+      <x1-m>-0.0543465</x1-m>
+      <y1-m>-4.16786</y1-m>
+      <z1-m>1.79295</z1-m>
+      <x2-m>1.31932</x2-m>
+      <y2-m>-1.17276</y2-m>
+      <z2-m>1.45726</z2-m>
     </axis>
   </animation>
   
   <animation>
     <type>rotate</type>
     <object-name>Flap.Right</object-name>
-    <property>surface-positions/flap-pos-norm</property>
-    <factor>50.0</factor>
+    <property>fdm/jsbsim/fcs/flap[1]/position-deg</property>
+    <factor>1.0</factor>
     <axis>
       <x1-m>0.969578</x1-m>
       <y1-m>0.969578</y1-m>

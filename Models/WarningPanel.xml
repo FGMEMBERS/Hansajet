@@ -381,13 +381,17 @@
     </condition>
   </animation>
 
+  <!-- operations manual 8.7.1: illuminates at flap asymmetry exceeding 6deg -->
   <animation>
     <type>select</type>
     <object-name>Caution.FlapAsymmetry</object-name>
     <condition>
       <or>
         <property alias="/params/test"/>
-        <property>instrumentation/warning-panel/flap-asymmetry</property>
+        <greater-than>
+          <property>fdm/jsbsim/fcs/flap-asymmetry</property>
+          <value>6.0</value>
+        </greater-than>
       </or>
     </condition>
   </animation>
