@@ -11,6 +11,13 @@
           <script>Hansajet.dragchute != nil and Hansajet.dragchute.pack();</script>
         </binding>
       </item>
+      <item>
+        <label>Pushback</label>
+        <binding>
+          <command>dialog-show</command>
+          <dialog-name>pushback</dialog-name>
+        </binding>
+      </item>
     </menu>
   </default>
 </PropertyList>
