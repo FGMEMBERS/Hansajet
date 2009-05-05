@@ -156,7 +156,10 @@
     <condition>
       <or>
         <property alias="/params/test"/>
-        <property>instrumentation/warning-panel/no1-gen-off</property>
+        <less-than>
+          <property>/systems/electrical/bus[1]/generator[0]/voltage-v</property>
+          <value>20</value>
+        </less-than>
       </or>
     </condition>
   </animation>
@@ -167,7 +170,10 @@
     <condition>
       <or>
         <property alias="/params/test"/>
-        <property>instrumentation/warning-panel/no2-gen-off</property>
+        <less-than>
+          <property>/systems/electrical/bus[1]/generator[1]/voltage-v</property>
+          <value>20</value>
+        </less-than>
       </or>
     </condition>
   </animation>

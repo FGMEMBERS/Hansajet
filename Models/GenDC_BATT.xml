@@ -1,17 +1,18 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>instrumentation/overhead-panel/gen-dc-batt-norm</value>
+    <value>instrumentation/overhead-panel/dc-amps/deflection-norm</value>
   </params>
 
   <path>GenDC_BATT.ac</path>
 
   <animation include="SimpleGaugeEmissionInclude.xml"/>
     
+  <!-- +/- 42 degrees for full deflection -->
   <animation>
     <type>rotate</type>
     <object-name>Needle</object-name>
-    <property alias="../../params/value"/>
+    <property alias="/params/value"/>
     <factor>-42</factor>
     <axis>
       <x>1</x>

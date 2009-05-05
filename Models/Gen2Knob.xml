@@ -2,7 +2,7 @@
 <PropertyList>
 
   <params>
-    <value>controls/electric/generator[0]</value>
+    <value>controls/electric/generator[1]</value>
   </params>
 
   <model include="Knob1.xml"/>

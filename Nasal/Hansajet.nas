@@ -62,7 +62,8 @@ HydraulicSystem.new = func( rootNode, index ) {
   obj.rootNode = props.globals.getNode( rootNode ~ "[" ~ index ~ "]", 1 );
 
   obj.pressureNode = obj.rootNode.initNode( "pressure-psi", 0.0 );
-  obj.maxPressureNode = obj.rootNode.initNode( "max-pressure-psi", 3200.0 );
+# AFM 4.21
+  obj.maxPressureNode = obj.rootNode.initNode( "max-pressure-psi", 3000.0 );
 
   obj.pumps = [];
   obj.reservoirs = [];
@@ -333,6 +334,8 @@ FuelTransferUnit.update = func(dt, level ) {
 
 ####################################################################
 
+#TODO: Tip Tank Emergency Transfer (gravity feed)
+#TODO: Fuel Pump Unserviceable if tank empty
 var AutoSequencer = {};
 
 AutoSequencer.new = func(base) {
@@ -635,6 +638,10 @@ var initialize = func {
 #  append( updateClients, WindshieldHeater.new( 1 ) );
 
   append( updateClients, CourseErrorComputer.new( "/instrumentation/nav[0]", "/instrumentation/heading-indicator[0]" ) );
+
+  append( updateClients, aircraft.tyresmoke.new(0) );
+  append( updateClients, aircraft.tyresmoke.new(1) );
+  append( updateClients, aircraft.tyresmoke.new(2) );
 
   initialize_fuelsystem();  
 

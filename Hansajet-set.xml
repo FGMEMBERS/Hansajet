@@ -37,6 +37,7 @@
           <blue type="double">0.5</blue>
         </emission>
       </instrument-lighting>
+
       <cockpit-lighting>
         <emission>
           <red type="double">0.3</red>
@@ -44,6 +45,7 @@
           <blue type="double">0.0</blue>
         </emission>
       </cockpit-lighting>
+
     </model>
 
     <rendering>
@@ -237,6 +239,10 @@
       <nav-lights type="bool">0</nav-lights>
       <beacon type="bool">0</beacon>
     </lighting>
+    <electric>
+      <generator n="0" type="int">0</generator>
+      <generator n="1" type="int">0</generator>
+    </electric>
   </controls>
 
   <systems>
@@ -342,6 +348,95 @@
       </auto-sequencer>
     </fuel>
 
+    <electrical>
+      <bus n="0">
+        <name type="string">Main Battery Bus</name>
+        <battery n="0">
+          <name type="string">Battery 1</name>
+          <design-voltage-v type="double">24</design-voltage-v>
+          <design-capacity-ah type="double">25</design-capacity-ah>
+          <capacity-ah type="double">20</capacity-ah>
+          <g0-siemens type="double">10</g0-siemens>
+          <condition>
+            <property>controls/electric/battery[0]</property>
+          </condition>
+        </battery>
+
+        <battery n="1">
+          <name type="string">Battery 2</name>
+          <design-voltage-v type="double">24</design-voltage-v>
+          <design-capacity-ah type="double">25</design-capacity-ah>
+          <capacity-ah type="double">20</capacity-ah>
+          <g0-siemens type="double">10</g0-siemens>
+          <condition>
+            <property>controls/electric/battery[1]</property>
+          </condition>
+        </battery>
+
+        <load>
+          <name type="string">base load</name>
+          <g0-siemens type="double">0.04</g0-siemens>
+        </load>
+
+      </bus>
+
+      <bus n="1">
+        <name type="string">Main Generator Bus</name>
+
+        <generator n="0">
+          <source type="string">engines/engine[0]/n2</source>
+          <scale type="double">2.85</scale>
+          <offset type="double">-114</offset>
+          <min-v type="double">0.0</min-v>
+          <max-v type="double">28.5</max-v>
+          <max-a type="double">350</max-a>
+          <condition>
+            <equals>
+              <property>controls/electric/generator[0]</property>
+              <value type="double">1</value>
+            </equals>
+          </condition>
+        </generator>
+
+        <generator n="1">
+          <source type="string">engines/engine[1]/n2</source>
+          <scale type="double">2.85</scale>
+          <offset type="double">-114</offset>
+          <min-v type="double">0.0</min-v>
+          <max-v type="double">28.5</max-v>
+          <max-a type="double">350</max-a>
+          <condition>
+            <equals>
+              <property>controls/electric/generator[1]</property>
+              <value type="double">1</value>
+            </equals>
+          </condition>
+        </generator>
+
+        <load>
+          <name type="string">base load</name>
+          <g0-siemens type="double">0.04</g0-siemens>
+        </load>
+      </bus>
+
+      <bus n="2">
+        <name type="string">Essential Bus</name>
+      </bus>
+
+      <bus n="3">
+        <name type="string">Generator Bus 1</name>
+      </bus>
+
+      <bus n="4">
+        <name type="string">Generator Bus 2</name>
+      </bus>
+
+      <bus n="5">
+        <name type="string">Battery Bus</name>
+      </bus>
+
+    </electrical>
+
   </systems>
 
   <autopilot>
@@ -442,6 +537,7 @@
     <Hansajet>
       <file>Aircraft/Hansajet/Nasal/Hansajet.nas</file>
       <file>Aircraft/Hansajet/Nasal/WheelSpinner.nas</file>
+      <file>Aircraft/Hansajet/Nasal/electric.nas</file>
       <file>Aircraft/Hansajet/Nasal/SelectorSwitch.nas</file>
       <file>Aircraft/Hansajet/Models/Radio/kr87.nas</file>
       <script><![CDATA[
@@ -471,6 +567,25 @@
           "instrumentation/nav[1]/relative-bearing-deg",
           "instrumentation/adf[1]/indicated-bearing-deg"
           ]);
+        SelectorSwitch.new( 
+          "instrumentation/overhead-panel/dc-instr-source",
+          "instrumentation/overhead-panel/dc-amps/deflection-norm", [
+          "instrumentation/overhead-panel/dc-amps/i0-norm",
+          "instrumentation/overhead-panel/dc-amps/i1-norm",
+          "instrumentation/overhead-panel/dc-amps/i2-norm",
+          "instrumentation/overhead-panel/dc-amps/i3-norm",
+          "instrumentation/overhead-panel/dc-amps/i4-norm"
+          ]);
+        SelectorSwitch.new( 
+          "instrumentation/overhead-panel/dc-instr-source",
+          "instrumentation/overhead-panel/dc-volts", [
+          "instrumentation/overhead-panel/dc-amps/i0-norm",
+          "systems/electrical/bus[0]/battery[0]/voltage-v",
+          "systems/electrical/bus[0]/battery[1]/voltage-v",
+          "systems/electrical/bus[1]/generator[0]/voltage-v",
+          "systems/electrical/bus[1]/generator[1]/voltage-v"
+          ]);
+
       ]]></script>
     </Hansajet>
     <Autopilot>

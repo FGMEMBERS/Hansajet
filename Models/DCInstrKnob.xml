@@ -2,7 +2,7 @@
 <PropertyList>
 
   <params>
-    <value>controls/electric/dc-instr-source</value>
+    <value>instrumentation/overhead-panel/dc-instr-source</value>
   </params>
 
   <model include="Knob1.xml"/>

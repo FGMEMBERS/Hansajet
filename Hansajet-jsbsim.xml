@@ -498,19 +498,12 @@ wing tip  NACA 63A(1.8)11
   <!-- operations manual section 8.7 -->
   <!-- driven by combined hydraulic system I and II -->
   <!-- TODO: stop if flap asymmetry is greater than 6deg -->
+  <!-- TODO: no flaps on low hydraulic pressure -->
   <!-- electrical system: battery bus -->
   <channel name="Flaps">
 
-    <switch name="fcs/flap-cmd-norm-conditional">
-      <default value="fcs/flap-cmd-norm-conditional"/>
-      <test logic="OR" value="fcs/flap-cmd-norm">
-          /systems/hydraulic/system[0]/pressure-psi gt 2000
-          /systems/hydraulic/system[1]/pressure-psi gt 2000
-      </test>
-    </switch>
-
     <actuator name="flaps actuator left">
-      <input>fcs/flap-cmd-norm-conditional</input>
+      <input>fcs/flap-cmd-norm</input>
       <rate_limit>0.1</rate_limit>
       <output>fcs/flap[0]/position-norm</output>
     </actuator>
@@ -524,7 +517,7 @@ wing tip  NACA 63A(1.8)11
     </aerosurface_scale>
 
     <actuator name="flaps actuator right">
-      <input>fcs/flap-cmd-norm-conditional</input>
+      <input>fcs/flap-cmd-norm</input>
       <rate_limit>0.1</rate_limit>
       <output>fcs/flap[1]/position-norm</output>
     </actuator>
@@ -701,11 +694,14 @@ wing tip  NACA 63A(1.8)11
 
  </flight_control>
 
+ <system file="pushback"/>
  <system file="Fuel"/>
  <system file="Engines"/>
  <system file="DC"/>
+<!--
  <system file="AC"/>
  <system file="AC400Hz"/>
+-->
 
  <aerodynamics>
 
@@ -1134,5 +1130,19 @@ wing tip  NACA 63A(1.8)11
 
  </aerodynamics>
 
+  <external_reactions>
+    <force name="pushback" frame="BODY">
+      <location unit="M">
+        <x>  -7.33 </x>
+        <y>   0.00 </y>
+        <z>   0.00 </z>
+      </location>
+      <direction>
+        <x>1</x>
+        <y>0</y>
+        <z>0</z>
+      </direction>
+    </force>
+  </external_reactions>
 </fdm_config>
 

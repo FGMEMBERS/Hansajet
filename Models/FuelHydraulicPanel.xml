@@ -105,6 +105,17 @@
   </model>
 
   <model>
+    <path>Aircraft/Hansajet/Models/FuelPumpTestButton.xml</path>
+    <name>FuelPumpTest</name>
+    <offsets>
+      <x-m>0.02</x-m>
+      <y-m>0.08908085</y-m>
+      <z-m>0</z-m>
+      <pitch-deg>-90</pitch-deg>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/FuelPumpIndicator.xml</path>
     <name>FuelPumps</name>
     <offsets>

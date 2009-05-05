@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <value>instrumentation/overhead-panel/dc-volts-norm</value>
+    <value>instrumentation/overhead-panel/dc-volts</value>
   </params>
 
   <path>DCVolts.ac</path>
@@ -12,7 +12,7 @@
     <type>rotate</type>
     <object-name>Needle</object-name>
     <property alias="../../params/value"/>
-    <factor>-84</factor>
+    <factor>-2.8</factor>
     <offset-deg>42</offset-deg>
     <axis>
       <x>1</x>

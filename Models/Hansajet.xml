@@ -1126,4 +1126,44 @@
     </condition>
   </animation>
 
+  <model>
+    <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
+    <name>tyre-smoke-n</name>
+    <offsets>
+      <x-m>-7.226</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.01</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Generic/Effects/tyre-smoke-port.xml</path>
+    <name>tyre-smoke-p</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>-1.13532</y-m>
+      <z-m>-0.01</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Generic/Effects/tyre-smoke-stbd.xml</path>
+    <name>tyre-smoke-s</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>1.13532</y-m>
+      <z-m>-0.01</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <name>Pushback</name>
+    <path>Models/Airport/Pushback/Goldhofert.xml</path>
+    <offsets>
+      <x-m>-7.426</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.01</z-m>
+    </offsets>
+  </model>
+
 </PropertyList>

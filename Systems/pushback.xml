@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<system name="pushback">
+  <property>/sim/model/pushback/magnitude</property>
+  <channel name="Pushback">
+    <switch name="systems/pushback/force">
+      <default value="0"/>
+      <test value="/sim/model/pushback/magnitude">
+        /sim/model/pushback/position-norm gt 0.95
+        /gear/gear/wow == 1
+        gear/unit[0]/wheel-speed-fps lt 500
+      </test>
+      <output>external_reactions/pushback/magnitude</output>
+    </switch>
+  </channel>
+</system>

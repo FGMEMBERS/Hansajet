@@ -1,3 +1,75 @@
 <?xml version="1.0"?>
+<!-- 
+  - two engine driven starter generators, 350A
+  - two batteries (NiCd,24V,25Ah)
+  - one apu starter generator (if equipped)
+  - one ground power receptacle
+
+  operations manual 18.3 page 18.3-1 (427) ff
+
+  generator output voltage 28.5V
+-->
+
 <system name="DC">
+
+  <property>/systems/electrical/bus[0]/battery[0]/i-amps</property>
+  <property>/systems/electrical/bus[0]/battery[1]/i-amps</property>
+  <property>/systems/electrical/bus[1]/generator[0]/i-amps</property>
+  <property>/systems/electrical/bus[1]/generator[1]/i-amps</property>
+
+  <channel name="Instrument normalization">
+
+    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i1-norm">
+      <function>
+        <quotient>
+          <property>/systems/electrical/bus[0]/battery[0]/i-amps</property>
+          <value>150</value>
+        </quotient>
+      </function>
+      <clipto>
+        <min>-1.0</min>
+        <max>1.0</max>
+      </clipto>
+    </fcs_function>
+
+    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i2-norm">
+      <function>
+        <quotient>
+          <property>/systems/electrical/bus[0]/battery[1]/i-amps</property>
+          <value>150</value>
+        </quotient>
+      </function>
+      <clipto>
+        <min>-1.0</min>
+        <max>1.0</max>
+      </clipto>
+    </fcs_function>
+
+    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i3-norm">
+      <function>
+        <quotient>
+          <property>/systems/electrical/bus[1]/generator[0]/i-amps</property>
+          <value>500</value>
+        </quotient>
+      </function>
+      <clipto>
+        <min>0.0</min>
+        <max>1.0</max>
+      </clipto>
+    </fcs_function>
+
+    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i4-norm">
+      <function>
+        <quotient>
+          <property>/systems/electrical/bus[1]/generator[1]/i-amps</property>
+          <value>500</value>
+        </quotient>
+      </function>
+      <clipto>
+        <min>0.0</min>
+        <max>1.0</max>
+      </clipto>
+    </fcs_function>
+  </channel>
+
 </system>
