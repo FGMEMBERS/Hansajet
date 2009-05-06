@@ -46,6 +46,11 @@
         </emission>
       </cockpit-lighting>
 
+      <pushback>
+        <kp type="double">100</kp>
+        <ki type="double">25</ki>
+        <kd type="double">0</kd>
+      </pushback>
     </model>
 
     <rendering>
@@ -434,6 +439,13 @@
       <bus n="5">
         <name type="string">Battery Bus</name>
       </bus>
+
+      <bus-tie>
+        <bus-id type="int">0</bus-id> <!-- main batt -->
+        <bus-id type="int">1</bus-id> <!-- main gen  -->
+        <condition>
+        </condition>
+      </bus-tie>
 
     </electrical>
 
