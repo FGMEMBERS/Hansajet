@@ -17,8 +17,7 @@ var TwoPole = {
   get_i0 : func     { return props.condition(me.conditionNode) ? me.i0Node.getValue() : 0; },
   set_i  : func(i)  { me.iNode.setDoubleValue(i); },
   get_i  : func     { return props.condition(me.conditionNode) ? me.iNode.getValue() : 0; },
-
-  update : func(dt) { }
+  update : func     {}
 };
 
 #############################################################################
@@ -52,7 +51,6 @@ var Generator = {
     me.u0.setDoubleValue( me.lowpass.filter(u) );
 
     me.set_i0(u * me.get_g0());
-    me.parents[1].update(dt);
   }
 };
 
@@ -105,8 +103,6 @@ var Battery = {
     me.u0.setDoubleValue( u );
 
     me.set_i0(u * me.get_g0());
-
-    me.parents[1].update(dt);
   },
 };
 
@@ -119,6 +115,8 @@ var Bus = {
     var obj = { parents : [ Bus,TwoPole.new(base) ] };
     obj.name = obj.base.getNode("name",1).getValue();
     obj.uNode = obj.base.initNode( "voltage-v", 0.0 );
+    obj.gtot = 0;
+    obj.itot = 0;
 
     obj.elements = [];
     
@@ -137,35 +135,72 @@ var Bus = {
     return obj;
   },
 
-  update : func(dt) {
+  is_tied : func {
+    return 0;
+  },
 
+  createSubstitudeCurrentSource : func(dt) {
     # sum all currents and conductances to create
     # a substitude current source
-    gtot = 0.0;
-    itot = 0.0;
+    me.gtot = 0.0;
+    me.itot = 0.0;
+    me.u    = 0.0;
+
     foreach( var element; me.elements ) {
       element.update(dt);
 
-      gtot += element.get_g0();
-      itot += element.get_i0();
+      me.gtot += element.get_g0();
+      me.itot += element.get_i0();
     }
 
-    me.set_g0(gtot);
-    me.set_i0(itot);
+    me.set_g0(me.gtot);
+    me.set_i0(me.itot);
+  },
+
+  computeVoltage : func(dt) {
 
     # U = I * R = I / G
-    var u = gtot <= 0.0 ? 0.0 : itot / gtot;
-    me.uNode.setDoubleValue( u );
+    me.u = me.gtot <= 0.0 ? 0.0 : me.itot / me.gtot;
+    me.uNode.setDoubleValue( me.u );
+  },
+
+  computeChilds : func(dt) {
 
     # now compute the currents for each element
     foreach( var element; me.elements ) {
-      var i = u * element.get_g0() - element.get_i0();
+      var i = me.u * element.get_g0() - element.get_i0();
       element.set_i(i);
     }
-
-    me.parents[1].update(dt);
   }
 
+};
+
+var BusTie = {
+  new : func(base) { 
+    var obj = { parents : [ BusTie, TwoPole.new(base) ] };
+    obj.conditionNode = obj.base.getNode("condition");
+    obj.busids = obj.base.getChildren("bus-id");
+    obj.gtot = 0.0;
+    obj.itot = 0.0;
+    obj.x = nil;
+    return obj;
+  },
+
+  createSubstitudeCurrentSource : func(dt,busses) {
+    me.gtot = 0.0;
+    me.itot = 0.0;
+
+    me.set_g0(me.gtot);
+    me.set_i0(me.itot);
+  },
+
+  check : func(dt,busses) {
+    if( props.condition(me.conditionNode) ) {
+      if( me.x == nil ) {
+print("tied"); me.x=1;
+      }
+    }
+  }
 };
 
 #############################################################################
@@ -177,6 +212,7 @@ var ElectricSystem = {
     var obj = { 
       parents : [ElectricSystem],
       bus : [],
+      bustie : [],
       baseNode : globals.isa(base,props.Node) ? base : props.globals.getNode(base,1),
       elapsedTimeNode : props.globals.getNode( "/sim/time/elapsed-sec", 1 ),
       t_last : 0,
@@ -184,6 +220,9 @@ var ElectricSystem = {
 
     foreach( var busNode; obj.baseNode.getChildren( "bus" ) )
       append( obj.bus, Bus.new( busNode ) );
+
+    foreach( var bustieNode; obj.baseNode.getChildren( "bus-tie" ) )
+      append( obj.bustie, BusTie.new( bustieNode ) );
 
     print( "Electrical System: initialized" );
     return obj;
@@ -194,8 +233,23 @@ var ElectricSystem = {
     var dt = t_now - me.t_last;
     me.t_last = t_now;
   
-    foreach( var bus; me.bus )
-      bus.update( dt );
+    # create a substitude current source for each bus
+    foreach( var bus; me.bus ) {
+      bus.createSubstitudeCurrentSource(dt);
+      if( bus.is_tied() == 0 ) {
+        bus.computeVoltage(dt);
+        bus.computeChilds(dt);
+      }
+    }
+
+    # create a substitude current source for each tied bus
+    foreach( var tiedbus; me.bustie ) {
+      tiedbus.check(dt,me.bus);
+    }
+ #     tiedbus.createSubstitudeCurrentSource(dt, me.bus);
+
+    # compute the voltage for each untied bus and for the tied busses
+    #}
 
     settimer( func { me.update() }, 0.1 );
   }

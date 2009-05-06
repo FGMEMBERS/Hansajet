@@ -383,6 +383,21 @@
           <g0-siemens type="double">0.04</g0-siemens>
         </load>
 
+        <load>
+          <name type="string">left starter</name>
+          <g0-siemens type="double">3.5</g0-siemens>
+          <condition>
+            <property>engines/engine[0]/cranking2</property>
+          </condition>
+        </load>
+
+        <load>
+          <name type="string">right starter</name>
+          <g0-siemens type="double">3.5</g0-siemens>
+          <condition>
+            <property>engines/engine[1]/cranking2</property>
+          </condition>
+        </load>
       </bus>
 
       <bus n="1">
@@ -444,6 +459,15 @@
         <bus-id type="int">0</bus-id> <!-- main batt -->
         <bus-id type="int">1</bus-id> <!-- main gen  -->
         <condition>
+          <!-- TODO: this is incomplete, also check for reverse current -->
+          <greater-than-equals>
+            <property>systems/electrical/bus[1]/voltage-v</property>
+            <property>systems/electrical/bus[0]/voltage-v</property>
+          </greater-than-equals>
+          <greater-than>
+            <property>systems/electrical/bus[0]/voltage-v</property>
+            <value>6</value>
+          </greater-than>
         </condition>
       </bus-tie>
 
