@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <PropertyList>
   <params>
-    <rpm>engines/engine[0]/n1</rpm>
+    <rpm>engines/engine[0]/n2</rpm>
   </params>
 
   <path>RPMIndicator.ac</path>

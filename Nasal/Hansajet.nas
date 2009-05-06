@@ -142,11 +142,11 @@ Engine.new = func(index, cutoffNode) {
 
   obj.controlsRootNode = props.globals.getNode( "controls/engines/engine[" ~ index ~ "]", 1 );
   obj.engineRootNode = props.globals.getNode( "engines/engine[" ~ index ~ "]", 1 );
-  obj.n1Node = obj.engineRootNode.getNode( "n1", 1 );
+  obj.n2Node = obj.engineRootNode.getNode( "n2", 1 );
   obj.ignitionNode = obj.engineRootNode.initNode( "ignition", 0, "BOOL" );
   obj.starterNode = obj.engineRootNode.initNode( "starter", 0, "BOOL" );
   obj.starterOnTime = 0;
-  obj.crankingNode = obj.engineRootNode.initNode( "cranking", 0, "BOOL" );
+  obj.crankingNode = obj.engineRootNode.initNode( "cranking2", 0, "BOOL" );
 
   obj.cutoffNode = obj.controlsRootNode.getNode( "cutoff", 1 );
   obj.throttleNode = obj.controlsRootNode.getNode( "throttle", 1 );
@@ -179,7 +179,7 @@ Engine.throttleListener = func(n) {
 Engine.update = func( dt ) {
   var throttle = me.throttleNode.getValue();
 
-  #immediate start: cut off
+  #immediate stop: cut off
   if( me.enginesOffNode.getValue() ) {
     me.cutoffNode.setBoolValue( 1 );
     me.ignitionNode.setBoolValue( 0 );
@@ -204,7 +204,7 @@ Engine.update = func( dt ) {
 
   var ignition = 0;
   # ignition and starter cut off at 37% RPM
-  if( me.n1Node.getValue() > 37 ) {
+  if( me.n2Node.getValue() > 37 ) {
     if( me.crankingNode.getValue() ) {
       me.crankingNode.setBoolValue( 0 );
       ignition = 0;
@@ -608,7 +608,7 @@ var initialize = func {
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 0 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
-  hydraulicElement = HydraulicPump.new( "engines/engine[0]/n1", 25, 4, 100 );
+  hydraulicElement = HydraulicPump.new( "engines/engine[0]/n2", 25, 4, 100 );
   hydraulicSystem.addPump( hydraulicElement );
   hydraulicElement = HydraulicLoad.new( 5 );
   hydraulicSystem.addLoad( hydraulicElement );
@@ -616,7 +616,7 @@ var initialize = func {
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 1 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
-  hydraulicElement = HydraulicPump.new( "engines/engine[1]/n1", 25, 4, 100 );
+  hydraulicElement = HydraulicPump.new( "engines/engine[1]/n2", 25, 4, 100 );
   hydraulicSystem.addPump( hydraulicElement );
   hydraulicElement = HydraulicLoad.new( 2 );
   hydraulicSystem.addLoad( hydraulicElement );
@@ -624,9 +624,9 @@ var initialize = func {
 
   hydraulicSystem = HydraulicSystem.new( "systems/hydraulic/system", 2 );
   hydraulicSystem.addReservoir( hydraulicReservoir );
-  hydraulicElement = HydraulicPump.new( "engines/engine[0]/n1", 25, 4, 20 );
+  hydraulicElement = HydraulicPump.new( "engines/engine[0]/n2", 25, 4, 20 );
   hydraulicSystem.addPump( hydraulicElement );
-  hydraulicElement = HydraulicPump.new( "engines/engine[1]/n1", 25, 4, 20 );
+  hydraulicElement = HydraulicPump.new( "engines/engine[1]/n2", 25, 4, 20 );
   hydraulicSystem.addPump( hydraulicElement );
   hydraulicElement = HydraulicLoad.new( 1 );
   hydraulicSystem.addLoad( hydraulicElement );
