@@ -12,17 +12,17 @@
 
 <system name="DC">
 
-  <property>/systems/electrical/bus[0]/battery[0]/i-amps</property>
-  <property>/systems/electrical/bus[0]/battery[1]/i-amps</property>
-  <property>/systems/electrical/bus[1]/generator[0]/i-amps</property>
-  <property>/systems/electrical/bus[1]/generator[1]/i-amps</property>
+  <property>/systems/electrical/bus[0]/battery[0]/current-a</property>
+  <property>/systems/electrical/bus[0]/battery[1]/current-a</property>
+  <property>/systems/electrical/bus[1]/generator[0]/current-a</property>
+  <property>/systems/electrical/bus[1]/generator[1]/current-a</property>
 
   <channel name="Instrument normalization">
 
     <fcs_function name="/instrumentation/overhead-panel/dc-amps/i1-norm">
       <function>
         <quotient>
-          <property>/systems/electrical/bus[0]/battery[0]/i-amps</property>
+          <property>/systems/electrical/bus[0]/battery[0]/current-a</property>
           <value>150</value>
         </quotient>
       </function>
@@ -35,7 +35,7 @@
     <fcs_function name="/instrumentation/overhead-panel/dc-amps/i2-norm">
       <function>
         <quotient>
-          <property>/systems/electrical/bus[0]/battery[1]/i-amps</property>
+          <property>/systems/electrical/bus[0]/battery[1]/current-a</property>
           <value>150</value>
         </quotient>
       </function>
@@ -48,7 +48,7 @@
     <fcs_function name="/instrumentation/overhead-panel/dc-amps/i3-norm">
       <function>
         <quotient>
-          <property>/systems/electrical/bus[1]/generator[0]/i-amps</property>
+          <property>/systems/electrical/bus[1]/generator[0]/current-a</property>
           <value>500</value>
         </quotient>
       </function>
@@ -61,7 +61,7 @@
     <fcs_function name="/instrumentation/overhead-panel/dc-amps/i4-norm">
       <function>
         <quotient>
-          <property>/systems/electrical/bus[1]/generator[1]/i-amps</property>
+          <property>/systems/electrical/bus[1]/generator[1]/current-a</property>
           <value>500</value>
         </quotient>
       </function>

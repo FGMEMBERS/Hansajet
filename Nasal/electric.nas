@@ -1,3 +1,7 @@
+#############################################################################
+# a two pole, internally represented as a current source i0 with a
+# parallel conductance g0
+#############################################################################
 var TwoPole = {
   new : func(base) {
     var obj = { parents : [TwoPole] };
@@ -5,7 +9,8 @@ var TwoPole = {
 
     obj.i0Node = obj.base.initNode( "i0-amps", 0.0 );
     obj.g0Node = obj.base.initNode( "g0-siemens", 0.0 );
-    obj.iNode  = obj.base.initNode( "i-amps", 0.0 );
+    obj.iNode  = obj.base.initNode( "current-a", 0.0 );
+    obj.uNode = obj.base.initNode( "voltage-v", 0.0 );
     obj.conditionNode = obj.base.getNode("condition");
 
     return obj;
@@ -17,11 +22,18 @@ var TwoPole = {
   get_i0 : func     { return props.condition(me.conditionNode) ? me.i0Node.getValue() : 0; },
   set_i  : func(i)  { me.iNode.setDoubleValue(i); },
   get_i  : func     { return props.condition(me.conditionNode) ? me.iNode.getValue() : 0; },
+
+  set_u  : func(u)  { 
+    me.uNode.setDoubleValue(u); 
+    me.i0Node.setDoubleValue( u * me.g0Node.getValue() );
+  },
+
+  get_u  : func     { return props.condition(me.conditionNode) ? me.uNode.getValue() : 0; },
   update : func     {}
 };
 
 #############################################################################
-# a simple generator
+# a simple generator, derivate of a two pole
 #############################################################################
 var Generator = {
   new : func(base) {
@@ -34,7 +46,6 @@ var Generator = {
     obj.minVN   = obj.base.getNode( "min-v" );
     obj.maxVN   = obj.base.getNode( "max-v" );
     obj.maxAN   = obj.base.getNode( "max-a" );
-    obj.u0      = obj.base.getNode( "voltage-v", 1 );
     obj.lowpass = aircraft.lowpass.new(1);
 
     obj.set_g0(6.25); # 160 Ohm
@@ -48,9 +59,7 @@ var Generator = {
       if( me.minVN != nil and u < me.minVN.getValue() ) u = me.minVN.getValue();
       if( me.maxVN != nil and u > me.maxVN.getValue() ) u = me.maxVN.getValue();
     }
-    me.u0.setDoubleValue( me.lowpass.filter(u) );
-
-    me.set_i0(u * me.get_g0());
+    me.set_u( me.lowpass.filter(u) );
   }
 };
 
@@ -72,37 +81,38 @@ var Battery = {
     obj.designCapacity = obj.base.initNode("design-capacity-ah", 25 );
     obj.capacity = obj.base.initNode( "capacity-ah", obj.designCapacity.getValue() );
     obj.capacityNorm = obj.base.getNode( "capacity-norm", 1 );
-    obj.u0 = obj.base.getNode( "voltage-v", 1 );
     obj.lowpass = aircraft.lowpass.new(100);
     return obj;
   },
 
   update : func(dt) {
+    # the current into(+) our out (-) of the battery
     var i = me.get_i();
-    var in = i / me.designCapacity.getValue();
 
+    # "normalized" by the capacity
+    var in = math.abs(i / me.designCapacity.getValue());
+
+    # charge/discharge, integrate current over time
     var c = me.capacity.getValue() + i*dt/3600;
     me.capacity.setDoubleValue( c );
 
+    # normalize capacity
     var cn = c / me.designCapacity.getValue();
     me.capacityNorm.setDoubleValue( cn );
 
-
+    # calculate voltage for a NiCd battery due to current and capacity
     var u = 0;
-    if( in > 0 ) {
+    if( i > 0 ) {
       # charge
       u = 1.379 + 0.0024*(1/(1-0.095*cn))*in - 0.00117*in - 0.08*math.exp(-0.693*cn)
     } else {
       # discharge
-      u = 1.25 - 0.025 * (1/(1-1.05*cn))*in - 0.006*in + 0.095*math.exp(-3.83*cn)
+      u = 1.25 - 0.025 * (1/(1-1.05*(1-cn)))*in - 0.006*in + 0.095*math.exp(-3.83*(1-cn))
     }
-    if( u < 0.5 ) u = 0.5;
 
-    u = me.lowpass.filter(u * 20);
-
-    me.u0.setDoubleValue( u );
-
-    me.set_i0(u * me.get_g0());
+    # minimum clamp
+    if( u < 0.2 ) u = 0.2;
+    me.set_u( me.lowpass.filter(u * 20) );
   },
 };
 
@@ -114,9 +124,9 @@ var Bus = {
   new : func( base ) {
     var obj = { parents : [ Bus,TwoPole.new(base) ] };
     obj.name = obj.base.getNode("name",1).getValue();
-    obj.uNode = obj.base.initNode( "voltage-v", 0.0 );
     obj.gtot = 0;
     obj.itot = 0;
+    obj.tied = 0;
 
     obj.elements = [];
     
@@ -135,16 +145,11 @@ var Bus = {
     return obj;
   },
 
-  is_tied : func {
-    return 0;
-  },
-
   createSubstitudeCurrentSource : func(dt) {
     # sum all currents and conductances to create
     # a substitude current source
     me.gtot = 0.0;
     me.itot = 0.0;
-    me.u    = 0.0;
 
     foreach( var element; me.elements ) {
       element.update(dt);
@@ -157,8 +162,7 @@ var Bus = {
     me.set_i0(me.itot);
   },
 
-  computeVoltage : func(dt) {
-
+  computeVoltage : func {
     # U = I * R = I / G
     me.u = me.gtot <= 0.0 ? 0.0 : me.itot / me.gtot;
     me.uNode.setDoubleValue( me.u );
@@ -183,22 +187,48 @@ var BusTie = {
     obj.gtot = 0.0;
     obj.itot = 0.0;
     obj.x = nil;
+    obj.busses = nil;
     return obj;
   },
 
-  createSubstitudeCurrentSource : func(dt,busses) {
+  compute : func(busses) {
+    # check tied condition
+    props.condition(me.conditionNode) == 0 and return;
+
+    # sum up all tied busses: i0 and g0
     me.gtot = 0.0;
     me.itot = 0.0;
 
+    # lazily create vector of connected buses on
+    # first call
+    if( me.busses == nil ) {
+      me.busses = [];
+      foreach( var busidN; me.busids ) {
+        var busid = busidN.getValue();
+        var bus = busses[busid];
+        if( bus == nil ) continue;
+        append( me.busses, bus );
+      }
+    }
+
+    foreach( var bus; me.busses ) {
+      # set tied flag
+      bus.tied = 1;
+      me.gtot += bus.get_g0();
+      me.itot += bus.get_i0();
+    }
+
     me.set_g0(me.gtot);
     me.set_i0(me.itot);
-  },
 
-  check : func(dt,busses) {
-    if( props.condition(me.conditionNode) ) {
-      if( me.x == nil ) {
-print("tied"); me.x=1;
-      }
+    # calculate tied buses voltage
+    me.u = me.gtot <= 0.0 ? 0.0 : me.itot / me.gtot;
+    me.uNode.setDoubleValue( me.u );
+
+    # same voltage for all tied busses
+    foreach( var bus; me.busses ) {
+      bus.u = me.u;
+      bus.uNode.setDoubleValue( bus.u );
     }
   }
 };
@@ -235,18 +265,24 @@ var ElectricSystem = {
   
     # create a substitude current source for each bus
     foreach( var bus; me.bus ) {
+      # reset tied flag
+      bus.tied = 0;
       bus.createSubstitudeCurrentSource(dt);
-      if( bus.is_tied() == 0 ) {
-        bus.computeVoltage(dt);
-        bus.computeChilds(dt);
-      }
     }
 
     # create a substitude current source for each tied bus
-    foreach( var tiedbus; me.bustie ) {
-      tiedbus.check(dt,me.bus);
+    foreach( var bustie; me.bustie )
+      bustie.compute(me.bus);
+
+    # compute the bus-voltage and childs if this bus is
+    # not tied. If it is tied, BusTie already did it
+    foreach( var bus; me.bus ) {
+      if( bus.tied == 0 )
+        bus.computeVoltage();
+
+      # and compute the currents of each element
+      bus.computeChilds(dt);
     }
- #     tiedbus.createSubstitudeCurrentSource(dt, me.bus);
 
     # compute the voltage for each untied bus and for the tied busses
     #}
