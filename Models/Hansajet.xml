@@ -305,6 +305,21 @@
   
   <animation>
     <type>rotate</type>
+    <object-name>Speedbrake.Left</object-name>
+    <property>surface-positions/speedbrake-pos-norm</property>
+    <factor>-60.0</factor>
+    <axis>
+      <x1-m>-0.330201</x1-m>
+      <y1-m>-3.62955</y1-m>
+      <z1-m>2.14563</z1-m>
+      <x2-m>0.0928991</x2-m>
+      <y2-m>-2.63279</y2-m>
+      <z2-m>2.04858</z2-m>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
     <object-name>Flap.Left</object-name>
     <property>fdm/jsbsim/fcs/flap[0]/position-deg</property>
     <factor>1.0</factor>
