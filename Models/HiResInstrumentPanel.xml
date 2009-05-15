@@ -10,6 +10,107 @@
   <animation include="CockpitRangeAnimation.xml"/>
 
   <model>
+    <path>Aircraft/Hansajet/Models/RainRepLButton.xml</path>
+    <name>RainRepLButton</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>-0.144905</y-m>
+      <z-m>0.290288</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/RainRepRButton.xml</path>
+    <name>RainRepRButton</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>0.144905</y-m>
+      <z-m>0.290288</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/FireExtTestButton.xml</path>
+    <name>FireExtTestButton</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>-0.0939906</y-m>
+      <z-m>0.290288</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/FireExtLight.xml</path>
+    <name>FireExtTestLight</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>-0.0939906</y-m>
+      <z-m>0.310295</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/WiperSwitchLH.xml</path>
+    <name>WiperSwitchLH</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>-0.12197</y-m>
+      <z-m>0.291099</z-m>
+      <heading-deg>90</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/FireExtHandle.ac</path>
+    <name>FireExtHandle.Left</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>-0.051771</y-m>
+      <z-m>0.304996</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/FireExtHandle.ac</path>
+    <name>FireExtHandle.Right</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>0.051771</y-m>
+      <z-m>0.304996</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/FireWarnLight.xml</path>
+    <name>FireExtTestLight</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>0.0939906</y-m>
+      <z-m>0.310295</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/FireWarnTestButton.xml</path>
+    <name>FireWarnTestButton</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>0.0939906</y-m>
+      <z-m>0.290288</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/WiperSwitchRH.xml</path>
+    <name>WiperSwitchRH</name>
+    <offsets>
+      <x-m>-0.02</x-m>
+      <y-m>0.12197</y-m>
+      <z-m>0.291099</z-m>
+      <heading-deg>90</heading-deg>
+    </offsets>
+  </model>
+  <model>
     <path>Aircraft/Hansajet/Models/TurnCoordinator.xml</path>
     <name>TC</name>
     <offsets>
