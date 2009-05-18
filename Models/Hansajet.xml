@@ -318,7 +318,7 @@
   
   <animation>
     <type>rotate</type>
-    <object-name>Speedbrake.Left</object-name>
+    <object-name>Speedbrake.UpperLeft</object-name>
     <property>surface-positions/speedbrake-pos-norm</property>
     <factor>-60.0</factor>
     <axis>
@@ -328,6 +328,21 @@
       <x2-m>0.0928991</x2-m>
       <y2-m>-2.63279</y2-m>
       <z2-m>2.04858</z2-m>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>rotate</type>
+    <object-name>Speedbrake.LowerLeft</object-name>
+    <property>surface-positions/speedbrake-pos-norm</property>
+    <factor>60.0</factor>
+    <axis>
+      <x1-m>-0.330448</x1-m>
+      <y1-m>-3.62972</y1-m>
+      <z1-m>1.86676</z1-m>
+      <x2-m>0.0926284</x2-m>
+      <y2-m>-2.63298</y2-m>
+      <z2-m>1.76001</z2-m>
     </axis>
   </animation>
   
