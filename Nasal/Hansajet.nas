@@ -1,3 +1,26 @@
+##################### Windshield Wiper ########################
+var Wiper = {
+  new : func( index ) {
+    var obj = { parents : [Wiper] };
+    obj.base = props.globals.getNode("/systems/wiper[" ~ index ~ "]", 1 );
+    obj.timer = aircraft.door.new( obj.base.getPath(), 1 );
+    obj.switch = props.globals.initNode("/controls/windshield/wiper[" ~ index ~ "]", 0, "BOOL" );
+    return obj;
+  },
+
+  update : func {
+    if( me.timer.getpos() == 1 ) {
+      me.timer.close();
+      return;
+    }
+
+    if( me.timer.getpos() == 0 and me.switch.getValue() == 1 ) {
+      me.timer.open();
+      return;
+    }
+  },
+};
+
 ##################### Hydraulic System ########################
 var HydraulicLoad = {};
 HydraulicLoad.new = func( power ) {
@@ -591,9 +614,17 @@ var initialize_fuelsystem = func {
     append( updateClients, FuelPump.new( nn ) );
   }
 
-  foreach( var nn; n.getChildren( "auto-sequencer" ) ) {
+  var autoSequencer = [];
+  foreach( var nn; n.getChildren( "auto-sequencer" ) )
     append( updateClients, AutoSequencer.new( nn ) );
-  }
+
+  setlistener( "/controls/fuel/selected-sequencer", func(n) { 
+    var v = n.getValue();
+    if( v == nil ) v = 0;
+    setprop( "/systems/fuel/auto-sequencer[" ~ v ~ "]/enabled", 1 );
+    v = !v;
+    setprop( "/systems/fuel/auto-sequencer[" ~ v ~ "]/enabled", 0 );
+  }, 1, 0 );
 
   return;
 };
@@ -642,6 +673,9 @@ var initialize = func {
   append( updateClients, aircraft.tyresmoke.new(0) );
   append( updateClients, aircraft.tyresmoke.new(1) );
   append( updateClients, aircraft.tyresmoke.new(2) );
+
+  append( updateClients, Wiper.new(0) );
+  append( updateClients, Wiper.new(1) );
 
   initialize_fuelsystem();  
 
