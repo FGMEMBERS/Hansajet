@@ -54,7 +54,7 @@
     <offsets>
       <x-m>-0.065</x-m>
       <y-m>0.090</y-m>
-      <z-m>0</z-m>
+      <z-m>-0.0025</z-m>
       <roll-deg>-90</roll-deg>
       <heading-deg>90</heading-deg>
     </offsets>
@@ -200,6 +200,17 @@
       <x-m>-0.0284431</x-m>
       <y-m>0.0</y-m>
       <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/Hansajet/Models/SequencerSelectSwitch.xml</path>
+    <name>SequencerSelectSwitch</name>
+    <offsets>
+      <x-m>-0.0287</x-m>
+      <y-m>0.0891</y-m>
+      <z-m>-0.0025</z-m>
+      <roll-deg>-90</roll-deg>
     </offsets>
   </model>
 

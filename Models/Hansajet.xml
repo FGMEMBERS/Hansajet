@@ -108,6 +108,19 @@
     </offsets>
   </model>
 
+<!--
+  <model>
+    <path>Aircraft/Hansajet/Models/WiperLH.xml</path>
+    <name>WiperLH</name>
+    <offsets>
+      <x-m>-7.15938</x-m>
+      <y-m>-0.66573</y-m>
+      <z-m>2.04986</z-m>
+      <heading-deg>-25</heading-deg>
+      <pitch-deg>0</pitch-deg>
+    </offsets>
+  </model>
+-->
   <model>
     <path>Aircraft/Hansajet/Models/SlatSwitch.xml</path>
     <name>SlatSwitch</name>
