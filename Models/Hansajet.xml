@@ -1239,4 +1239,88 @@
     </offsets>
   </model>
 
+  <animation>
+    <type>select</type>
+    <object-name>Compressor.1.L</object-name>
+    <object-name>Compressor.2.L</object-name>
+    <condition>
+      <less-than>
+        <property>engines/engine[0]/n2</property>
+        <value>10</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Compressor.1.R</object-name>
+    <object-name>Compressor.2.R</object-name>
+    <condition>
+      <less-than>
+        <property>engines/engine[1]/n2</property>
+        <value>10</value>
+      </less-than>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>Compressor.1.L</object-name>
+    <property>engines/engine[0]/n2</property>
+    <factor>10</factor>
+    <axis>
+      <x>1</x>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>-1.57318</y-m>
+      <z-m>2.39823</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>Compressor.2.L</object-name>
+    <property>engines/engine[0]/n2</property>
+    <factor>-10</factor>
+    <axis>
+      <x>1</x>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>-1.57318</y-m>
+      <z-m>2.39823</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>Compressor.1.R</object-name>
+    <property>engines/engine[1]/n2</property>
+    <factor>10</factor>
+    <axis>
+      <x>1</x>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>1.57318</y-m>
+      <z-m>2.39823</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>Compressor.2.R</object-name>
+    <property>engines/engine[1]/n2</property>
+    <factor>-10</factor>
+    <axis>
+      <x>1</x>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>1.57318</y-m>
+      <z-m>2.39823</z-m>
+    </center>
+  </animation>
+
 </PropertyList>
