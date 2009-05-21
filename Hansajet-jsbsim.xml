@@ -410,6 +410,19 @@ wing tip  NACA 63A(1.8)11
 
   </channel>
 
+  <channel name="Steering">
+
+    <!-- switch off nose wheel steering at airspeed above 60kts -->
+    <switch name="gear/steering-command">
+      <default value="-fcs/rudder-cmd-norm"/>
+      <test value="0">
+        velocities/vc-kts gt 60
+      </test>
+      <output>fcs/steer-cmd-norm</output>
+    </switch>
+
+  </channel>
+
   <channel name="Yaw">
    <summer name="Rudder Command Sum">
       <input>fcs/rudder-cmd-norm</input>
