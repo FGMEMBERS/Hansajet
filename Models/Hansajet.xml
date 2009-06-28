@@ -274,8 +274,8 @@
   <animation>
     <type>rotate</type>
     <object-name>Elevator.Left</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor>-19.5</factor>
+    <property>fdm/jsbsim/fcs/elevator-pos-deg</property>
+    <factor>-1</factor>
     <axis>
       <x1-m>6.5774</x1-m>
       <y1-m>-0.104768</y1-m>
@@ -289,8 +289,8 @@
   <animation>
     <type>rotate</type>
     <object-name>Elevator.Right</object-name>
-    <property>surface-positions/elevator-pos-norm</property>
-    <factor>19.5</factor>
+    <property>fdm/jsbsim/fcs/elevator-pos-deg</property>
+    <factor>1</factor>
     <axis>
       <x1-m>6.5774</x1-m>
       <y1-m>0.104768</y1-m>
