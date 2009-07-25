@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <PropertyList>
   <name>Start Engine</name>
-  <description>Performe these items to start the engines.</description>
-  <interval>0</interval>
+  <description>
+Performe these items to start the engines. 
+This tutorial automatically performes the requested items for you - just sit back
+and watch your virtual copilot do the job. You should have two running engines at the end.
+  </description>
+  <interval>1</interval>
 
   <init>
     <set>
@@ -11,9 +15,62 @@
     </set>
   </init>
 
+  <nasal>
+    <script><![CDATA[
+
+var set_properties = func( properties_to_set, idx = 0 ) {
+  if( idx >= size(properties_to_set ) )
+    return;
+
+  var properties_hash = properties_to_set[idx];
+  foreach( var name; keys(properties_hash) )
+    setprop( name, properties_hash[name] );
+
+  settimer( func { set_properties(properties_to_set,idx+1) }, 2.0 );
+}
+    ]]></script>
+  </nasal>
+
   <step>
     <message>
-      Switch Main Wing Pump to ON
+      Check THROTTLE CUTOFF (both left and right)
+    </message>
+
+    <view>
+    <heading-offset-deg>325</heading-offset-deg>
+    <pitch-offset-deg>-47.0</pitch-offset-deg>
+    <roll-offset-deg>0.0</roll-offset-deg>
+    <field-of-view>55.0</field-of-view>
+    </view>
+
+    <nasal><script><![CDATA[
+      if( getprop( "/sim/tutorials/auto-perform-items" ) == 1 ) {
+        var properties_to_set = [];
+        var pv = {};
+        pv["controls/engines/engine[0]/throttle"] = 0;
+        pv["controls/engines/engine[1]/throttle"] = 0;
+        append( properties_to_set, pv );
+        settimer( func { set_properties(properties_to_set) }, 5.0 );
+      }
+    ]]></script></nasal>
+
+    <exit>
+      <condition>
+        <less-than>
+          <property>controls/engines/engine[0]/throttle</property>
+          <value>0.01</value>
+        </less-than>
+        <less-than>
+          <property>controls/engines/engine[1]/throttle</property>
+          <value>0.01</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>
+      Switch Main Wing Pump (left and right) to ON
     </message>
 
     <view>
@@ -33,10 +90,25 @@
     <scale>1.0000</scale>
     </marker>
 
+    <nasal><script><![CDATA[
+      if( getprop( "/sim/tutorials/auto-perform-items" ) == 1 ) {
+        var properties_to_set = [];
+        var pv = {};
+        pv["systems/fuel/fuel-pump[3]/enabled"] = 1;
+        pv["systems/fuel/fuel-pump[5]/enabled"] = 1;
+        append( properties_to_set, pv );
+        settimer( func { set_properties(properties_to_set) }, 5.0 );
+      }
+    ]]></script></nasal>
+
     <exit>
       <condition>
         <greater-than>
-          <property>controls/fuel/tank[1]/boost-pump[0]</property>
+          <property>systems/fuel/fuel-pump[3]/enabled</property>
+          <value>0</value>
+        </greater-than>
+        <greater-than>
+          <property>systems/fuel/fuel-pump[5]/enabled</property>
           <value>0</value>
         </greater-than>
       </condition>
@@ -45,7 +117,7 @@
 
   <step>
     <message>
-      Check fuel pressure light OFF
+      Check fuel pressure lights OFF
     </message>
 
     <view>
@@ -69,6 +141,10 @@
       <condition>
         <greater-than>
           <property>engines/engine[0]/fuel-pressure-psi</property>
+          <value>10</value>
+        </greater-than>
+        <greater-than>
+          <property>engines/engine[1]/fuel-pressure-psi</property>
           <value>10</value>
         </greater-than>
       </condition>
@@ -96,10 +172,31 @@
     <scale>1.0000</scale>
     </marker>
 
+    <nasal><script><![CDATA[
+      if( getprop( "/sim/tutorials/auto-perform-items" ) == 1 ) {
+        var properties_to_set = [];
+        var pv = {};
+        pv["controls/engines/engine[0]/starter"] = 1;
+        pv["controls/engines/engine[1]/starter"] = 1;
+        append( properties_to_set, pv );
+
+        pv = {};
+        pv["controls/engines/engine[0]/starter"] = 0;
+        pv["controls/engines/engine[1]/starter"] = 0;
+        append( properties_to_set, pv );
+
+        settimer( func { set_properties(properties_to_set) }, 5.0 );
+      }
+    ]]></script></nasal>
+
     <exit>
       <condition>
         <greater-than>
           <property>engines/engine[0]/n2</property>
+          <value>2</value>
+        </greater-than>
+        <greater-than>
+          <property>engines/engine[1]/n2</property>
           <value>2</value>
         </greater-than>
       </condition>
@@ -128,9 +225,21 @@
     <scale>1.0000</scale>
     </marker>
 
+    <nasal><script><![CDATA[
+      if( getprop( "/sim/tutorials/auto-perform-items" ) == 1 ) {
+        var properties_to_set = [];
+        var pv = {};
+        pv["controls/engines/engine[0]/throttle"] = 0.11;
+        pv["controls/engines/engine[1]/throttle"] = 0.11;
+        append( properties_to_set, pv );
+        settimer( func { set_properties(properties_to_set) }, 5.0 );
+      }
+    ]]></script></nasal>
+
     <exit>
       <condition>
         <property>engines/engine[0]/ignition</property>
+        <property>engines/engine[1]/ignition</property>
       </condition>
     </exit>
   </step>
