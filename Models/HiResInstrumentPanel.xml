@@ -141,7 +141,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/MasterCautionLight.ac</path>
+    <path>Aircraft/Hansajet/Models/MasterCautionLight-2.xml</path>
     <name>MasterCautionLight-2</name>
     <offsets>
       <x-m>0</x-m>
@@ -171,7 +171,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/MasterCautionLight.ac</path>
+    <path>Aircraft/Hansajet/Models/MasterCautionLight-1.xml</path>
     <name>MasterCautionLight-1</name>
     <offsets>
       <x-m>0</x-m>

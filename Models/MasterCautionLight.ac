@@ -1,10 +1,11 @@
 AC3Db
-MATERIAL "ac3dmat1" rgb 1 1 1  amb 1 1 1  emis 0 0 0  spec 0.2 0.2 0.2  shi 128  trans 0
+MATERIAL "ac3dmat1" rgb 1 1 1  amb 1 1 1  emis 1 0 0  spec 0.2 0.2 0.2  shi 128  trans 0
 MATERIAL "ac3dmat2" rgb 0.063 0 0  amb 0.063 0 0  emis 0 0 0  spec 0.2 0.2 0.2  shi 128  trans 0
+MATERIAL "ac3dmat3" rgb 1 0 0  amb 1 0 0  emis 1 0 0  spec 0 0 0  shi 128  trans 0
 OBJECT world
-kids 1
+kids 2
 OBJECT poly
-name "box"
+name "MasterCaution"
 loc 0.001 -2.32831e-10 9.31323e-10
 texture "MasterCautionLight.rgb"
 crease 45.000000
@@ -85,4 +86,23 @@ refs 4
 10 0.487281 0.827186
 11 0.487281 0.827186
 4 0.487281 0.827186
+kids 0
+OBJECT poly
+name "MasterCaution.ON"
+loc 0.00101 -2.32831e-10 9.31323e-10
+texture "MasterCautionLight.rgb"
+crease 45.000000
+numvert 4
+0.001 0.00641207 0.0238018
+0.001 -0.00641207 0.0238018
+0.001 -0.00641207 -0.0238018
+0.001 0.00641207 -0.0238018
+numsurf 1
+SURF 0x10
+mat 2
+refs 4
+1 -2.38419e-07 4.65661e-09
+2 1 -4.88944e-09
+3 1 0.670806
+0 0 0.670806
 kids 0
