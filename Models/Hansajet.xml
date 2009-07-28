@@ -29,26 +29,47 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/RadioPanel.xml</path>
-    <name>RadioPanel</name>
+    <path>Aircraft/Hansajet/Models/RadioPanelKing.xml</path>
+    <name>RadioPanelKing</name>
     <offsets>
       <x-m>-7.08893</x-m>
       <y-m>-0.02</y-m>
       <z-m>2.24</z-m>
     </offsets>
   </model>
-<!--
+
+  <animation>
+    <type>select</type>
+    <object-name>RadioPanelKing</object-name>
+    <condition>
+      <equals>
+        <property>sim/model/Hansajet/radio-panel</property>
+        <value>king</value>
+      </equals>
+    </condition>
+  </animation>
+
   <model>
-    <path>Aircraft/Hansajet/Models/RadioPanel.xml</path>
-    <name>RadioPanel</name>
+    <path>Aircraft/Hansajet/Models/RadioPanelCollins.xml</path>
+    <name>RadioPanelCollins</name>
     <offsets>
-      <x-m>-6.63893</x-m>
-      <y-m>0.0</y-m>
-      <z-m>1.56321</z-m>
-      <pitch-deg>-90</pitch-deg>
+      <x-m>-7.08893</x-m>
+      <y-m>-0.02</y-m>
+      <z-m>2.24</z-m>
     </offsets>
   </model>
--->
+
+  <animation>
+    <type>select</type>
+    <object-name>RadioPanelCollins</object-name>
+    <condition>
+      <equals>
+        <property>sim/model/Hansajet/radio-panel</property>
+        <value>collins</value>
+      </equals>
+    </condition>
+  </animation>
+
   <model>
     <path>Aircraft/Hansajet/Models/FuelHydraulicPanel.xml</path>
     <name>FuelHydraulic</name>

@@ -258,7 +258,7 @@
         </less-than>
         <less-than>
           <property>systems/hydraulic/system[1]/pressure-psi</property>
-          <value>3000</value>
+          <value>2900</value>
         </less-than>
       </or>
     </condition>

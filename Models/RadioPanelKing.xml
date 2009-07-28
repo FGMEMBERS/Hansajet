@@ -44,27 +44,6 @@
     </offsets>
   </model>
 
-<!--
-  <model>
-    <path>Aircraft/SenecaII/Models/gtx330.xml</path>
-    <name>transponder</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>-0.204</z-m>
-    </offsets>
-  </model>
--->
-  <model>
-    <path>Aircraft/Hansajet/Models/CompassController.ac</path>
-    <name>CompassController</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>-0.274</z-m>
-    </offsets>
-  </model>
-
   <model>
     <path>Aircraft/Hansajet/Models/Annunciator.xml</path>
     <name>CompassController</name>
