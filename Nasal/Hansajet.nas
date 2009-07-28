@@ -1,3 +1,32 @@
+##################### Master Caution ##########################
+var MasterCaution = {
+  new : func {
+    var obj = { parents : [MasterCaution] };
+    obj.reset1N = props.globals.initNode("/instrumentation/warning-panel/master-caution-reset[0]", 0, "BOOL" );
+    obj.reset2N = props.globals.initNode("/instrumentation/warning-panel/master-caution-reset[1]", 0, "BOOL" );
+    obj.outN = props.globals.initNode("/instrumentation/warning-panel/master-caution", 0, "BOOL" );
+    obj.inNodes = [];
+
+    setlistener( obj.reset1N, func(n) { obj.reset(n); }, 0, 0 );
+    setlistener( obj.reset2N, func(n) { obj.reset(n); }, 0, 0 );
+  },
+
+  addListener : func( nodeName ) {
+    append( inNodes, nodeName );
+    setlistener( nodeName, func(n) { me.listener(n); }, 1, 0 );
+  },
+
+  listener : func(n) {
+    if( n.getValue() > 0 )
+      me.outN.setBoolValue( 1 );
+  },
+
+  reset : func(n) {
+    if( n.getValue() > 0 )
+      me.outN.setBoolValue( 0 );
+  }
+};
+
 ##################### Windshield Wiper ########################
 var Wiper = {
   new : func( index ) {
@@ -680,6 +709,7 @@ var initialize = func {
   initialize_fuelsystem();  
 
   dragchute = Dragchute.new();
+  MasterCaution.new();
   HansajetTimer();
   savedata();
   print( "Hansa Jet nasal systems initialized" );
