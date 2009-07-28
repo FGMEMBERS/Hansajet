@@ -46,7 +46,7 @@
 
   </channel>
 
-  <channel name="Fuel Pressure 1">
+  <channel name="Fuel Pressure Left">
 
     <!-- create ideal pump output if switch is on and fuel available -->
     <!-- Main Pump -->
@@ -90,7 +90,7 @@
 
   </channel>
 
-  <channel name="Fuel Pressure 2">
+  <channel name="Fuel Pressure Right">
 
     <!-- create ideal pump output if switch is on and fuel available -->
     <!-- Main Pump -->
