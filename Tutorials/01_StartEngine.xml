@@ -246,7 +246,7 @@ var set_properties = func( properties_to_set, idx = 0 ) {
 
   <step>
     <message>
-      Check oil pressure 5 PSI/min
+      Check oil pressure 5 PSI or more
     </message>
     <view>
     <heading-offset-deg>331.5</heading-offset-deg>
