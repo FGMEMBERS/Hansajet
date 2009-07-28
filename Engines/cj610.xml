@@ -36,7 +36,7 @@
   <bypassratio>     1.0 </bypassratio>
   <tsfc>            0.98 </tsfc> <!-- operation manual page 12-7 -->
   <bleed>           0.03</bleed>
-  <idlen2>         47.0 </idlen2>
+  <idlen2>         47.0 </idlen2> <!-- GAF 1.10: 53% idle -->
   <maxn2>         101.2 </maxn2>
   <n2spinup>        5.0 </n2spinup>
 
