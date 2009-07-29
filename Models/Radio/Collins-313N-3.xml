@@ -24,6 +24,30 @@
   <path>Collins-313N-3.ac</path>
 
   <animation>
+    <type>material</type>
+    <object-name>Labels</object-name>
+    <object-name>Comm100M</object-name>
+    <object-name>Comm10M</object-name>
+    <object-name>Comm1M</object-name>
+    <object-name>Comm100k</object-name>
+    <object-name>Comm10k</object-name>
+    <object-name>Comm1k</object-name>
+    <object-name>Nav100M</object-name>
+    <object-name>Nav10M</object-name>
+    <object-name>Nav1M</object-name>
+    <object-name>Nav100k</object-name>
+    <object-name>Nav10k</object-name>
+    <emission include="../InstrumentLightEmissionInclude.xml"/>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>Cover</object-name>
+    <object-name>Plate</object-name>
+    <emission include="../CockpitLightEmissionInclude.xml"/>
+  </animation>
+
+  <animation>
     <type>pick</type>
     <visible>false</visible>
     <object-name>TestPickLeft</object-name>
