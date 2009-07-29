@@ -11,6 +11,12 @@
     <emission include="CockpitLightEmissionInclude.xml"/>
   </animation>
 
+  <animation>
+    <type>material</type>
+    <object-name>Labels</object-name>
+    <object-name>Lines</object-name>
+    <emission include="InstrumentLightEmissionInclude.xml"/>
+  </animation>
 
   <!-- AC/DC Panel -->
   <model>

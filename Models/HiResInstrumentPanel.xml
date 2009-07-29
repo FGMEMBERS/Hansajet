@@ -241,6 +241,16 @@
   </model>
 
   <model>
+    <path>Aircraft/Hansajet/Models/VOR_LOC.xml</path>
+    <name>VSI</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.311078</y-m>
+      <z-m>-0.128284</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/Hansajet/Models/VSI-2.xml</path>
     <name>VSI</name>
     <offsets>
