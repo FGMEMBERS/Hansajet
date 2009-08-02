@@ -5,43 +5,48 @@
   <channel name="Fuel Quantity Sensors">
 
     <!-- Fuselage -->
-    <switch name="/consumables/fuel/tank[0]/empty">
+    <switch name="systems/fuel/tank[0]/empty">
       <default value="0.0"/>
       <test value="1.0">
         /consumables/fuel/tank[0]/level-lbs lt 10.0
       </test>
+      <output>/consumables/fuel/tank[0]/empty</output>
     </switch>
 
     <!-- Left Wing -->
-    <switch name="/consumables/fuel/tank[1]/empty">
+    <switch name="systems/fuel/tank[1]/empty">
       <default value="0.0"/>
       <test value="1.0">
         /consumables/fuel/tank[1]/level-lbs lt 10.0
       </test>
+      <output>/consumables/fuel/tank[1]/empty</output>
     </switch>
 
     <!-- Right Wing -->
-    <switch name="/consumables/fuel/tank[2]/empty">
+    <switch name="systems/fuel/tank[2]/empty">
       <default value="0.0"/>
       <test value="1.0">
         /consumables/fuel/tank[2]/level-lbs lt 10.0
       </test>
+      <output>/consumables/fuel/tank[2]/empty</output>
     </switch>
 
     <!-- Left Tip -->
-    <switch name="/consumables/fuel/tank[3]/empty">
+    <switch name="systems/fuel/tank[3]/empty">
       <default value="0.0"/>
       <test value="1.0">
         /consumables/fuel/tank[3]/level-lbs lt 10.0
       </test>
+      <output>/consumables/fuel/tank[3]/empty</output>
     </switch>
 
     <!-- Right Tip -->
-    <switch name="/consumables/fuel/tank[4]/empty">
+    <switch name="systems/fuel/tank[4]/empty">
       <default value="0.0"/>
       <test value="1.0">
         /consumables/fuel/tank[4]/level-lbs lt 10.0
       </test>
+      <output>/consumables/fuel/tank[4]/empty</output>
     </switch>
 
   </channel>
@@ -50,7 +55,7 @@
 
     <!-- create ideal pump output if switch is on and fuel available -->
     <!-- Main Pump -->
-    <switch name="/systems/fuel/fuel-pump[3]/pressure-psi">
+    <switch name="systems/fuel/fuel-pump[3]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[3]/max-pressure-psi">
         /systems/fuel/fuel-pump[3]/serviceable gt 0.5
@@ -60,14 +65,14 @@
     </switch>
 
     <!-- lag filter to build up pressure slowly -->
-    <lag_filter name="/systems/fuel/fuel-pump[3]/filtered-pressure-psi">
-      <input>/systems/fuel/fuel-pump[3]/pressure-psi</input>
+    <lag_filter name="systems/fuel/fuel-pump[3]/filtered-pressure-psi">
+      <input>systems/fuel/fuel-pump[3]/pressure-psi</input>
       <c1>0.198</c1>
     </lag_filter>
 
     <!-- create ideal pump output if switch is on and fuel available -->
     <!-- Aux Pump -->
-    <switch name="/systems/fuel/fuel-pump[4]/pressure-psi">
+    <switch name="systems/fuel/fuel-pump[4]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[4]/max-pressure-psi">
         /systems/fuel/fuel-pump[4]/serviceable gt 0.5
@@ -77,24 +82,26 @@
     </switch>
 
     <!-- lag filter to build up pressure slowly -->
-    <lag_filter name="/systems/fuel/fuel-pump[4]/filtered-pressure-psi">
-      <input>/systems/fuel/fuel-pump[4]/pressure-psi</input>
+    <lag_filter name="systems/fuel/fuel-pump[4]/filtered-pressure-psi">
+      <input>systems/fuel/fuel-pump[4]/pressure-psi</input>
       <c1>0.22</c1>
     </lag_filter>
 
     <!-- add pressure from main and aux pump -->
-    <summer name="/engines/engine[0]/fuel-pressure-psi">
-      <input>/systems/fuel/fuel-pump[3]/filtered-pressure-psi</input>
-      <input>/systems/fuel/fuel-pump[4]/filtered-pressure-psi</input>
+    <summer name="systems/fuel/fuel-pressure-psi[0]">
+      <input>systems/fuel/fuel-pump[3]/filtered-pressure-psi</input>
+      <input>systems/fuel/fuel-pump[4]/filtered-pressure-psi</input>
+      <output>/engines/engine[0]/fuel-pressure-psi</output>
     </summer>
 
   </channel>
 
   <channel name="Fuel Pressure Right">
 
+
     <!-- create ideal pump output if switch is on and fuel available -->
     <!-- Main Pump -->
-    <switch name="/systems/fuel/fuel-pump[5]/pressure-psi">
+    <switch name="systems/fuel/fuel-pump[5]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[5]/max-pressure-psi">
         /systems/fuel/fuel-pump[5]/serviceable gt 0.5
@@ -104,14 +111,14 @@
     </switch>
 
     <!-- lag filter to build up pressure slowly -->
-    <lag_filter name="/systems/fuel/fuel-pump[5]/filtered-pressure-psi">
-      <input>/systems/fuel/fuel-pump[5]/pressure-psi</input>
-      <c1>0.22</c1>
+    <lag_filter name="systems/fuel/fuel-pump[5]/filtered-pressure-psi">
+      <input>systems/fuel/fuel-pump[5]/pressure-psi</input>
+      <c1>0.198</c1>
     </lag_filter>
 
     <!-- create ideal pump output if switch is on and fuel available -->
     <!-- Aux Pump -->
-    <switch name="/systems/fuel/fuel-pump[6]/pressure-psi">
+    <switch name="systems/fuel/fuel-pump[6]/pressure-psi">
       <default value="0.0"/>
       <test value="/systems/fuel/fuel-pump[6]/max-pressure-psi">
         /systems/fuel/fuel-pump[6]/serviceable gt 0.5
@@ -121,15 +128,16 @@
     </switch>
 
     <!-- lag filter to build up pressure slowly -->
-    <lag_filter name="/systems/fuel/fuel-pump[6]/filtered-pressure-psi">
-      <input>/systems/fuel/fuel-pump[6]/pressure-psi</input>
-      <c1>0.198</c1>
+    <lag_filter name="systems/fuel/fuel-pump[6]/filtered-pressure-psi">
+      <input>systems/fuel/fuel-pump[6]/pressure-psi</input>
+      <c1>0.22</c1>
     </lag_filter>
 
     <!-- add pressure from main and aux pump -->
-    <summer name="/engines/engine[1]/fuel-pressure-psi">
-      <input>/systems/fuel/fuel-pump[5]/filtered-pressure-psi</input>
-      <input>/systems/fuel/fuel-pump[6]/filtered-pressure-psi</input>
+    <summer name="systems/fuel/fuel-pressure-psi[1]">
+      <input>systems/fuel/fuel-pump[5]/filtered-pressure-psi</input>
+      <input>systems/fuel/fuel-pump[6]/filtered-pressure-psi</input>
+      <output>/engines/engine[1]/fuel-pressure-psi</output>
     </summer>
 
   </channel>
