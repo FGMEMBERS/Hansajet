@@ -19,7 +19,7 @@
 
   <channel name="Instrument normalization">
 
-    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i1-norm">
+    <fcs_function name="systems/overhead-panel/dc-amps/i1-norm">
       <function>
         <quotient>
           <property>/systems/electrical/bus[0]/battery[0]/current-a</property>
@@ -30,9 +30,10 @@
         <min>-1.0</min>
         <max>1.0</max>
       </clipto>
+      <output>/instrumentation/overhead-panel/dc-amps/i1-norm</output>
     </fcs_function>
 
-    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i2-norm">
+    <fcs_function name="systems/overhead-panel/dc-amps/i2-norm">
       <function>
         <quotient>
           <property>/systems/electrical/bus[0]/battery[1]/current-a</property>
@@ -43,9 +44,10 @@
         <min>-1.0</min>
         <max>1.0</max>
       </clipto>
+      <output>/instrumentation/overhead-panel/dc-amps/i2-norm</output>
     </fcs_function>
 
-    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i3-norm">
+    <fcs_function name="systems/overhead-panel/dc-amps/i3-norm">
       <function>
         <quotient>
           <property>/systems/electrical/bus[1]/generator[0]/current-a</property>
@@ -56,9 +58,10 @@
         <min>0.0</min>
         <max>1.0</max>
       </clipto>
+      <output>/instrumentation/overhead-panel/dc-amps/i3-norm</output>
     </fcs_function>
 
-    <fcs_function name="/instrumentation/overhead-panel/dc-amps/i4-norm">
+    <fcs_function name="systems/overhead-panel/dc-amps/i4-norm">
       <function>
         <quotient>
           <property>/systems/electrical/bus[1]/generator[1]/current-a</property>
@@ -69,6 +72,7 @@
         <min>0.0</min>
         <max>1.0</max>
       </clipto>
+      <output>/instrumentation/overhead-panel/dc-amps/i4-norm</output>
     </fcs_function>
   </channel>
 
