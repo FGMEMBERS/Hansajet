@@ -218,7 +218,7 @@ ok  Right   perform standard rate (4min) turn to the right
     </enable>
     <type>gain</type>
     <input>instrumentation/altimeter/pressure-alt-ft</input>
-    <output>autopilot/settings/target-altitude-ft</output>
+    <output>autopilot/settings/fd-target-altitude-ft</output>
     <gain>1.0</gain>
   </filter>
 
@@ -227,11 +227,10 @@ ok  Right   perform standard rate (4min) turn to the right
     <name>FD:Altitude Hold ROC Computer</name>
     <debug>false</debug>
     <input>/instrumentation/altimeter/pressure-alt-ft</input>
-    <reference>/autopilot/settings/target-altitude-ft</reference>
-    <output>/autopilot/settings/vertical-speed-fpm</output>
+    <reference>/autopilot/settings/fd-target-altitude-ft</reference>
+    <output>/autopilot/settings/fd-vertical-speed-fpm</output>
     <config>
       <Kp>2.0</Kp> <!-- climb 1000fpm for each 500ft off -->
-      <Td>120</Td>
       <min>/autopilot/settings/max-rod-fpm</min>
       <max>/autopilot/settings/max-roc-fpm</max>
     </config>
@@ -245,8 +244,8 @@ ok  Right   perform standard rate (4min) turn to the right
       <property>/velocities/vertical-speed-fps</property>
       <scale>60</scale>
     </input>
-    <reference>/autopilot/settings/vertical-speed-fpm</reference>
-    <output>/autopilot/settings/target-pitch-deg</output>
+    <reference>/autopilot/settings/fd-vertical-speed-fpm</reference>
+    <output>/autopilot/settings/fd-target-pitch-deg</output>
     <config>
       <Kp>0.002</Kp> 
       <beta>1.0</beta>
@@ -288,7 +287,7 @@ ok  Right   perform standard rate (4min) turn to the right
         </equals>
         <property>/autopilot/flightdirector/altitude-hold</property>
       </condition>
-      <property>/autopilot/settings/target-pitch-deg</property>
+      <property>/autopilot/settings/fd-target-pitch-deg</property>
     </reference>
 
     <!-- FI and not altitude-hold: move out of sight -->
@@ -643,7 +642,7 @@ ok  Right   perform standard rate (4min) turn to the right
     </output>
     <config> 
       <Kp>0.012</Kp>
-      <Ti>25</Ti>
+      <Ki>25</Ki>
       <min>-0.3</min>
       <max>0.3</max>
     </config>
@@ -652,6 +651,74 @@ ok  Right   perform standard rate (4min) turn to the right
 <!-- ====================================================================== -->
 <!-- =============== Pitch Axis =========================================== -->
 <!-- ====================================================================== -->
+
+  <!-- copy pressure altitude to target altitude if alt-hold switch is off -->
+  <filter>
+    <name>AP:Target Altitude Monitor</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <not-equals>
+          <property>/autopilot/locks/altitude</property>
+          <value>altitude-hold</value>
+        </not-equals>
+      </condition>
+    </enable>
+    <type>gain</type>
+    <input>instrumentation/altimeter/pressure-alt-ft</input>
+    <output>autopilot/settings/target-altitude-ft</output>
+    <gain>1.0</gain>
+  </filter>
+
+  <!-- compute rate of climb base on altitude offset -->
+  <pid-controller>
+    <name>AP:Altitude Hold ROC Computer</name>
+    <debug>false</debug>
+    <feedback-if-disabled>true</feedback-if-disabled>
+    <enable>
+      <condition>
+        <equals>
+          <property>/autopilot/locks/altitude</property>
+          <value>altitude-hold</value>
+        </equals>
+      </condition>
+    </enable>
+    <input>/instrumentation/altimeter/pressure-alt-ft</input>
+    <reference>/autopilot/settings/target-altitude-ft</reference>
+    <output>/autopilot/settings/vertical-speed-fpm</output>
+    <config>
+      <Kp>2.0</Kp> <!-- climb 1000fpm for each 500ft off -->
+      <Ti>-120</Ti>
+      <Td>0.0</Td>
+      <beta>1.0</beta>
+      <alpha>0.1</alpha>
+      <gamma>0.0</gamma>
+      <min>/autopilot/settings/max-rod-fpm</min>
+      <max>/autopilot/settings/max-roc-fpm</max>
+    </config>
+  </pid-controller>
+
+  <!-- compute pitch based on climb speed offset -->
+  <pid-controller>
+    <name>AP:Altitude Hold Pitch Computer</name>
+    <debug>false</debug>
+    <input>
+      <property>/velocities/vertical-speed-fps</property>
+      <scale>60</scale>
+    </input>
+    <reference>/autopilot/settings/vertical-speed-fpm</reference>
+    <output>/autopilot/settings/target-pitch-deg</output>
+    <config>
+      <Kp>0.002</Kp> 
+      <beta>1.0</beta>
+      <alpha>0.1</alpha>
+      <gamma>1.0</gamma>
+      <Ti>1.0</Ti>
+      <Td>1e-12</Td>
+      <min>/autopilot/settings/min-pitch-deg</min>
+      <max>/autopilot/settings/max-pitch-deg</max>
+    </config>
+  </pid-controller>
 
   <pid-controller>
     <name>AP:Pitch Hold</name>
@@ -668,14 +735,14 @@ ok  Right   perform standard rate (4min) turn to the right
     <reference>autopilot/settings/target-pitch-deg</reference>
     <output>/autopilot/internal/elevator-command</output>
     <config>
-    <Kp>-0.05</Kp>
-    <beta>1.0</beta>
-    <alpha>0.1</alpha>
-    <gamma>0.0</gamma>
-    <Ti>10.0</Ti>
-    <Td>0.0</Td>
-    <u_min>-0.50</u_min>
-    <u_max>0.50</u_max>
+      <Kp>-0.05</Kp>
+      <beta>1.0</beta>
+      <alpha>0.1</alpha>
+      <gamma>0.0</gamma>
+      <Ti>10.0</Ti>
+      <Td>0.0</Td>
+      <u_min>-0.50</u_min>
+      <u_max>0.50</u_max>
     </config>
     </pid-controller>
 
