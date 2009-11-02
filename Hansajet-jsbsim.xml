@@ -641,8 +641,8 @@ wing tip  NACA 63A(1.8)11
   <channel name="Landing Gear">
     <!-- force gear down on ground. Squad switch is on left main gear -->
     <switch name="gear switch">
-      <default value="0"/>
-      <test logic="OR" value="1">
+      <default value="1"/>
+      <test logic="OR" value="0">
         gear/unit[1]/compression-ft != 0 
         gear/gear-cmd-norm == 1
       </test>
@@ -650,8 +650,8 @@ wing tip  NACA 63A(1.8)11
 
     <!-- create a input property fcs/gear-emergency-extend -->
     <switch name="gear emergency extend">
-      <default value="0"/>
-      <test value="1">
+      <default value="1"/>
+      <test value="0">
         gear/gear-cmd-emergency-norm == 1
       </test>
     </switch>
@@ -660,25 +660,47 @@ wing tip  NACA 63A(1.8)11
     <actuator name="Gear Nose Actuator">
       <input>fcs/gear-switch</input>
       <rate_limit>0.1</rate_limit>
-      <output>gear/unit[0]/actuator-pos-norm</output>
+      <output>gear/unit[0]/actuator-pos-inverted</output>
+      <bias>-1.0</bias>
     </actuator>
+    <pure_gain name="gear/unit[0]/actuator-pos-norm">
+      <input>gear/unit[0]/actuator-pos-inverted</input>
+      <gain>-1.0</gain>
+    </pure_gain>
+
     <actuator name="Gear Left Actuator">
       <input>fcs/gear-switch</input>
       <rate_limit>0.13</rate_limit>
-      <output>gear/unit[1]/actuator-pos-norm</output>
+      <output>gear/unit[1]/actuator-pos-inverted</output>
+      <bias>-1.0</bias>
     </actuator>
+    <pure_gain name="gear/unit[1]/actuator-pos-norm">
+      <input>gear/unit[1]/actuator-pos-inverted</input>
+      <gain>-1.0</gain>
+    </pure_gain>
+
     <actuator name="Gear Right Actuator">
       <input>fcs/gear-switch</input>
       <rate_limit>0.15</rate_limit>
-      <output>gear/unit[2]/actuator-pos-norm</output>
+      <output>gear/unit[2]/actuator-pos-inverted</output>
+      <bias>-1.0</bias>
     </actuator>
+    <pure_gain name="gear/unit[2]/actuator-pos-norm">
+      <input>gear/unit[2]/actuator-pos-inverted</input>
+      <gain>-1.0</gain>
+    </pure_gain>
 
     <!-- "gravity" actuator for emergency extension -->
     <actuator name="Gear Emergency Actuator">
       <input>fcs/gear-emergency-extend</input>
       <rate_limit>0.2</rate_limit>
-      <output>gear/emergency-pos-norm</output>
+      <output>gear/emergency-pos-inverted</output>
+      <bias>-1.0</bias>
     </actuator>
+    <pure_gain name="gear/emergency-pos-norm">
+      <input>gear/emergency-pos-inverted</input>
+      <gain>-1.0</gain>
+    </pure_gain>
 
     <!-- now add up the gear positions -->
     <summer name="Nose Gear Sum">
