@@ -42,7 +42,7 @@ kids 0
 OBJECT poly
 name "KnobCenter2"
 loc 0.0099587 0.0317941 0
-texture "NavitecT1.rgb"
+texture "NavitecT1.png"
 crease 45.000000
 numvert 74
 0.000200619 0.0010573 0.000564357
@@ -807,7 +807,7 @@ refs 3
 kids 0
 OBJECT poly
 name "Face"
-texture "NavitecT1.rgb"
+texture "NavitecT1.png"
 crease 45.000000
 numvert 72
 0.0108786 -2.10866e-08 0.019926
@@ -961,7 +961,7 @@ refs 72
 kids 0
 OBJECT poly
 name "Lunette"
-texture "NavitecT1.rgb"
+texture "NavitecT1.png"
 crease 45.000000
 numvert 432
 0.0128786 -0.00223559 -0.0255524
@@ -3941,7 +3941,7 @@ kids 0
 OBJECT poly
 name "KnobLeft"
 loc 0.0099587 0.0268382 0.0155452
-texture "NavitecT1.rgb"
+texture "NavitecT1.png"
 crease 45.000000
 numvert 73
 0.000200619 0.00258815 0.00214592
@@ -4490,7 +4490,7 @@ kids 0
 OBJECT poly
 name "KnobRight"
 loc 0.0099587 0.0268381 -0.0155454
-texture "NavitecT1.rgb"
+texture "NavitecT1.png"
 crease 45.000000
 numvert 73
 -0.003 0.00287031 -0.00165719
@@ -5039,7 +5039,7 @@ kids 0
 OBJECT poly
 name "Baseplate"
 loc 0.001 -9.31323e-10 1.86265e-09
-texture "NavitecT1.rgb"
+texture "NavitecT1.png"
 crease 45.000000
 numvert 8
 -0.001 0.0285 -0.0285
@@ -5097,7 +5097,7 @@ kids 0
 OBJECT poly
 name "KnobCenter1"
 loc 0.0069587 0.028829 0
-texture "NavitecT1.rgb"
+texture "NavitecT1.png"
 crease 45.000000
 numvert 145
 0.00320062 0.00128147 0.000564357

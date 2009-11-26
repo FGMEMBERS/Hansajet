@@ -6,7 +6,7 @@ kids 3
 OBJECT poly
 name "Light"
 loc -0.00193727 0.0182053 -3.72529e-09
-texture "HydraulicTemperature.rgb"
+texture "HydraulicTemperature.png"
 crease 45.000000
 numvert 82
 0.0070938 0.0026371 0.00309337
@@ -825,7 +825,7 @@ kids 0
 OBJECT poly
 name "Face"
 loc 0.00095 5.58794e-09 5.58794e-09
-texture "HydraulicTemperature.rgb"
+texture "HydraulicTemperature.png"
 crease 45.000000
 numvert 145
 -0.00085 -3.25117e-09 -3.25117e-09
@@ -1950,7 +1950,7 @@ kids 0
 OBJECT poly
 name "Needle"
 loc 0.0005 0.0169672 0.00574162
-texture "HydraulicTemperature.rgb"
+texture "HydraulicTemperature.png"
 crease 45.000000
 numvert 5
 0 -0.0166889 -0.0143311

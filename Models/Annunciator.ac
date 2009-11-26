@@ -6893,7 +6893,7 @@ kids 0
 OBJECT poly
 name "SpeedBrakeExtend"
 loc 0.005 -0.000380711 -0.0253333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 0.011736 0.0623333
@@ -6912,7 +6912,7 @@ kids 0
 OBJECT poly
 name "SlatLH"
 loc 0.005 -0.000380711 -0.0443333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 -0.00526396 0.0453333
@@ -6931,7 +6931,7 @@ kids 0
 OBJECT poly
 name "SlatRH"
 loc 0.005 -0.000380711 -0.0633333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 0.011736 0.0623333
@@ -6950,7 +6950,7 @@ kids 0
 OBJECT poly
 name "FuelFilterIcedLH"
 loc 0.005 -0.000380711 -0.0823333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 -0.00526396 0.0453333
@@ -6969,7 +6969,7 @@ kids 0
 OBJECT poly
 name "FuelFilterIcedRH"
 loc 0.005 -0.000380711 -0.101333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 0.011736 0.0623333
@@ -6988,7 +6988,7 @@ kids 0
 OBJECT poly
 name "FuelFilterIcedRHOn"
 loc 0.00499 -0.000380711 -0.101333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 -0.00526396 0.0453333
@@ -7007,7 +7007,7 @@ kids 0
 OBJECT poly
 name "FuelFilterIcedLHOn"
 loc 0.00499 -0.000380711 -0.0823333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 0.011736 0.0623333
@@ -7026,7 +7026,7 @@ kids 0
 OBJECT poly
 name "SlatRHOn"
 loc 0.00499 -0.000380711 -0.0633333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 -0.00526396 0.0453333
@@ -7045,7 +7045,7 @@ kids 0
 OBJECT poly
 name "SlatLHOn"
 loc 0.00499 -0.000380711 -0.0443333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 0.011736 0.0623333
@@ -7064,7 +7064,7 @@ kids 0
 OBJECT poly
 name "SpeedBrakeExtendOn"
 loc 0.00499 -0.000380711 -0.0253333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 -0.00526396 0.0453333
@@ -7083,7 +7083,7 @@ kids 0
 OBJECT poly
 name "DragChuteJett"
 loc 0.005 -0.000380711 -0.00633333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 -0.00526396 0.0453333
@@ -7102,7 +7102,7 @@ kids 0
 OBJECT poly
 name "DragChuteJettOn"
 loc 0.00499 -0.000380711 -0.00633333
-texture "Annunciator.rgb"
+texture "Annunciator.png"
 crease 45.000000
 numvert 4
 -0.00090014 0.011736 0.0623333

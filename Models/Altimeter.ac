@@ -825,7 +825,7 @@ kids 0
 OBJECT poly
 name "Needle"
 loc 0.0005 -0.00375826 -0.0287018
-texture "Altimeter.rgb"
+texture "Altimeter.png"
 crease 45.000000
 numvert 5
 0 0.0381632 0.0287018
@@ -1664,7 +1664,7 @@ kids 0
 OBJECT poly
 name "Face"
 loc 0.00095 7.45058e-09 7.45058e-09
-texture "Altimeter.rgb"
+texture "Altimeter.png"
 crease 45.000000
 numvert 192
 0.00105 0.0375876 -0.0136808
@@ -2920,7 +2920,7 @@ kids 0
 OBJECT poly
 name "SubscaleKnob"
 loc 0.00690506 1.39698e-09 1.39698e-09
-texture "Altimeter.rgb"
+texture "Altimeter.png"
 crease 45.000000
 numvert 73
 -0.00625 -0.0278231 0.0325289
@@ -3487,7 +3487,7 @@ kids 0
 OBJECT poly
 name "Altitude10000"
 loc -0.0149482 0.000427967 0.0186353
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0 0.00536893
@@ -3583,7 +3583,7 @@ kids 0
 OBJECT poly
 name "Altitude1000"
 loc -0.0149482 0.000427967 0.00757542
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0.0142658 0.00463526 -0.00518197
@@ -3679,7 +3679,7 @@ kids 0
 OBJECT poly
 name "Altitude100"
 loc -0.0149482 0.000427967 -0.0116704
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0 0.0081843
@@ -3775,7 +3775,7 @@ kids 0
 OBJECT poly
 name "Subscale1000"
 loc -0.0155844 -0.024969 0.00869789
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0.0142658 0.00463526 -0.00255627
@@ -3871,7 +3871,7 @@ kids 0
 OBJECT poly
 name "Subscale100"
 loc -0.0155844 -0.024969 0.00286852
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0 0.00264849
@@ -3967,7 +3967,7 @@ kids 0
 OBJECT poly
 name "Subscale10"
 loc -0.0155844 -0.024969 -0.00296078
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0.0142658 0.00463526 -0.00255627
@@ -4063,7 +4063,7 @@ kids 0
 OBJECT poly
 name "Subscale1"
 loc -0.0155844 -0.024969 -0.0087901
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0 0.00264849

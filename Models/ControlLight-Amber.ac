@@ -383,7 +383,7 @@ kids 0
 OBJECT poly
 name "Chassis"
 loc 0.000655717 0 4.65661e-10
-texture "ControlLight.rgb"
+texture "ControlLight.png"
 crease 45.000000
 numvert 49
 0.00877631 -9.02219e-10 -1.27329e-09

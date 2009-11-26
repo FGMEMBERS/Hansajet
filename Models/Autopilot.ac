@@ -6,7 +6,7 @@ kids 16
 OBJECT poly
 name "Head"
 loc 0.00959869 -0.0232174 -0.0306531
-texture "Autopilot.rgb"
+texture "Autopilot.png"
 crease 45.000000
 numvert 109
 -0.000894552 -0.000459308 -0.00576682
@@ -1113,7 +1113,7 @@ kids 0
 OBJECT poly
 name "Engage"
 loc -0.00623747 -0.00342654 0.0546196
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.0322053 0.0224911 -0.0103279
@@ -1759,7 +1759,7 @@ kids 0
 OBJECT poly
 name "Nut"
 loc 0.0926416 -0.000645506 0.14508
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 13
 -0.0864081 0.0164103 -0.104928
@@ -1858,7 +1858,7 @@ kids 0
 OBJECT poly
 name "Nut"
 loc 0.0926416 -0.000645506 0.0564961
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 13
 -0.0864081 0.0235817 -0.100788
@@ -1957,7 +1957,7 @@ kids 0
 OBJECT poly
 name "Mach"
 loc -0.00623747 -0.00342654 -0.0339638
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.0313112 0.0214572 -0.0126333
@@ -2603,7 +2603,7 @@ kids 0
 OBJECT poly
 name "Altitude"
 loc -0.00623747 -0.00342654 0.0103279
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.0322053 0.0224911 -0.0103279
@@ -3249,7 +3249,7 @@ kids 0
 OBJECT poly
 name "Nut"
 loc 0.0926416 -0.000645506 0.100788
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 13
 -0.0864081 0.0164103 -0.104928
@@ -3348,7 +3348,7 @@ kids 0
 OBJECT poly
 name "Chassis"
 loc 0 -0.00121936 0
-texture "Autopilot.rgb"
+texture "Autopilot.png"
 crease 45.000000
 numvert 8
 -0.005 -0.0479387 -0.075
@@ -3399,7 +3399,7 @@ kids 0
 OBJECT poly
 name "Turn"
 loc 0.00959869 -0.0232174 0.0306531
-texture "Autopilot.rgb"
+texture "Autopilot.png"
 crease 45.000000
 numvert 109
 0.00336477 0.00189243 -0.000717543

@@ -1736,7 +1736,7 @@ kids 0
 OBJECT poly
 name "Course100"
 loc -0.0162608 -0.0144016 -0.0384301
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0.00779782 0.0354237
@@ -1832,7 +1832,7 @@ kids 0
 OBJECT poly
 name "Course10"
 loc -0.0162608 -0.0144016 -0.0442595
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0.0142658 0.0124331 0.0302189
@@ -1928,7 +1928,7 @@ kids 0
 OBJECT poly
 name "Course1"
 loc -0.0162608 -0.0144016 -0.0500887
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0.00779782 0.0354237
@@ -3723,7 +3723,7 @@ kids 0
 OBJECT poly
 name "OBSSelector"
 loc 0.00690506 0.00887174 -0.07487
-texture "Altimeter.rgb"
+texture "Altimeter.png"
 crease 45.000000
 numvert 73
 0.00625 -0.0351314 0.0393457

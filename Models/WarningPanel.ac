@@ -535,7 +535,7 @@ kids 0
 OBJECT poly
 name "Caution.ExtendSlats"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0783139 -0.00112599
@@ -554,7 +554,7 @@ kids 0
 OBJECT poly
 name "Caution.No2EngFuelPressLow"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0683142 -0.024126
@@ -573,7 +573,7 @@ kids 0
 OBJECT poly
 name "Caution.PusherOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0583142 -0.00112599
@@ -592,7 +592,7 @@ kids 0
 OBJECT poly
 name "Caution.No2GenOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0483142 -0.024126
@@ -611,7 +611,7 @@ kids 0
 OBJECT poly
 name "Caution.No2AltOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0383142 -0.00112599
@@ -630,7 +630,7 @@ kids 0
 OBJECT poly
 name "Caution.No2AltOverheat"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0283142 -0.024126
@@ -649,7 +649,7 @@ kids 0
 OBJECT poly
 name "Caution.AuxBus400CPSOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0183142 -0.00112599
@@ -668,7 +668,7 @@ kids 0
 OBJECT poly
 name "Caution.HydLowLevel"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.00831424 -0.024126
@@ -687,7 +687,7 @@ kids 0
 OBJECT poly
 name "Caution.AntiSkidOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.00168576 -0.00112599
@@ -706,7 +706,7 @@ kids 0
 OBJECT poly
 name "Caution.APUOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0116858 -0.024126
@@ -725,7 +725,7 @@ kids 0
 OBJECT poly
 name "Caution.CabinPressLow"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0216857 -0.00112599
@@ -744,7 +744,7 @@ kids 0
 OBJECT poly
 name "Caution.StaticHeatOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0316857 -0.024126
@@ -763,7 +763,7 @@ kids 0
 OBJECT poly
 name "Caution.VaneHeatOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0416858 -0.00112599
@@ -782,7 +782,7 @@ kids 0
 OBJECT poly
 name "Caution.ElevatorTrim"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0516858 -0.024126
@@ -801,7 +801,7 @@ kids 0
 OBJECT poly
 name "Caution.RudderTrim"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0616858 -0.00112599
@@ -820,7 +820,7 @@ kids 0
 OBJECT poly
 name "Caution.FuelLowLevel"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0716858 -0.024126
@@ -839,7 +839,7 @@ kids 0
 OBJECT poly
 name "Caution.OilPressLow"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0716858 0.025366
@@ -858,7 +858,7 @@ kids 0
 OBJECT poly
 name "Caution.AileronTrim"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0616858 0.00236601
@@ -877,7 +877,7 @@ kids 0
 OBJECT poly
 name "Caution.AutopilotOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0516858 0.025366
@@ -896,7 +896,7 @@ kids 0
 OBJECT poly
 name "Caution.FlapAsymmetry"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0416858 0.00236601
@@ -915,7 +915,7 @@ kids 0
 OBJECT poly
 name "Caution.PitotHeatOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0316857 0.025366
@@ -934,7 +934,7 @@ kids 0
 OBJECT poly
 name "Caution.CabinDoorUnsafe"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0216857 0.00236601
@@ -953,7 +953,7 @@ kids 0
 OBJECT poly
 name "Caution.LandingGear"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.0116858 0.025366
@@ -972,7 +972,7 @@ kids 0
 OBJECT poly
 name "Caution.BrakePressLow"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 -0.00168576 0.00236601
@@ -991,7 +991,7 @@ kids 0
 OBJECT poly
 name "Caution.HydPressLow"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.00831424 0.00236601
@@ -1010,7 +1010,7 @@ kids 0
 OBJECT poly
 name "Caution.No1AltOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0383142 0.00236601
@@ -1029,7 +1029,7 @@ kids 0
 OBJECT poly
 name "Caution.No1GenOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0483142 0.025366
@@ -1048,7 +1048,7 @@ kids 0
 OBJECT poly
 name "Caution.AntiStallOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0583142 0.00236601
@@ -1067,7 +1067,7 @@ kids 0
 OBJECT poly
 name "Caution.No1EngFuelPressLow"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0683142 0.025366
@@ -1086,7 +1086,7 @@ kids 0
 OBJECT poly
 name "Caution.RetractSlats"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0783139 0.00236601
@@ -1123,7 +1123,7 @@ kids 0
 OBJECT poly
 name "Caution.MainBus400CPSOff"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0183142 0.025366
@@ -1142,7 +1142,7 @@ kids 0
 OBJECT poly
 name "Caution.No1AltOverheat"
 loc 2.5e-05 0.000185907 -0.000620008
-texture "WarningPanel.rgb"
+texture "WarningPanel.png"
 crease 45.000000
 numvert 4
 0.000275 0.0283142 0.025366

@@ -6,7 +6,7 @@ kids 3
 OBJECT poly
 name "Light"
 loc -0.00193727 0.0202221 0.0213471
-texture "FlapIndicator.rgb"
+texture "FlapIndicator.png"
 crease 45.000000
 numvert 82
 0.0070938 -0.000322631 0.00405206
@@ -825,7 +825,7 @@ kids 0
 OBJECT poly
 name "Face"
 loc 0.00095 5.58794e-09 5.58794e-09
-texture "FlapIndicator.rgb"
+texture "FlapIndicator.png"
 crease 45.000000
 numvert 145
 -0.00085 -5.58794e-09 -5.58794e-09
@@ -1950,7 +1950,7 @@ kids 0
 OBJECT poly
 name "Needle"
 loc 0.0005 0.0307845 -0.00372156
-texture "FlapIndicator.rgb"
+texture "FlapIndicator.png"
 crease 45.000000
 numvert 5
 0 -0.015863 0.00259921

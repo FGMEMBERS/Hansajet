@@ -8,7 +8,7 @@ kids 13
 OBJECT poly
 name "G"
 loc -0.0017 0.0376469 0.0238598
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 10
 0 -0.0531056 -0.0355867
@@ -54,7 +54,7 @@ kids 0
 OBJECT poly
 name "FD"
 loc -0.0017 0.0375936 -0.0239378
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 10
 0 -0.0602698 0.0583743
@@ -100,7 +100,7 @@ kids 0
 OBJECT poly
 name "BankIndicator"
 loc 0.0001 0.0217294 3.72529e-09
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 4
 -0.002 0.00879865 -0.00336906
@@ -155,7 +155,7 @@ kids 0
 OBJECT poly
 name "Marker"
 loc 0.0001 0.0203878 3.72529e-09
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 44
 -0.002 0.0132177 0.0127635
@@ -284,7 +284,7 @@ kids 0
 OBJECT poly
 name "Frame"
 loc 0.001 7.45058e-09 7.45058e-09
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 216
 -0.003 0.0338289 -0.0123127
@@ -1768,7 +1768,7 @@ kids 0
 OBJECT poly
 name "Sphere"
 loc -0.129134 -0.0357685 -0.0830264
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 409
 0.111275 0.0014668 0.105351
@@ -5946,7 +5946,7 @@ kids 0
 OBJECT poly
 name "Knob"
 loc 0.008 -0.0383623 0.044437
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 74
 0.003 0.00600004 0
@@ -7434,7 +7434,7 @@ kids 0
 OBJECT poly
 name "Horizon"
 loc -0.00202831 -0.000905239 0
-texture "AI.rgb"
+texture "AI.png"
 crease 45.000000
 numvert 78
 0 -0.00302469 -0.00689458

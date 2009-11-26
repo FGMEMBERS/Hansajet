@@ -224,7 +224,7 @@ kids 0
 OBJECT poly
 name "Chassis"
 loc 0.00095 5.58794e-09 5.58794e-09
-texture "Silouhette.rgb"
+texture "Silouhette.png"
 crease 45.000000
 numvert 145
 -0.00085 -5.58794e-09 -5.58794e-09

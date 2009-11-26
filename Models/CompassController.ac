@@ -5,7 +5,7 @@ kids 4
 OBJECT poly
 name "N-S"
 loc 0.017542 0.0024716 -0.0379242
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.00766411 -0.00115735 -0.00173205
@@ -651,7 +651,7 @@ kids 0
 OBJECT poly
 name "MAG-DG"
 loc 0.017542 -0.023892 0.0535136
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.0083359 -0.000380578 0
@@ -1297,7 +1297,7 @@ kids 0
 OBJECT poly
 name "Latitude"
 loc 0.015213 -0.0121352 0
-texture "CompassController.rgb"
+texture "CompassController.png"
 crease 45.000000
 numvert 254
 0.005 0.00265975 -0.0101523
@@ -3179,7 +3179,7 @@ kids 0
 OBJECT poly
 name "Cassis"
 loc 0.005 0 0
-texture "CompassController.rgb"
+texture "CompassController.png"
 crease 45.000000
 numvert 8
 -0.005 0.0375 -0.075

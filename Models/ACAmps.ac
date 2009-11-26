@@ -5,7 +5,7 @@ kids 3
 OBJECT poly
 name "Chassis"
 loc 0.00095 5.58794e-09 5.58794e-09
-texture "ACAmps.rgb"
+texture "ACAmps.png"
 crease 45.000000
 numvert 144
 -0.00085 0.0185813 -0.00327638
@@ -912,7 +912,7 @@ refs 4
 kids 0
 OBJECT poly
 name "Needle"
-texture "ACAmps.rgb"
+texture "ACAmps.png"
 crease 45.000000
 numvert 5
 0.00118093 0.0127037 0
@@ -933,7 +933,7 @@ kids 0
 OBJECT poly
 name "Face"
 loc 0.00095 5.58794e-09 5.58794e-09
-texture "ACAmps.rgb"
+texture "ACAmps.png"
 crease 45.000000
 numvert 37
 -0.00085 0.01773 -0.0064532

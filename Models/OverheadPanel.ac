@@ -30020,7 +30020,7 @@ kids 0
 OBJECT poly
 name "FlagALT1_ALT2"
 loc 0 0.566944 0.0194569
-texture "Flag.rgb"
+texture "Flag.png"
 crease 45.000000
 numvert 4
 0.0002 -0.25618 -0.104365
@@ -30039,7 +30039,7 @@ kids 0
 OBJECT poly
 name "FlagESSENT_BUS_BAT"
 loc 0 0.415129 -0.211211
-texture "Flag.rgb"
+texture "Flag.png"
 crease 45.000000
 numvert 4
 0.0002 -0.0995531 0.322611
@@ -30058,7 +30058,7 @@ kids 0
 OBJECT poly
 name "FlagBATT_BUS"
 loc 0 0.415129 -0.211211
-texture "Flag.rgb"
+texture "Flag.png"
 crease 45.000000
 numvert 4
 0.0002 -0.104365 0.33598
@@ -30077,7 +30077,7 @@ kids 0
 OBJECT poly
 name "FlagGEN_BUS2"
 loc 0 0.415129 -0.211211
-texture "Flag.rgb"
+texture "Flag.png"
 crease 45.000000
 numvert 4
 0.0002 -0.0995531 0.25618
@@ -30096,7 +30096,7 @@ kids 0
 OBJECT poly
 name "FlagGEN_BUS1"
 loc 0 0.415129 -0.211211
-texture "Flag.rgb"
+texture "Flag.png"
 crease 45.000000
 numvert 4
 0.0002 -0.104365 0.296119
@@ -30115,7 +30115,7 @@ kids 0
 OBJECT poly
 name "FlagESSENT_BUS_GEN"
 loc 0 0.415129 -0.211211
-texture "Flag.rgb"
+texture "Flag.png"
 crease 45.000000
 numvert 4
 0.0002 -0.0995531 0.306544

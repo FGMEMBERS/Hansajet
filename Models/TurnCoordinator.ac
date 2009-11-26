@@ -824,7 +824,7 @@ kids 0
 OBJECT poly
 name "Hand"
 loc 0.0002 -0.00373102 -0.00594277
-texture "TurnCoordinator.rgb"
+texture "TurnCoordinator.png"
 crease 45.000000
 numvert 4
 0 0.0233343 0.0035782
@@ -1683,7 +1683,7 @@ kids 0
 OBJECT poly
 name "Ball"
 loc -2.93545e-05 -0.00516384 -4.88944e-09
-texture "TurnCoordinator.rgb"
+texture "TurnCoordinator.png"
 crease 45.000000
 numvert 24
 0 0 0.00500024
@@ -1742,7 +1742,7 @@ kids 0
 OBJECT poly
 name "Frame"
 loc 0.00095 5.58794e-09 5.58794e-09
-texture "TurnCoordinator.rgb"
+texture "TurnCoordinator.png"
 crease 45.000000
 numvert 144
 -0.00085 0.0246202 -0.0043412
@@ -2650,7 +2650,7 @@ kids 0
 OBJECT poly
 name "Face"
 loc -0.000821842 5.58794e-09 5.58794e-09
-texture "TurnCoordinator.rgb"
+texture "TurnCoordinator.png"
 crease 45.000000
 numvert 84
 0.000921842 -0.00946616 0.0148379

@@ -6,7 +6,7 @@ kids 2
 OBJECT poly
 name "FireHandle.1"
 loc 0.00696943 0 0
-texture "InstrumentPanel.rgb"
+texture "InstrumentPanel.png"
 crease 45.000000
 numvert 82
 -7.63685e-08 -0.00907198 0.0231718

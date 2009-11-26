@@ -9,7 +9,7 @@ kids 26
 OBJECT poly
 name "GSBar"
 loc -0.003513 0 0.0133829
-texture "HSI.rgb"
+texture "HSI.png"
 crease 45.000000
 numvert 4
 0 0.000585 0.00595151
@@ -28,7 +28,7 @@ kids 0
 OBJECT poly
 name "FROM"
 loc -0.00703359 0.00485938 -0.0113932
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 3
 0 -0.0235577 0.0115788
@@ -45,7 +45,7 @@ kids 0
 OBJECT poly
 name "HDGSelector"
 loc 0.00418877 0.0282 0.0282
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 50
 0.0134108 -0.0651295 -0.0594726
@@ -559,7 +559,7 @@ kids 0
 OBJECT poly
 name "CDIBar"
 loc -0.0061904 0.00444979 0
-texture "HSI.rgb"
+texture "HSI.png"
 crease 45.000000
 numvert 4
 0.0025774 -0.0108784 -0.00065
@@ -578,7 +578,7 @@ kids 0
 OBJECT poly
 name "Miles100"
 loc -0.0212352 0.0402994 -0.031458
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0.0142658 0.00463526 -0.00234472
@@ -674,7 +674,7 @@ kids 0
 OBJECT poly
 name "Miles10"
 loc -0.0212352 0.0402994 -0.0364112
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0 0.0024293
@@ -770,7 +770,7 @@ kids 0
 OBJECT poly
 name "Miles1"
 loc -0.0212352 0.0402994 -0.0413644
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0.0142658 0.00463526 -0.00234472
@@ -866,7 +866,7 @@ kids 0
 OBJECT poly
 name "Course1"
 loc -0.0212352 0.0402994 0.0313734
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0 0.0024293
@@ -962,7 +962,7 @@ kids 0
 OBJECT poly
 name "Course10"
 loc -0.0212352 0.0402994 0.0363266
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0.0142658 0.00463526 -0.00234472
@@ -1058,7 +1058,7 @@ kids 0
 OBJECT poly
 name "Course100"
 loc -0.0212352 0.0402994 0.0412798
-texture "Numbers.rgb"
+texture "Numbers.png"
 crease 45.000000
 numvert 12
 0 0 0.0024293
@@ -1154,7 +1154,7 @@ kids 0
 OBJECT poly
 name "GS"
 loc -0.00693359 -0.00944023 0.0108205
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 4
 0 0.0134402 0.0136776
@@ -1173,7 +1173,7 @@ kids 0
 OBJECT poly
 name "CompassRose"
 loc -0.00626775 1.28057e-09 2.22045e-16
-texture "HSI.rgb"
+texture "HSI.png"
 crease 45.000000
 numvert 72
 0 -0.00599086 0.0339759
@@ -1505,7 +1505,7 @@ kids 0
 OBJECT poly
 name "HDGBug"
 loc 0 0.0338898 -0.000292167
-texture "HSI.rgb"
+texture "HSI.png"
 crease 45.000000
 numvert 8
 -0.00601775 -0.000271633 -0.000113662
@@ -1535,7 +1535,7 @@ kids 0
 OBJECT poly
 name "NAV"
 loc -0.00693359 -0.00871681 0.00405158
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 4
 0 0.0140564 -0.016485
@@ -1572,7 +1572,7 @@ kids 0
 OBJECT poly
 name "OBSSelector"
 loc 0.00418877 0.0282 0.1062
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 50
 -0.00984259 -0.0672 -0.0672
@@ -2086,7 +2086,7 @@ kids 0
 OBJECT poly
 name "Marking"
 loc -0.00566775 0.000469651 -2.23517e-08
-texture "HSI.rgb"
+texture "HSI.png"
 crease 45.000000
 numvert 32
 0 -7.05841e-05 0.0358675
@@ -2182,7 +2182,7 @@ kids 0
 OBJECT poly
 name "Marking"
 loc -0.00566775 0.0325195 -4.47221e-05
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 8
 0 0.00239933 -0.0412054
@@ -2212,7 +2212,7 @@ kids 0
 OBJECT poly
 name "Chassis"
 loc -0.00273967 0 0.02525
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 233
 0.00297774 -0.0498967 -0.02525
@@ -3973,7 +3973,7 @@ kids 0
 OBJECT poly
 name "OFF"
 loc -0.00581775 0.0237418 -0.0191964
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 4
 0 -0.0150269 -0.00887847
@@ -5044,7 +5044,7 @@ kids 0
 OBJECT poly
 name "CDIPlate"
 loc -0.0222421 0.00444979 0
-texture "HSI.rgb"
+texture "HSI.png"
 crease 45.000000
 numvert 89
 0.018129 0.00196174 -0.000649975
@@ -5668,7 +5668,7 @@ kids 0
 OBJECT poly
 name "TO"
 loc -0.00703359 -0.00485943 0.0117645
-texture "HSI2.rgb"
+texture "HSI2.png"
 crease 45.000000
 numvert 3
 0 0.0166683 -0.016485

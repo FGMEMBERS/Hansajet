@@ -5,7 +5,7 @@ kids 2
 OBJECT poly
 name "Right"
 loc 0.00442532 0 -0.00625
-texture "Knob1.rgb"
+texture "Knob1.png"
 crease 45.000000
 numvert 66
 0.00588327 0 0.00625
@@ -619,7 +619,7 @@ kids 0
 OBJECT poly
 name "Left"
 loc 0.00442532 0 0.00625
-texture "Knob1.rgb"
+texture "Knob1.png"
 crease 45.000000
 numvert 66
 0.00432354 0.00813232 -0.00571564

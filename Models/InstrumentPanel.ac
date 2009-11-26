@@ -8,7 +8,7 @@ kids 15
 OBJECT poly
 name "Screw"
 loc -0.000827307 0.261957 0.0419893
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 25
 0.00232837 0.0025 -0.00433013
@@ -197,7 +197,7 @@ kids 0
 OBJECT poly
 name "Lever"
 loc 0.0056613 0.259428 0.0419893
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.00766411 -0.00115734 -0.00173205
@@ -843,7 +843,7 @@ kids 0
 OBJECT poly
 name "Lever"
 loc 0.0056613 0.259428 0.0648424
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.0083359 -0.000380576 0
@@ -1489,7 +1489,7 @@ kids 0
 OBJECT poly
 name "Screw"
 loc -0.000827307 0.261957 0.0648424
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 25
 -0.00232837 0.00433013 -0.0025
@@ -1678,7 +1678,7 @@ kids 0
 OBJECT poly
 name "Screw"
 loc -0.000827307 0.261957 0.145456
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 25
 0.00232837 0.0025 -0.00433013
@@ -1867,7 +1867,7 @@ kids 0
 OBJECT poly
 name "Lever"
 loc 0.0056613 0.259428 0.145456
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.00766411 -0.00115734 -0.00173205
@@ -2513,7 +2513,7 @@ kids 0
 OBJECT poly
 name "Lever"
 loc 0.0056613 0.259428 0.166439
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 74
 0.0083359 -0.000380576 0
@@ -3159,7 +3159,7 @@ kids 0
 OBJECT poly
 name "Screw"
 loc -0.000827307 0.261957 0.166439
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 25
 -0.00232837 0.00433013 -0.0025
@@ -3348,7 +3348,7 @@ kids 0
 OBJECT poly
 name "Nut"
 loc 0.0680206 0.291629 0.0320795
-texture "Switch.rgb"
+texture "Switch.png"
 crease 45.000000
 numvert 13
 -0.0887271 0 0.0898902
@@ -3454,7 +3454,7 @@ kids 0
 OBJECT poly
 name "SpeedPlate"
 loc 0.000100149 0.083708 0.125432
-texture "SpeedPlate.rgb"
+texture "SpeedPlate.png"
 crease 45.000000
 numvert 4
 0 0.0357665 0.210072
@@ -16647,7 +16647,7 @@ kids 0
 OBJECT poly
 name "Labels"
 loc -0.01997 0.301576 0
-texture "InstrumentPanel.rgb"
+texture "InstrumentPanel.png"
 crease 45.000000
 numvert 88
 0 -0.000231981 -0.12449

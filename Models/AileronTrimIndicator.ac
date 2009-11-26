@@ -6,7 +6,7 @@ kids 3
 OBJECT poly
 name "Needle"
 loc 0.00491685 0.00264028 5.58794e-09
-texture "AileronTrimIndicator.rgb"
+texture "AileronTrimIndicator.png"
 crease 45.000000
 numvert 36
 -0.0141949 -0.00063 -0.00337694
@@ -89,7 +89,7 @@ kids 0
 OBJECT poly
 name "Light"
 loc -0.00809447 -3.69861e-05 -0.00777053
-texture "AileronTrimIndicator.rgb"
+texture "AileronTrimIndicator.png"
 crease 45.000000
 numvert 82
 -0.00917393 0.0070938 -0.00479924
@@ -908,7 +908,7 @@ kids 0
 OBJECT poly
 name "Face"
 loc 0.00724342 0.00285028 5.58794e-09
-texture "AileronTrimIndicator.rgb"
+texture "AileronTrimIndicator.png"
 crease 45.000000
 numvert 145
 -0.00724342 -0.00085 -3.25117e-09

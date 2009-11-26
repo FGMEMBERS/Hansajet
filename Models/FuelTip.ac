@@ -6,7 +6,7 @@ kids 4
 OBJECT poly
 name "Right"
 loc 0.0005 -0.0225057 0.0202779
-texture "FuelTip.rgb"
+texture "FuelTip.png"
 crease 45.000000
 numvert 5
 0 0.00455078 -0.00772965
@@ -27,7 +27,7 @@ kids 0
 OBJECT poly
 name "Light"
 loc -0.00193727 0.0202221 0.0213471
-texture "FuelTip.rgb"
+texture "FuelTip.png"
 crease 45.000000
 numvert 82
 0.0070938 -0.000322631 0.00405206
@@ -846,7 +846,7 @@ kids 0
 OBJECT poly
 name "Face"
 loc 0.00095 5.58794e-09 5.58794e-09
-texture "FuelTip.rgb"
+texture "FuelTip.png"
 crease 45.000000
 numvert 145
 -0.00085 -5.58794e-09 -5.58794e-09
@@ -1971,7 +1971,7 @@ kids 0
 OBJECT poly
 name "Left"
 loc 0.0005 -0.0225057 0.0202779
-texture "FuelTip.rgb"
+texture "FuelTip.png"
 crease 45.000000
 numvert 5
 0 0.0119249 -0.011523
