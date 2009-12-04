@@ -56,11 +56,11 @@
           </greater-than>
           <or>
             <greater-than>
-              <property>fdm/jsbsim/slat[0]/position-norm</property>
+              <property>fdm/jsbsim/fcs/slat[0]/position-norm</property>
               <value>0.01</value>
             </greater-than>
             <greater-than>
-              <property>fdm/jsbsim/slat[1]/position-norm</property>
+              <property>fdm/jsbsim/fcs/slat[1]/position-norm</property>
               <value>0.01</value>
             </greater-than>
           </or>
