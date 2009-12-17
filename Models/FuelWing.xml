@@ -1,16 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <!--
   Tank layout:
-  Fuselage:   tank[0]
+  Left Tip:   tank[0]
   Left Wing:  tank[1]
-  Right Wing: tank[2]
-  Left Tip:   tank[3]
+  Fuselage:   tank[2]
+  Right Wing: tank[3]
   Right Tip:  tank[4]
 -->
 <PropertyList>
   <params>
     <left>consumables/fuel/tank[1]/level-lbs</left>
-    <right>consumables/fuel/tank[2]/level-lbs</right>
+    <right>consumables/fuel/tank[3]/level-lbs</right>
     <fuel-indicator-left>controls/fuel/fuel-indicator-left</fuel-indicator-left>
   </params>
 

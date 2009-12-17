@@ -1,65 +1,93 @@
-# Autopilot logic for the Hansa Jet
+#################################################################
+#  Autopilot Controller, Sperry 1781216-50 
+#    and
+#  Flight Control Computer, Sperry 1781218-50
+#  
+#  Modeled after HFB 320 Hansa Jet Operations Manual, Section 9
+#  Functions and items not marked with a reference to the manual
+#  are pure imagination or trial-and-error
 #
-#
+#  (c) Torsten Dreyer - Torsten(_at_)t3r(_dot_)de
+#  
+#  History:
+#  2009-11-28 initial work 
+#################################################################
 
-var MODE_APPROACH    = "gs1-hold";
-var MODE_AUTOTHROTTLE = "speed-with-throttle";
-var MODE_PITCH        = "speed-with-pitch-trim";
+var SP40 = {
+  new : func(rootN) {
+    var obj = { parents : [SP40] };
 
-var Autopilot = {
-  new : func {
-    var obj = {};
-    obj.parents = [Autopilot];
+    obj.rootN = globals.isa( rootN, props.Node ) ? rootN : props.globals.getNode( rootN, 1 );
 
-    obj.passiveN        = props.globals.initNode( "autopilot/locks/passive-mode", 1, "BOOL" );
-    obj.altitudeN       = props.globals.initNode( "autopilot/controls/altitude-hold", 0, "BOOL" );
-    obj.machN           = props.globals.initNode( "autopilot/controls/mach-hold", 0, "BOOL" );
-    obj.headN           = props.globals.initNode( "autopilot/controls/head", 0, "INT" );
-    obj.turnN           = props.globals.initNode( "autopilot/controls/turn", 0, "INT" );
-    obj.headingLockN    = props.globals.getNode( "autopilot/locks/heading", 1 );
-    obj.altitudeLockN   = props.globals.getNode( "autopilot/locks/altitude", 1 );
-    obj.speedLockN      = props.globals.getNode( "autopilot/locks/speed", 1 );
-    obj.targetMachN     = props.globals.getNode( "autopilot/settings/target-mach", 1 );
-    obj.currentMachN    = props.globals.getNode( "velocities/mach", 1 );
-    obj.targetTurnN     = props.globals.getNode( "autopilot/settings/target-turn-rate-degps", 1 );
+    obj.afcEngageSwitchN  = obj.rootN.initNode( "afcs-engage-switch", 0, "BOOL" );
+    obj.afcEngagedN       = obj.rootN.getNode( "afc-engaged", 1 );
+    obj.afcEngagedN.setBoolValue( obj.afcEngageSwitchN.getValue() );
+    obj.locksHeadingN     = obj.rootN.initNode( "locks/roll", "", "STRING" );
+    obj.locksAltitudeN     = obj.rootN.initNode( "locks/pitch", "", "STRING" );
 
-    obj.headModes = {};
-    obj.headModes[-1] = "wing-leveler";
-    obj.headModes[0]  = "dg-heading-hold";
-    obj.headModes[1]  = "nav1-hold";
+    obj.pitchSwitch       = obj.rootN.initNode( "pitch-switch", 0, "INT" );
 
-    setlistener( obj.altitudeN, func(n) { 
-      obj.altitudeLockN.setValue( n.getValue() ? "altitude-hold" : "" );
-    }, 1, 0 );
+    obj.bankN             = props.globals.initNode( "orientation/roll-deg",  0.0, "DOUBLE" );
+    obj.pitchN            = props.globals.initNode( "orientation/pitch-deg", 0.0, "DOUBLE" );
 
-    setlistener( obj.machN, func(n) {  
-      if( n.getValue() ) {
-        # mach hold, fetch current mach and engage lock
-        obj.targetMachN.setDoubleValue( obj.currentMachN.getValue() );
-        # guess, does it have autothrottle?
-        obj.speedLockN.setValue( MODE_AUTOTHROTTLE );
-      } else {
-        obj.speedLockN.setValue("");
-      }
-    }, 1, 0 );
+    setlistener( obj.afcEngageSwitchN, func(n) { obj.update(n); }, 1, 0 );
 
-    setlistener( obj.headN, func(n) {  
-      obj.headingLockN.setValue(obj.headModes[n.getValue()]);
-      if( n.getValue() == -1 )
-        obj.targetTurnN.setDoubleValue( obj.turnN.getValue() * 1.5 );
-    }, 1, 0 );
-
-    setlistener( obj.turnN, func(n) {  
-      # wing leveler rate of turn for 4min turns: 1.5degps
-      if( obj.headN.getValue() == -1 )
-        obj.targetTurnN.setDoubleValue( n.getValue() * 1.5 );
-    }, 1, 0 );
-
-    aircraft.data.add(
-      obj.passiveN, obj.altitudeN, obj.machN, obj.headN, obj.turnN
-    );
-
-    print( "Autopilot ready" );
+    print( "Sperry SP40 Automatic Flight Control ready" );
     return obj;
-  }
+  },
+
+  engage : func( v = 0 ) {
+    if( v ) {
+      me.afcEngagedN.getValue() and return;
+
+      if( math.abs( me.bankN.getValue() ) > 6.0 ) {
+        print( "SP40: AFC not engaged due to bank angle constraints" );
+        return;
+      }
+
+      me.afcEngagedN.setBoolValue( 1 );
+      me.lockMagHeading();
+      me.lockPitch();
+      print( "SP40: AFC engaged" );
+
+    } else {
+     me.disengage();
+    }
+  },
+
+  disengage : func {
+    me.afcEngagedN.getValue() == 0 and return;
+    print( "SP40: AFC disengaged" );
+    me.afcEngagedN.setBoolValue( 0 );
+    me.lockPitch(0);
+    me.lockMagHeading(0);
+  },
+
+  lockPitch : func(v = 1) {
+    me.locksAltitudeN.setValue( v and me.afcEngagedN.getValue() ? "pitch-hold" : "" );
+  },
+
+  lockAltitude : func(v = 1) {
+    me.locksAltitudeN.setValue( v and me.afcEngagedN.getValue() ? "altitude-hold" : "" );
+  },
+
+  lockMagHeading : func(v = 1) {
+    me.locksHeadingN.setValue( v and me.afcEngagedN.getValue() ? "mag-heading-hold" : "" );
+  },
+
+  lockNav : func(v = 1) {
+    me.locksHeadingN.setValue( v and me.afcEngagedN.getValue() ? "nav-hold" : "" );
+  },
+
+  lockDgHeading : func(v = 1) {
+    me.locksHeadingN.setValue( v and me.afcEngagedN.getValue() ? "dg-heading-hold" : "" );
+  },
+
+  update : func(source) {
+    if( source.getPath() == me.afcEngageSwitchN.getPath() )
+      me.engage( me.afcEngageSwitchN.getValue() );
+
+
+  },
+
 };

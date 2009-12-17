@@ -2,7 +2,7 @@
 <PropertyList>
 
   <params>
-    <value>controls/engines/engine[0]/starter</value>
+    <value>controls/engines/engine[0]/starter-switch</value>
   </params>
 
   <model include="Switch4.xml"/>

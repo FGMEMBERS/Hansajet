@@ -4,7 +4,7 @@
 
   <channel name="Fuel Quantity Sensors">
 
-    <!-- Fuselage -->
+    <!-- Left Tip -->
     <switch name="systems/fuel/tank[0]/empty">
       <default value="0.0"/>
       <test value="1.0">
@@ -22,7 +22,7 @@
       <output>/consumables/fuel/tank[1]/empty</output>
     </switch>
 
-    <!-- Right Wing -->
+    <!-- Fuselage -->
     <switch name="systems/fuel/tank[2]/empty">
       <default value="0.0"/>
       <test value="1.0">
@@ -31,7 +31,7 @@
       <output>/consumables/fuel/tank[2]/empty</output>
     </switch>
 
-    <!-- Left Tip -->
+    <!-- Right Wing -->
     <switch name="systems/fuel/tank[3]/empty">
       <default value="0.0"/>
       <test value="1.0">
@@ -106,7 +106,7 @@
       <test value="/systems/fuel/fuel-pump[5]/max-pressure-psi">
         /systems/fuel/fuel-pump[5]/serviceable gt 0.5
         /systems/fuel/fuel-pump[5]/enabled gt 0.5
-        /consumables/fuel/tank[2]/level-lbs gt 0.0
+        /consumables/fuel/tank[3]/level-lbs gt 0.0
       </test>
     </switch>
 
@@ -123,7 +123,7 @@
       <test value="/systems/fuel/fuel-pump[6]/max-pressure-psi">
         /systems/fuel/fuel-pump[6]/serviceable gt 0.5
         /systems/fuel/fuel-pump[6]/enabled gt 0.5
-        /consumables/fuel/tank[2]/level-lbs gt 0.0
+        /consumables/fuel/tank[3]/level-lbs gt 0.0
       </test>
     </switch>
 

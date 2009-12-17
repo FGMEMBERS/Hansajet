@@ -1,984 +1,299 @@
 <?xml version="1.0"?>
+<!--
+  Flight Control Computer, Sperry 1781218-50
+  Modeled after HFB 320 Hansa Jet Operations Manual, Section 9.1.2
+  Functions and items not marked with a reference to the manual
+  are pure imagination or trial-and-error
 
-<PropertyList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:noNamespaceSchemaLocation="../../../Docs/XMLSchema/autopilot.xsd">
-  <!-- ========================================================================== -->
-  <!-- 
-    HFB 320 Hansa Jet Flight Director/Autopilot digital filter configuration
-    
-    Based on the only document found on the net for a Sperry Flight Director: 
-    NTSB Aircraft Accident Report NTSB-AAR-74-3 (AAR74-03.pdf)
-    
-    If you have a better document describing the autopilot/flightdirector, please contact the author
-    Torsten Dreyer - Torsten (at) t3r (dot) de
-    Better document is: HFB320 Flight Manual GAF T.O. 1C-HFB320(M)-1 Page 4-45 (213 in PDF)
-  -->
-  <!-- ========================================================================== -->
-  <!-- 
-    Flight Director Modes
-    ============
+  (c) Torsten Dreyer - Torsten@no-spam-t3r.de (ignore no-spam-)
+  
+  History:
+  2009-11-28 initial work 
+-->
+<!--
+  Quote from HFB 320 Operations Manual:
+9.0
+  The Sperry SP-40 autopilot provides three axis control of the airplane.
+  Upon pilot's command the autopilot will perform the following maneuvers
+  a) Coordinated turn
+  b) Pitch trim
+  c) Fly to preselected heading
+  d) Maintain constant altitude
+  e) Fly on VOR radials and ILS beams
 
-    SB=0, BL=1, FI=2, VOR/LOC=3, APP=4, GA=5
+9.3
+  The autopilot will maintain the pitch attitude existing at the time of engagement. 
+  Interlocks allow the system to be engaged at bank angles up to 6 degrees, thereby 
+  relieving to trim the airplane accurately before engagement.
+  Bank angle limited to 30 degrees
+-->
+<PropertyList>
 
-    SB    Standby   
-    No indication, vertical and horizontal bars are moved out of sight
-    
-    BL   Blue Left
-    No pitch/altitude indication, horziontal bar moved out of sight.
-    Vertical bar shows course correction commands
-    Used for backcourse ILS approaches
-    
-    FI    Flight Instruments
-    Vertical bar shows roll command to the heading of the heading bug
-    Horziontal bar shows pitch command if altitude-hold is engaged
-        
-    VOR/LOC
-    Vertical and Horizontal bars show FI mode commands if outside "reception cone"
-    And course correction commands uppon reception of valid VOR/LOC/GS signals.
-    Valid VOR/LOC signal is deflection less than half left/half right
-    Valid GS signal is: approaching from below and less than two dots below
-    
-    APP
-    Show raw data course correction commands
-    
-    GA    Go Around
-    Horziontal Bar shows commands fixed pitch up, Vertical Bar commands wings level 
-    
-    
-    Autopilot Modes
-    ==========
-    Engage
-ok  Off    Servos disconnected, flightdirector indication only only
-ok  On     Servos connected
-    
-    Altitude Hold
-    Off     No pitch/altitude processing
-    On      Maintain pressure altitude as of the time of engagement of Alt Hold
-    
-    Mach Hold
-    Off     No throttle/speed processing
-    On      Maintain indicated mach as of the time of engagement of Mach Hold
-    
-    Head
-ok  Hold    Maintain heading of the heading bug
-ok  NAV     keep CDI of HSI centered
-ok  (LEFT)  perform TURN operation (see Turn)
-    
-    Turn
-ok  Left    perform standad rate (4min) turn to the left
-ok  Off     perform wing-level
-ok  Right   perform standard rate (4min) turn to the right
-    
-  -->
-<!-- ====================================================================== -->
-<!-- =============== Flight Director ====================================== -->
-<!-- ====================================================================== -->
-<!-- =============== Vertical Needle / Roll Axis ========================== -->
-<!-- ====================================================================== -->
-  <pi-simple-controller>
-    <!-- compute vertical needle deflection based on roll -->
-    <name>FD:Roll Command Computer</name>
-    <debug>false</debug>
-    <enable>
-      <condition>
-        <or>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>2</value> <!-- FI -->
-          </equals>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>5</value> <!-- G/A -->
-          </equals>
-          <and>
-            <equals>
-              <property>/autopilot/flightdirector/switch-position</property>
-              <value>3</value> <!-- VOR/LOC -->
-            </equals>
-            <equals>
-              <property>/autopilot/internal/localizer-capture</property>
-              <value>0</value>
-            </equals>
-          </and>
-        </or>
-      </condition>
-    </enable>
-    <input>/orientation/roll-deg</input>
-    <reference>
-      <!-- FI: follow heading bug -->
-      <condition>
-        <or>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>2</value> <!-- FI -->
-          </equals>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>3</value> <!-- VOR/LOC -->
-          </equals>
-        </or>
-      </condition>
-      <!-- 
-        reference is heading-bug-error. Suggest max. bank angle
-        of 25deg at 12.5deg offset or more 
-      -->
-      <property>/autopilot/internal/heading-bug-error-deg</property>
-      <scale>2.0</scale>
-      <min>-25</min>
-      <max>25</max>
-    </reference>
-    <reference>
-      <!-- G/A: wings level, roll shall be zero -->
-      <!-- reference is zero -->
-      <value>0.0</value>
-    </reference>
-    <!-- provide input for the needle low pass filter -->
-    <output>/autopilot/flightdirector/vertical-deflection-norm</output>
-    <config>
-      <!-- normalize and clamp [-25..+25] to [-1..+1] -->
-      <Kp>0.04</Kp>
-      <min>-1.0</min>
-      <max>1.0</max>
-    </config>
-  </pi-simple-controller>
-
+  <!--  Monitor current magnetic heading for heading-hold -->
   <filter>
-    <!-- compute vertical needle deflection based on nav raw data -->
-    <name>FD:LOC Computer</name>
-    <type>gain</type>
+    <name>AP:MagHeading Monitor</name>
     <debug>false</debug>
     <enable>
       <condition>
-        <or>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>4</value> <!-- APP -->
-          </equals>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>1</value> <!-- BL -->
-          </equals>
-          <and>
-            <equals>
-              <property>/autopilot/flightdirector/switch-position</property>
-              <value>3</value> <!-- VOR/LOC -->
-            </equals>
-            <equals>
-              <property>/autopilot/internal/localizer-capture</property>
-              <value>1</value>
-            </equals>
-          </and>
-        </or>
+        <equals>
+          <property>autopilot/locks/heading</property>
+          <value/>
+        </equals>
       </condition>
     </enable>
-    <input>/instrumentation/nav/heading-needle-deflection</input>
-    <gain>
-      <!-- APP: front course. Present raw data -->
-      <condition>
-        <or>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>4</value> <!-- APP -->
-          </equals>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>3</value> <!-- VOR/LOC -->
-          </equals>
-        </or>
-      </condition>
-      <value>0.1</value>
-    </gain>
-    <gain>
-      <!-- BL: back course. Present inverted raw data -->
-      <value>-0.1</value>
-    </gain>
-    <!-- provide input for the needle low pass filter -->
-    <output>/autopilot/flightdirector/vertical-deflection-norm</output>
+    <type>gain</type>
+    <input>orientation/heading-magnetic-deg</input>
+    <output>autopilot/settings/target-heading-deg</output>
+    <gain>1.0</gain>
   </filter>
-
-<!-- ====================================================================== -->
-<!-- =============== Horizontal Needle / Pitch Axis ======================= -->
-<!-- ====================================================================== -->
 
   <!-- ===================================================== -->
-  <!-- FI: Flight Instruments, pitch to hold altitude        -->
-  <!-- pitch and roc/rod limited by properties               -->
+  <!-- =================== PITCH AXIS ====================== -->
   <!-- ===================================================== -->
-
-  <!-- copy pressure altitude to target altitude if alt-hold switch is off -->
+  <!--  Monitor current pitch for pitch-hold -->
   <filter>
-    <name>FD:Target Altitude Monitor</name>
+    <name>AP:Pitch Monitor</name>
     <debug>false</debug>
     <enable>
       <condition>
-        <not>
-          <property>/autopilot/flightdirector/altitude-hold</property>
-        </not>
+        <equals>
+          <property>autopilot/locks/altitude</property>
+          <value/>
+        </equals>
       </condition>
     </enable>
     <type>gain</type>
-    <input>instrumentation/altimeter/pressure-alt-ft</input>
-    <output>autopilot/settings/fd-target-altitude-ft</output>
+    <input>orientation/pitch-deg</input>
+    <output>autopilot/settings/target-pitch-deg</output>
     <gain>1.0</gain>
   </filter>
 
-  <!-- compute rate of climb base on altitude offset -->
-  <pi-simple-controller>
-    <name>FD:Altitude Hold ROC Computer</name>
-    <debug>false</debug>
-    <input>/instrumentation/altimeter/pressure-alt-ft</input>
-    <reference>/autopilot/settings/fd-target-altitude-ft</reference>
-    <output>/autopilot/settings/fd-vertical-speed-fpm</output>
-    <config>
-      <Kp>2.0</Kp> <!-- climb 1000fpm for each 500ft off -->
-      <min>/autopilot/settings/max-rod-fpm</min>
-      <max>/autopilot/settings/max-roc-fpm</max>
-    </config>
-  </pi-simple-controller>
-
-  <!-- compute pitch based on climb speed offset -->
-  <pid-controller>
-    <name>FD:Altitude Hold Pitch Computer</name>
-    <debug>false</debug>
-    <input>
-      <property>/velocities/vertical-speed-fps</property>
-      <scale>60</scale>
-    </input>
-    <reference>/autopilot/settings/fd-vertical-speed-fpm</reference>
-    <output>/autopilot/settings/fd-target-pitch-deg</output>
-    <config>
-      <Kp>0.002</Kp> 
-      <beta>1.0</beta>
-      <alpha>0.1</alpha>
-      <gamma>1.0</gamma>
-      <Ti>1.0</Ti>
-      <Td>1e-12</Td>
-      <min>/autopilot/settings/min-pitch-deg</min>
-      <max>/autopilot/settings/max-pitch-deg</max>
-    </config>
-  </pid-controller>
-
-  <pi-simple-controller>
-    <!-- compute horizontal needle deflection based on pitch -->
-    <name>FD:Pitch Command Computer</name>
-    <debug>false</debug>
-    <enable>
-      <condition>
-        <or>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>2</value> <!-- FI -->
-          </equals>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>5</value> <!-- G/A -->
-          </equals>
-        </or>
-      </condition>
-    </enable>
-    <input>/orientation/pitch-deg</input>
-
-    <!-- FI and altitude-hold: follow target computed pitch -->
-    <reference>
-      <condition>
-        <equals>
-          <property>/autopilot/flightdirector/switch-position</property>
-          <value>2</value> <!-- FI -->
-        </equals>
-        <property>/autopilot/flightdirector/altitude-hold</property>
-      </condition>
-      <property>/autopilot/settings/fd-target-pitch-deg</property>
-    </reference>
-
-    <!-- FI and not altitude-hold: move out of sight -->
-    <reference>
-      <condition>
-        <equals>
-          <property>/autopilot/flightdirector/switch-position</property>
-          <value>2</value> <!-- FI -->
-        </equals>
-        <not>
-          <property>/autopilot/flightdirector/altitude-hold</property>
-        </not>
-      </condition>
-      <value>90</value>
-    </reference>
-
-    <!-- else mode is G/A, fixed pitch up -->
-    <reference>/autopilot/settings/go-around-pitch-deg</reference>
-    <!-- provide input for the needle low pass filter -->
-    <output>/autopilot/flightdirector/horizon-deflection-norm</output>
-    <config>
-      <!-- normalize [-40..+40] to [-1..+1] -->
-      <Kp>0.025</Kp>
-    </config>
-  </pi-simple-controller>
-
-
+  <!--  Monitor current static pressure for altitude-hold -->
   <filter>
-    <!-- compute horizontal needle deflection based on nav raw data -->
-    <name>FD:GS Computer</name>
-    <type>gain</type>
-    <debug>false</debug>
-    <enable>
-      <condition>
-        <property>/instrumentation/nav/has-gs</property>
-        <or>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>3</value> <!-- VOR/LOC -->
-          </equals>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>4</value> <!-- APP -->
-          </equals>
-        </or>
-      </condition>
-    </enable>
-    <input>/instrumentation/nav/gs-needle-deflection</input>
-    <gain>0.286</gain> <!-- +/- 3.5 deg, stupid factor 5 of navradio.cxx -->
-    <!-- provide input for the needle low pass filter -->
-    <output>/autopilot/flightdirector/horizon-deflection-norm</output>
-    <min>-1.0</min>
-    <max>1.0</max>
-  </filter>
-
-  <!-- capture the localizer in VOR/LOC mode -->
-  <filter>
-    <name>FD:localizer capture</name>
-    <debug>false</debug>
-    <type>gain</type>
-    <gain>1.0</gain>
-    <input>
-      <!-- not VOR/LOC: reset capture -->
-      <condition>
-        <not-equals>
-          <property>/autopilot/flightdirector/switch-position</property>
-          <value>3</value> <!-- VOR/LOC -->
-        </not-equals>
-      </condition>
-      <value>0.0</value>
-    </input>
-    <input>
-      <!-- if captured, hold capture -->
-      <condition>
-        <equals>
-          <property>/autopilot/internal/localizer-capture</property>
-          <value>1.0</value>
-        </equals>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <condition>
-        <and>
-        <less-than>
-          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
-          <value>5</value>
-        </less-than>
-        <greater-than>
-          <property>/instrumentation/nav[0]/heading-needle-deflection</property>
-          <value>-5</value>
-        </greater-than>
-        </and>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <value>0.0</value>
-    </input>
-    <output>
-      <property>/autopilot/internal/localizer-capture</property>
-    </output>
-  </filter>
-
-  <!-- capture the glideslope in VOR/LOC mode -->
-  <filter>
-    <name>FD:glideslope capture</name>
-    <debug>false</debug>
-    <type>gain</type>
-    <gain>1.0</gain>
-    <input>
-      <!-- not VOR/LOC: reset capture -->
-      <condition>
-        <not-equals>
-          <property>/autopilot/flightdirector/switch-position</property>
-          <value>3</value> <!-- VOR/LOC -->
-        </not-equals>
-      </condition>
-      <value>0.0</value>
-    </input>
-    <input>
-      <!-- if captured, hold capture -->
-      <condition>
-        <equals>
-          <property>/autopilot/internal/glideslope-capture</property>
-          <value>1.0</value>
-        </equals>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <condition>
-        <and>
-        <less-than>
-          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
-          <value>0</value>
-        </less-than>
-        <greater-than>
-          <property>/instrumentation/nav[0]/gs-needle-deflection</property>
-          <value>-0.5</value>
-        </greater-than>
-        </and>
-      </condition>
-      <value>1.0</value>
-    </input>
-    <input>
-      <value>0.0</value>
-    </input>
-    <output>
-      <property>/autopilot/internal/glideslope-capture</property>
-    </output>
-  </filter>
-
-<!-- ====================================================================== -->
-<!-- =============== Needle Driver Filter ================================= -->
-<!-- ====================================================================== -->
-  <!-- low pass output filter for the horizontal bar -->
-  <filter>
-    <name>FD:horizontal bar deflection filter</name>
-    <debug>false</debug>
-    <type>exponential</type>
-    <input>
-      <condition>
-        <not>
-          <property>/autopilot/flightdirector/serviceable</property>
-        </not>
-      </condition>
-      <value>0</value>
-    </input>
-    <input>
-      <condition>
-        <!-- move out of sight -->
-        <or>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>0</value> <!-- SB -->
-          </equals>
-          <equals>
-            <property>/autopilot/flightdirector/switch-position</property>
-            <value>1</value> <!-- BL -->
-          </equals>
-          <and>
-            <equals>
-              <property>/autopilot/flightdirector/switch-position</property>
-              <value>4</value> <!-- APP -->
-            </equals>
-            <not>
-              <property>/instrumentation/nav/has-gs</property>
-            </not>
-          </and>
-        </or>
-      </condition>
-      <value>1.2</value>
-    </input>
-    <input>
-      <property>/autopilot/flightdirector/horizon-deflection-norm</property>
-      <value>0.0</value>
-    </input>
-    <output>/instrumentation/attitude-indicator[0]/horizon-deflection-norm</output>
-    <output>/instrumentation/attitude-indicator[1]/horizon-deflection-norm</output>
-    <filter-time>0.3</filter-time>
-  </filter>
-  <!-- =========================================== -->
-  <!-- low pass output filter for the vertical bar -->
-  <filter>
-    <name>FD:vertical bar deflection filter</name>
-    <debug>false</debug>
-    <type>exponential</type>
-    <input>
-      <condition>
-        <not>
-          <property>/autopilot/flightdirector/serviceable</property>
-        </not>
-      </condition>
-      <value>0</value>
-    </input>
-    <input>
-      <condition>
-        <!-- move out of sight -->
-        <equals>
-          <property>/autopilot/flightdirector/switch-position</property>
-          <value>0</value> <!-- SB -->
-        </equals>
-      </condition>
-      <value>1.2</value>
-    </input>
-    <input>
-      <property>/autopilot/flightdirector/vertical-deflection-norm</property>
-      <value>0.0</value>
-    </input>
-    <output>/instrumentation/attitude-indicator[0]/vertical-deflection-norm</output>
-    <output>/instrumentation/attitude-indicator[1]/vertical-deflection-norm</output>
-    <filter-time>0.3</filter-time>
-  </filter>
-
-  <!-- Provide output for the OFF-flag in the Attitude Indicators -->
-  <filter>
-    <name>FD:serviceable-flag</name>
-    <debug>false</debug>
-    <type>gain</type>
-    <gain>1</gain>
-    <input>
-      <property>/autopilot/flightdirector/serviceable</property>
-      <offset>1</offset>
-      <scale>-1</scale>
-    </input>
-    <output>/instrumentation/attitude-indicator[0]/flightdirector-flag</output>
-    <output>/instrumentation/attitude-indicator[1]/flightdirector-flag</output>
-  </filter>
-
-
-<!-- ====================================================================== -->
-<!-- =============== Auto Pilot =========================================== -->
-<!-- ====================================================================== -->
-<!-- =============== Roll Axis ============================================ -->
-<!-- ====================================================================== -->
-
-  <!-- Wing leveler --> 
-  <pid-controller>
-    <name>AP:Wing Leveler</name>
-    <debug>false</debug>
-    <enable>
-      <condition>
-        <not>
-          <property>/autopilot/locks/passive-mode</property>
-        </not>
-        <equals>
-          <property>/autopilot/locks/heading</property>
-          <value>wing-leveler</value>
-        </equals>
-      </condition>
-    </enable>
-    <input>/orientation/yaw-rate-degps</input>
-    <reference>
-      <property>/autopilot/controls/turn</property>
-      <scale>/autopilot/settings/standard-turn-rate-degps</scale>
-    </reference>
-    <output>/autopilot/internal/aileron-command</output>
-    <config>
-      <Kp>0.03</Kp>
-      <beta>1.0</beta>
-      <alpha>0.1</alpha>
-      <gamma>0.0</gamma>
-      <Ti>5.0</Ti>
-      <Td>0.06000</Td>
-      <min>-0.5</min>
-      <max>0.5</max>
-    </config>
-  </pid-controller>
-
-  <!-- NAV/HDG HOLD --> 
-
-  <!-- filter the cdi input -->
-  <filter>
-    <name>AP:CDI Filter</name>
-    <debug>false</debug>
-    <input>
-      <property>/instrumentation/nav[0]/heading-needle-deflection</property>
-      <scale>0.1</scale>
-    </input>
-    <output>/autopilot/internal/course-deviation-norm</output>
-    <filter-time>/autopilot/settings/cdi-filter-time</filter-time>
-  </filter>
-
-  <pi-simple-controller>
-    <name>AP:NAV/Heading Hold</name>
-    <debug>false</debug>
-    <enable>
-      <condition>
-        <not>
-          <property>/autopilot/locks/passive-mode</property>
-        </not>
-        <or>
-          <equals>
-            <property>/autopilot/locks/heading</property>
-            <value>dg-heading-hold</value>
-          </equals>
-          <equals>
-            <property>/autopilot/locks/heading</property>
-            <value>nav1-hold</value>
-          </equals>
-        </or>
-      </condition>
-    </enable>
-    <input>/orientation/roll-deg</input>
-    <reference>
-      <!-- NAV Mode -->
-      <condition>
-        <equals>
-          <property>/autopilot/locks/heading</property>
-          <value>nav1-hold</value>
-        </equals>
-      </condition>
-      <property>/instrumentation/heading-indicator[0]/course-error-deg</property>
-      <scale>2.0</scale>
-      <offset>
-        <property>/autopilot/internal/course-deviation-norm</property>
-        <scale>/autopilot/settings/nav-intercept-angle-deg2</scale> 
-      </offset>
-      <min>-25</min>
-      <max>25</max>
-    </reference>
-    <reference>
-      <!-- HDG Mode -->
-      <property>/autopilot/internal/heading-bug-error-deg</property>
-      <scale>2.0</scale>
-      <min>-25</min>
-      <max>25</max>
-    </reference>
-    <output>
-      <prop>/autopilot/internal/aileron-command</prop>
-    </output>
-    <config> 
-      <Kp>0.012</Kp>
-      <Ki>25</Ki>
-      <min>-0.3</min>
-      <max>0.3</max>
-    </config>
-  </pi-simple-controller>
-
-<!-- ====================================================================== -->
-<!-- =============== Pitch Axis =========================================== -->
-<!-- ====================================================================== -->
-
-  <!-- copy pressure altitude to target altitude if alt-hold switch is off -->
-  <filter>
-    <name>AP:Target Altitude Monitor</name>
+    <name>AP:Static Pressure Monitor</name>
     <debug>false</debug>
     <enable>
       <condition>
         <not-equals>
-          <property>/autopilot/locks/altitude</property>
+          <property>autopilot/locks/altitude</property>
           <value>altitude-hold</value>
         </not-equals>
       </condition>
     </enable>
     <type>gain</type>
-    <input>instrumentation/altimeter/pressure-alt-ft</input>
+<!--
+    <input>systems/static[0]/pressure-inhg</input>
+    <output>autopilot/settings/target-pressure-inhg</output>
+-->
+    <input>instrumentation/altimeter[0]/pressure-alt-ft</input>
     <output>autopilot/settings/target-altitude-ft</output>
     <gain>1.0</gain>
   </filter>
 
-  <!-- compute rate of climb base on altitude offset -->
-  <pid-controller>
-    <name>AP:Altitude Hold ROC Computer</name>
-    <debug>false</debug>
-    <feedback-if-disabled>true</feedback-if-disabled>
-    <enable>
-      <condition>
-        <equals>
-          <property>/autopilot/locks/altitude</property>
-          <value>altitude-hold</value>
-        </equals>
-      </condition>
-    </enable>
-    <input>/instrumentation/altimeter/pressure-alt-ft</input>
-    <reference>/autopilot/settings/target-altitude-ft</reference>
-    <output>/autopilot/settings/vertical-speed-fpm</output>
-    <config>
-      <Kp>2.0</Kp> <!-- climb 1000fpm for each 500ft off -->
-      <Ti>-120</Ti>
-      <Td>0.0</Td>
-      <beta>1.0</beta>
-      <alpha>0.1</alpha>
-      <gamma>0.0</gamma>
-      <min>/autopilot/settings/max-rod-fpm</min>
-      <max>/autopilot/settings/max-roc-fpm</max>
-    </config>
-  </pid-controller>
-
-  <!-- compute pitch based on climb speed offset -->
-  <pid-controller>
-    <name>AP:Altitude Hold Pitch Computer</name>
-    <debug>false</debug>
-    <input>
-      <property>/velocities/vertical-speed-fps</property>
-      <scale>60</scale>
-    </input>
-    <reference>/autopilot/settings/vertical-speed-fpm</reference>
-    <output>/autopilot/settings/target-pitch-deg</output>
-    <config>
-      <Kp>0.002</Kp> 
-      <beta>1.0</beta>
-      <alpha>0.1</alpha>
-      <gamma>1.0</gamma>
-      <Ti>1.0</Ti>
-      <Td>1e-12</Td>
-      <min>/autopilot/settings/min-pitch-deg</min>
-      <max>/autopilot/settings/max-pitch-deg</max>
-    </config>
-  </pid-controller>
 
   <pid-controller>
     <name>AP:Pitch Hold</name>
     <debug>false</debug>
     <enable>
       <condition>
-        <equals>
-          <property>/autopilot/locks/altitude</property>
-          <value>altitude-hold</value>
-        </equals>
+        <and>
+          <property>instrumentation/sp40/afc-engaged</property>
+          <or>
+          <equals>
+            <property>autopilot/locks/altitude</property>
+            <value>pitch-hold</value>
+          </equals>
+          <equals>
+            <property>autopilot/locks/altitude</property>
+            <value>altitude-hold</value>
+          </equals>
+          </or>
+        </and>
       </condition>
     </enable>
-    <input>/orientation/pitch-deg</input>
+    <input>orientation/pitch-deg</input>
     <reference>autopilot/settings/target-pitch-deg</reference>
-    <output>/autopilot/internal/elevator-command</output>
+    <output>autopilot/internal/elevator-command</output>
     <config>
-      <Kp>-0.05</Kp>
+      <Kp>-0.03</Kp>
+      <beta>1.0</beta> 
+      <alpha>0.1</alpha>
+      <gamma>0.0</gamma>
+      <Ti>7.5</Ti>
+      <Td>0.0</Td>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+    </config>
+  </pid-controller>
+
+  <pid-controller>
+    <name>AP:Altitude Hold</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <and>
+          <property>instrumentation/sp40/afc-engaged</property>
+          <equals>
+            <property>autopilot/locks/altitude</property>
+            <value>altitude-hold</value>
+          </equals>
+        </and>
+      </condition>
+    </enable>
+    <input>instrumentation/altimeter[0]/pressure-alt-ft</input>
+    <reference>autopilot/settings/target-altitude-ft</reference>
+    <output>autopilot/settings/target-pitch-deg</output>
+    <config>
+      <Kp>0.02</Kp>
+      <beta>1.0</beta> 
+      <alpha>0.1</alpha>
+      <gamma>0.0</gamma>
+      <Ti>15</Ti>
+      <Td>0.0050</Td>
+      <u_min>-5.0</u_min>
+      <u_max>15.0</u_max>
+    </config>
+  </pid-controller>
+
+  <!-- ===================================================== -->
+  <!-- =================== ROLL  AXIS ====================== -->
+  <!-- ===================================================== -->
+  <!--  first stage: Compute heading offset -->
+  <!--  output is in the range -180 .. +180 degree -->
+  <pi-simple-controller>
+    <name>AP:Heading Offset Computer</name>
+    <debug>false</debug>
+    <input>
+      <property>orientation/heading-magnetic-deg</property>
+    </input>
+    <reference>
+      <property>autopilot/settings/target-heading-deg</property>
+    </reference>
+    <output>autopilot/internal/heading-offset-deg</output>
+    <config> <!-- just build the delta, no integration -->
+      <Kp>1.0</Kp>
+      <Ki>0.0</Ki>
+    </config>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+  </pi-simple-controller>
+
+  <!--  second stage: compute target roll based on heading offset
+        rule of thumb: start level off at half bank angle
+        opposite rule of thumb: bank angle is twice the heading offset
+  -->
+  <filter>
+    <name>AP:Target Roll Computer</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <input>autopilot/internal/heading-offset-deg</input>
+    <output>autopilot/settings/target-roll-deg</output>
+    <gain>2.0</gain>
+    <u_min>-30.0</u_min>
+    <u_max>30.0</u_max>
+  </filter>
+
+
+  <!--  second stage: compute the aileron command
+        for the target roll
+    -->
+  <pid-controller>
+    <name>AP:Roll Hold</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <and>
+          <property>instrumentation/sp40/afc-engaged</property>
+          <equals>
+            <property>autopilot/locks/heading</property>
+            <value>true-heading-hold</value>
+            <!-- <value>dg-heading-hold</value> -->
+            <!-- <value>nav1-hold</value> -->
+          </equals>
+        </and>
+      </condition>
+    </enable>
+    <input>orientation/roll-deg</input>
+    <reference>autopilot/settings/target-roll-deg</reference>
+    <output>autopilot/internal/aileron-command</output>
+    <config>
+      <Kp>0.010</Kp>
       <beta>1.0</beta>
       <alpha>0.1</alpha>
       <gamma>0.0</gamma>
-      <Ti>10.0</Ti>
+      <Ti>10</Ti>
       <Td>0.0</Td>
-      <u_min>-0.50</u_min>
-      <u_max>0.50</u_max>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
     </config>
-    </pid-controller>
+  </pid-controller>
 
-    <!-- ====================================================================== -->
-    <!-- =============== Yaw Axis ============================================= -->
-    <!-- ====================================================================== -->
-    <!-- Yaw Damper, automatic ball kicker -->
-    <pid-controller>
-    <name>AP:Yaw Damper</name>
-    <debug>false</debug>
-    <enable>
-    <condition>
-    <property>/instrumentation/autopilot/yaw-damper</property>
-    </condition>
-    </enable>
-    <input>/instrumentation/slip-skid-ball/indicated-slip-skid</input>
-    <reference>0.0</reference>
-    <output>/autopilot/internal/rudder-command</output>
-    <config>
-    <Kp>5</Kp>
-    <beta>1.0</beta>
-    <alpha>0.1</alpha>
-    <gamma>0.0</gamma>
-    <Ti>45.0</Ti>
-    <Td>0.0</Td>
-    <u_min>-0.15</u_min>
-    <u_max>0.15</u_max>
-    </config>
-    </pid-controller>
-
-    <!-- ========================================================================== -->
-    <!-- Server Driver - Pass output commands thru a noise spike filter to avoid    -->
-    <!-- rapid control inputs and simulate slow movement o the servos               -->
-    <!-- Disable servos in passive-mode                                             -->
-    <!-- ========================================================================== -->
-    <filter>
+  <!-- ========================================================================== -->
+  <!-- Server Driver - Pass output commands thru a noise spike filter to avoid    -->
+  <!-- rapid control inputs and simulate slow movement o the servos               -->
+  <!-- Disable servos in passive-mode                                             -->
+  <!-- ========================================================================== -->
+  <filter>
     <name>SERVO-DRIVER:aileron</name>
     <debug>false</debug>
     <feedback-if-disabled>true</feedback-if-disabled>
     <enable>
-    <condition>
-    <!-- enable aileron servo if any heading mode is locked -->
-    <not>
-    <property>/autopilot/locks/passive-mode</property>
-    </not>
-    <not-equals>
-    <property>/autopilot/locks/heading</property>
-    <value/>
-    </not-equals>
-    </condition>
+      <condition>
+        <!-- enable aileron servo if any heading mode is locked -->
+        <property>instrumentation/sp40/afc-engaged</property>
+        <not>
+          <property>/autopilot/locks/passive-mode</property>
+        </not>
+        <not-equals>
+          <property>/autopilot/locks/heading</property>
+          <value/>
+        </not-equals>
+      </condition>
     </enable>
     <input>/autopilot/internal/aileron-command</input>
     <output>/controls/flight/aileron</output>
     <type>noise-spike</type>
-    <max-rate-of-change>0.1</max-rate-of-change>
-    </filter>
+    <max-rate-of-change>0.5</max-rate-of-change>
+  </filter>
 
-    <filter>
+  <filter>
     <name>SERVO-DRIVER:elevator</name>
     <debug>false</debug>
     <feedback-if-disabled>true</feedback-if-disabled>
     <enable>
-    <condition>
-    <!-- enable aileron servo if any altitude mode is locked -->
-    <not>
-    <property>/autopilot/locks/passive-mode</property>
-    </not>
-    <not-equals>
-    <property>/autopilot/locks/altitude</property>
-    <value/>
-    </not-equals>
-    </condition>
+      <condition>
+        <!-- enable aileron servo if any altitude mode is locked -->
+        <property>instrumentation/sp40/afc-engaged</property>
+        <not>
+          <property>/autopilot/locks/passive-mode</property>
+        </not>
+        <not-equals>
+          <property>/autopilot/locks/altitude</property>
+          <value/>
+        </not-equals>
+      </condition>
     </enable>
     <input>/autopilot/internal/elevator-command</input>
-    <output>/controls/flight/elevator-trim</output>
+    <output>/controls/flight/elevator</output>
     <type>noise-spike</type>
-    <max-rate-of-change>0.1</max-rate-of-change>
-    </filter>
+    <max-rate-of-change>0.2</max-rate-of-change>
+  </filter>
 
-    <filter>
+  <filter>
     <name>SERVO-DRIVER:rudder</name>
     <debug>false</debug>
     <feedback-if-disabled>true</feedback-if-disabled>
     <enable>
-    <condition>
-    <property>/instrumentation/autopilot/yaw-damper</property>
-    </condition>
+      <condition>
+        <property>/instrumentation/autopilot/yaw-damper</property>
+      </condition>
     </enable>
     <input>/autopilot/internal/rudder-command</input>
     <output>/controls/flight/rudder-trim</output>
     <type>noise-spike</type>
     <max-rate-of-change>0.10</max-rate-of-change>
-    </filter>
+  </filter>
 
-    <!-- ========================================================================== -->
-    <!-- Other filters, not related to the autopilot                                -->
-    <!-- ========================================================================== -->
-
-    <!-- ========================================================================== -->
-    <!-- Provide a relative bearing property for the RMI -->
-    <!-- ========================================================================== -->
-    <pi-simple-controller>
-    <name>OTHER:NAV1 relative bearing</name>
-    <debug>false</debug>
-    <enable>
-    <condition>
-    <property>/instrumentation/nav[0]/data-is-valid</property>
-    </condition>
-    </enable>
-    <input>/orientation/heading-magnetic-deg</input>
-    <reference>/instrumentation/nav[0]/radials/reciprocal-radial-deg</reference>
-    <output>/instrumentation/nav[0]/relative-bearing-deg</output>
-    <config>
-    <Kp>1.0</Kp>
-    </config>
-    </pi-simple-controller>
-
-    <pi-simple-controller>
-    <name>OTHER:NAV2 relative bearing</name>
-    <debug>false</debug>
-    <enable>
-    <condition>
-    <property>/instrumentation/nav[1]/data-is-valid</property>
-    </condition>
-    </enable>
-    <input>/orientation/heading-magnetic-deg</input>
-    <reference>/instrumentation/nav[1]/radials/reciprocal-radial-deg</reference>
-    <output>/instrumentation/nav[1]/relative-bearing-deg</output>
-    <config>
-    <Kp>1.0</Kp>
-    </config>
-    </pi-simple-controller>
-
-    <!-- compute property for AOA indicator -->
-    <filter>
-    <name>OTHER:aoa-indexer</name>
-    <debug>false</debug>
-    <type>gain</type>
-    <input>
-    <property>/fdm/jsbsim/aero/alpha-deg</property>
-    <scale>
-    <!-- mach 0.05 gives full indication (approx 30kts) -->
-    <property>/fdm/jsbsim/velocities/mach</property>
-    <scale>-20</scale>
-    <min>-1.0</min>
-    <max>0.0</max>
-    </scale>
-    <offset>
-    <!-- gravity forces the pickup down, airspeed up -->
-    <!-- no speed: indicated aoa=-90 -->
-    <property>/fdm/jsbsim/velocities/mach</property>
-    <scale>-600</scale>
-    <offset>30</offset>
-    <min>0.0</min>
-    <max>90.0</max>
-    </offset>
-    </input>
-    <output>
-    <property>/instrumentation/aoa-indexer/aoa-deg</property>
-    <value>0.0</value>
-    </output>
-    <gain>-1.0</gain>
-    <min>-90</min>
-    <max>90</max>
-    </filter>
-
-    <!-- Compute Oil Temperature (JSBSim does not compute it) -->
-	<!--
-target-oil-temp = egt + (rho_air*ias*C+D)*(ambient-egt)
-	-->
-	<filter>
-	<name>OTHER:Oil Temperature</name>
-	<debug>false</debug>
-	<type>gain</type>
-	<input>
-	<property>/environment/density-slugft3</property>
-	<scale>
-	<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-	<scale>0.05</scale>
-	</scale>
-	<offset>0.73</offset>
-	</input>
-	<gain>1</gain>
-	<output>/engines/cooling-factor</output>
-	</filter>
-
-	<filter>
-	<name>OTHER:Oil Temperature 0</name>
-	<debug>false</debug>
-	<type>exponential</type>
-	<input>
-	<property>/engines/engine[0]/egt_degf</property>
-	<offset>
-	<property>/engines/cooling-factor</property>
-	<scale>
-	<property>/environment/temperature-degf</property>
-	<offset>
-	<property>/engines/engine[0]/egt_degf</property>
-	<scale>-1.0</scale>
-	</offset>
-	</scale>
-	</offset>
-	</input>
-	<output>/engines/engine[0]/oil-temperature-degf</output>
-	<!-- engine running, filter time is 120
-	engine off, filter time is 600 -->
-	<filter-time>
-	<property>/engines/engine[0]/running</property>
-	<scale>-480</scale>
-	<offset>600</offset>
-	</filter-time>
-	</filter>
-
-	<filter>
-	<name>OTHER:Oil Temperature 1</name>
-	<debug>false</debug>
-	<type>exponential</type>
-	<input>
-	<property>/engines/engine[1]/egt_degf</property>
-	<offset>
-	<property>/engines/cooling-factor</property>
-	<scale>
-	<property>/environment/temperature-degf</property>
-	<offset>
-	<property>/engines/engine[1]/egt_degf</property>
-	<scale>-1.0</scale>
-	</offset>
-	</scale>
-	</offset>
-	</input>
-	<output>/engines/engine[1]/oil-temperature-degf</output>
-	<!-- behave a little different/faster than engine 0 -->
-	<filter-time>
-	<property>/engines/engine[1]/running</property>
-	<scale>-400</scale>
-	<offset>500</offset>
-	</filter-time>
-	</filter>
 </PropertyList>
