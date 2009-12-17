@@ -18,7 +18,7 @@ and watch your virtual copilot do the job. You should have two running engines a
   <nasal>
     <script><![CDATA[
 
-var set_properties = func( properties_to_set, idx = 0 ) {
+var set_properties = func( properties_to_set, delay = 0, idx = 0 ) {
   if( idx >= size(properties_to_set ) )
     return;
 
@@ -26,7 +26,7 @@ var set_properties = func( properties_to_set, idx = 0 ) {
   foreach( var name; keys(properties_hash) )
     setprop( name, properties_hash[name] );
 
-  settimer( func { set_properties(properties_to_set,idx+1) }, 2.0 );
+  settimer( func { set_properties(properties_to_set,delay,idx+1) }, delay );
 }
     ]]></script>
   </nasal>
@@ -176,16 +176,16 @@ var set_properties = func( properties_to_set, idx = 0 ) {
       if( getprop( "/sim/tutorials/auto-perform-items" ) == 1 ) {
         var properties_to_set = [];
         var pv = {};
-        pv["controls/engines/engine[0]/starter"] = 1;
-        pv["controls/engines/engine[1]/starter"] = 1;
+        pv["controls/engines/engine[0]/starter-switch"] = 1;
+        pv["controls/engines/engine[1]/starter-switch"] = 1;
         append( properties_to_set, pv );
 
         pv = {};
-        pv["controls/engines/engine[0]/starter"] = 0;
-        pv["controls/engines/engine[1]/starter"] = 0;
+        pv["controls/engines/engine[0]/starter-switch"] = 0;
+        pv["controls/engines/engine[1]/starter-switch"] = 0;
         append( properties_to_set, pv );
 
-        settimer( func { set_properties(properties_to_set) }, 5.0 );
+        settimer( func { set_properties(properties_to_set,3) }, 5.0 );
       }
     ]]></script></nasal>
 

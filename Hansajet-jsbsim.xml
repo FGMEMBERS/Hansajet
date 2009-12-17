@@ -59,16 +59,16 @@ wing tip  NACA 63A(1.8)11
  <metrics>
    <wingarea  unit="M2">30.14</wingarea>
    <wingspan  unit="M">14.49</wingspan>
-   <wing_incidence>          2.00 </wing_incidence>
-   <chord     unit="M" >     2.69 </chord>
+   <wing_incidence unit="DEG">2.00</wing_incidence>
+   <chord     unit="M" >     2.4267 </chord> <!-- AFM W&B 1.4.1 -->
    <htailarea unit="FT2">   81.11 </htailarea>
    <htailarm  unit="FT" >   24.52 </htailarm>
    <vtailarea unit="FT2">   64.89 </vtailarea>
    <vtailarm  unit="FT" >   24.52 </vtailarm>
    <location name="AERORP" unit="M">
-     <x> -0.4 </x>
+     <x> -1.1 </x>
      <y>  0.00 </y>
-     <z>  1.76 </z>
+     <z>  1.80 </z>
    </location>
    <location name="EYEPOINT" unit="M">
      <x> -6.53 </x>
@@ -82,16 +82,127 @@ wing tip  NACA 63A(1.8)11
    </location>
  </metrics>
 
+ <!-- 
+  AFM Weight And Balance P 1.4.3 
+ The reference datum is 3.000m in front of frame 1
+ This is in our system at x=-11.905
+
+ Leading edge is at 10.0895m (x=-1.5175), MAC is 2.4267m
+
+ CG limits:
+ AFT  23% MAC (10.648m) (x=-1.257) all weights
+ FORE 10% MAC (10.332m) (x=-1.573) up to 7000kg, 
+      13% MAC (10.405m)(x=-1.500) more than 7500kg - linear interpolation from 7000kg - 7500kg
+ MAC to ARM: ARM = 0.02427 * (%MAC) + 10.0895m
+
+-->
  <mass_balance>
+   <!-- 
+   using basic empty weight from AFM load and trim example:
+   AFM W&B page 7-15: basic weight: 12125lbs index +30.1
+   where index equals (weight[kg] * (arm - 10.594m)) / 100
+
+   quoting AFM 5.1.4.5:
+   NOTE: the index unit calculation for the total a/c (Ref. 
+         Section 9) are based on the following formula
+   INDEX UNIT = 20 + Weight[kg]/100 * (ARM-10.594)
+
+   so empty CG is
+   (30.1-20) * 100 / weight[kg] + 10.594m = 10.777m
+   %MAC = (ARM - 10.0895) / 0.02427 = (10.777m-10.0895m)/0.02427 = 28.33%
+   -->
    <ixx unit="SLUG*FT2">     12334 </ixx>
    <iyy unit="SLUG*FT2">     37444 </iyy>
    <izz unit="SLUG*FT2">     48090 </izz>
-   <emptywt unit="LBS" >     11246 </emptywt>
-   <location name="CG" unit="M">
-     <x> -0.60 </x>
+   <emptywt unit="KG" >     5511 </emptywt>
+   <location name="CG" unit="M"> 
+     <x> -1.128 </x>
      <y>  0.00 </y>
-     <z>  1.18 </z>
+     <z>  1.18 </z> <!-- guess -->
    </location>
+
+   <!-- 7 or 8 seat version -->
+   <pointmass name="Crew">
+     <weight unit="LBS"> 340.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -6.560 </x> <!-- AFM 5.4.1: arm 5.345m -->
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Jump Seat">
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -5.912 </x> <!-- AFM 5.4.1: arm 5.993m -->
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Attendant Seat">
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -5.092 </x> <!-- AFM 5.4.1: arm 6.813 -->
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Passenger Seat 1+2">
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -4.225 </x> <!-- AFM 5.4.1: arm 7.680m -->
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Passenger Seat 3+4">
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -2.880 </x> <!-- AFM 5.4.1: arm 9.025m -->
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Passenger Seat 5-8">
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -1.960 </x> <!-- AFM 5.4.1: arm 9.945m -->
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Baggage Compartment"> <!-- AFM 5.1: arm 11.195 -->
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -0.710 </x>
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="FWD Baggage Compartment"> <!-- AFM 5.1: arm 6.374 -->
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -5.531 </x>
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Nose Ballast"> <!-- AFM 5.2: arm 3.567 -->
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> -8.338 </x>
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+   <pointmass name="Tail Ballast"> <!-- AFM 5.2: arm 16.512 -->
+     <weight unit="LBS"> 0.0 </weight>
+     <location name="POINTMASS" unit="M">
+       <x> 4.607 </x>
+       <y> -0 </y>
+       <z> 1.76</z>
+     </location>
+   </pointmass>
+
  </mass_balance>
 
  <ground_reactions>
@@ -244,7 +355,7 @@ wing tip  NACA 63A(1.8)11
       <roll>   0.00 </roll>
       <yaw>   0.00 </yaw>
     </orient>
-    <feed>2</feed>
+    <feed>3</feed>
     <thruster file="direct">
      <location unit="M">
        <x> 3.61 </x>
@@ -262,43 +373,10 @@ wing tip  NACA 63A(1.8)11
   <!-- operations manual 14.0 -->
   <!-- fuel for the engines is fed from the wing tanks, fuel transfer from the 
        fuselage tank and from the tip tanks is controlled automatically -->
-  <!-- Fuselage Tank -->
-  <tank type="FUEL" number="0">
-     <location unit="M">
-       <x> -2.51 </x>
-       <y>  0.00 </y>
-       <z>  1.08 </z>
-     </location>
-     <capacity unit="LBS"> 1103 </capacity>
-     <contents unit="LBS"> 880 </contents>
-  </tank>
-
-  <!-- Left Wing Tank -->
-  <tank type="FUEL" number="1">
-     <location unit="M">
-       <x> -0.47 </x>
-       <y> -2.61 </y>
-       <z> 1.89 </z>
-     </location>
-     <capacity unit="LBS"> 2072 </capacity>
-     <contents unit="LBS"> 1900 </contents>
-  </tank>
-
-  <!-- Right Wing Tank -->
-  <tank type="FUEL" number="2">
-     <location unit="M">
-       <x> -0.47 </x>
-       <y> 2.61 </y>
-       <z> 1.89 </z>
-     </location>
-     <capacity unit="LBS"> 2072 </capacity>
-     <contents unit="LBS"> 1900 </contents>
-  </tank>
-
   <!-- Left Tip Tank -->
-  <tank type="FUEL" number="3">
+  <tank type="FUEL" number="0"> <!-- was 3 -->
      <location unit="M">
-       <x> -2.08 </x>
+       <x> -2.262 </x> <!-- AFM W&B 2.2 -->
        <y> -6.71 </y>
        <z> 2.32  </z>
      </location>
@@ -306,9 +384,43 @@ wing tip  NACA 63A(1.8)11
      <contents unit="LBS"> 485 </contents>
   </tank>
 
-  <tank type="FUEL" number="4">
+  <!-- Left Wing Tank -->
+  <tank type="FUEL" number="1"> <!-- was 1 -->
      <location unit="M">
-       <x> -2.08 </x>
+       <x> 0.088 </x> <!-- AFM W&B 2.2 -->
+       <y> -2.61 </y>
+       <z> 1.89 </z>
+     </location>
+     <capacity unit="LBS"> 2072 </capacity>
+     <contents unit="LBS"> 2072 </contents>
+  </tank>
+
+  <!-- Fuselage Tank -->
+  <tank type="FUEL" number="2"> <!-- was 0 -->
+     <location unit="M">
+       <x> -0.092 </x> <!-- AFM W&B 2.2 -->
+       <y>  0.00 </y>
+       <z>  1.08 </z>
+     </location>
+     <capacity unit="LBS"> 1103 </capacity>
+     <contents unit="LBS"> 0 </contents>
+  </tank>
+
+  <!-- Right Wing Tank -->
+  <tank type="FUEL" number="3"> <!-- was 2 -->
+     <location unit="M">
+       <x> 0.088 </x> <!-- AFM W&B 2.2 -->
+       <y> 2.61 </y>
+       <z> 1.89 </z>
+     </location>
+     <capacity unit="LBS"> 2072 </capacity>
+     <contents unit="LBS"> 2072 </contents>
+  </tank>
+
+  <!-- Right Tip Tank -->
+  <tank type="FUEL" number="4"> <!-- was 4 -->
+     <location unit="M">
+       <x> -2.262 </x> <!-- AFM W&B 2.2 -->
        <y> 6.71 </y>
        <z> 2.32  </z>
      </location>
@@ -738,6 +850,7 @@ wing tip  NACA 63A(1.8)11
  <system file="Fuel"/>
  <system file="Engines"/>
  <system file="DC"/>
+ <system file="CG"/>
 <!--
  <system file="AC"/>
  <system file="AC400Hz"/>
@@ -847,6 +960,7 @@ wing tip  NACA 63A(1.8)11
 
   </axis>
 
+  <property value="1.0">aero/adragscale</property>
   <axis name="DRAG">
 
     <function name="aero/coefficient/CD0">
@@ -854,6 +968,7 @@ wing tip  NACA 63A(1.8)11
        <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
+          <property>aero/adragscale</property>
           <table>
             <independentVar lookup="row">aero/alpha-rad</independentVar>
             <tableData>
@@ -912,7 +1027,14 @@ wing tip  NACA 63A(1.8)11
          <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
-           <property>gear/gear-pos-norm</property>
+           <product>
+             <sum>
+               <property>gear/unit[0]/pos-norm</property>
+               <property>gear/unit[1]/pos-norm</property>
+               <property>gear/unit[2]/pos-norm</property>
+             </sum>
+             <value>0.33</value>
+           </product>
            <value>0.015</value>
          </product>
     </function>
@@ -945,6 +1067,7 @@ wing tip  NACA 63A(1.8)11
        </product>
     </function>
 
+<!--
     <function name="aero/coefficient/CDde">
        <description>Drag_due_to_Elevator_Deflection</description>
        <product>
@@ -954,6 +1077,7 @@ wing tip  NACA 63A(1.8)11
            <value>0.04</value>
        </product>
     </function>
+-->
 
     <function name="aero/coefficient/CDchute">
        <description>Drag_due_to_Dragchute</description>
