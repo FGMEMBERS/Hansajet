@@ -25,7 +25,7 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/Autopilot.xml</path>
+    <path>Aircraft/Hansajet/Models/SperrySP40-APController.xml</path>
     <name>Autopilot</name>
     <offsets>
       <x-m>-0.09</x-m>

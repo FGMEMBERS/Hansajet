@@ -1,3 +1,13 @@
+controls.startEngine = func(v = 1) {
+    if (!v)
+        return props.setAll("/controls/engines/engine", "starter-switch", 0);
+    foreach(var e; controls.engines)
+        if(e.selected.getValue()) {
+            var n = e.controls.getNode("starter-switch");
+            n != nil and n.setBoolValue(v);
+        }
+}
+
 ##################### Master Caution ##########################
 var MasterCaution = {
   new : func {
@@ -9,6 +19,7 @@ var MasterCaution = {
 
     setlistener( obj.reset1N, func(n) { obj.reset(n); }, 0, 0 );
     setlistener( obj.reset2N, func(n) { obj.reset(n); }, 0, 0 );
+    return obj;
   },
 
   addListener : func( nodeName ) {
@@ -177,7 +188,7 @@ HydraulicSystem.update = func( dt ) {
 # Startup procedure JSBSim
 # cutoff=true
 # start=true
-# wait for n2 > 15
+# wait for n2 > idlen2
 # ...
 # Startup procedure Hansa Jet
 # Stop=off
@@ -196,11 +207,12 @@ Engine.new = func(index, cutoffNode) {
   obj.engineRootNode = props.globals.getNode( "engines/engine[" ~ index ~ "]", 1 );
   obj.n2Node = obj.engineRootNode.getNode( "n2", 1 );
   obj.ignitionNode = obj.engineRootNode.initNode( "ignition", 0, "BOOL" );
-  obj.starterNode = obj.engineRootNode.initNode( "starter", 0, "BOOL" );
   obj.starterOnTime = 0;
   obj.crankingNode = obj.engineRootNode.initNode( "cranking2", 0, "BOOL" );
 
   obj.cutoffNode = obj.controlsRootNode.getNode( "cutoff", 1 );
+  obj.starterSwitchNode = obj.controlsRootNode.initNode( "starter-switch", 0, "BOOL" );
+  obj.starterNode = obj.controlsRootNode.initNode( "starter", 0, "BOOL" );
   obj.throttleNode = obj.controlsRootNode.getNode( "throttle", 1 );
   obj.throttleTakeOffNode = obj.controlsRootNode.initNode( "throttle-take-off", 0, "BOOL" );
   obj.throttleLowNode = obj.controlsRootNode.initNode( "throttle-low", 0, "BOOL" );
@@ -236,22 +248,25 @@ Engine.update = func( dt ) {
     me.cutoffNode.setBoolValue( 1 );
     me.ignitionNode.setBoolValue( 0 );
     me.crankingNode.setBoolValue( 0 );
+    me.starterNode.setBoolValue( 0 );
     return;
   }
 
-  if( me.starterNode.getValue() ) {
+  if( me.starterSwitchNode.getValue() ) {
     me.starterOnTime += dt;
-    me.crankingNode.getValue() == 0 and me.crankingNode.setBoolValue( 1 );
-#  } else {
-#    if( me.starterOnTime < 2.5 ) {
-#      print( "starter time to short");
-#      me.cutoffNode.setBoolValue( 1 );
-#      me.ignitionNode.setBoolValue( 0 );
-#      me.crankingNode.setBoolValue( 0 );
-#      me.starterOnTime = 0;
-#      return;
-#    }
-#    me.starterOnTime = 0;
+    me.starterNode.setBoolValue( 1 );
+#    me.crankingNode.getValue() == 0 and me.crankingNode.setBoolValue( 1 );
+  } else {
+    if( me.starterOnTime > 0 ) {
+      if( me.starterOnTime < 2.5 ) {
+        print( "starter time to short, start at least for 2.5 seconds");
+        me.starterNode.setBoolValue( 0 );
+        me.cutoffNode.setBoolValue( 1 );
+        me.crankingNode.setBoolValue( 0 );
+        me.starterOnTime = 0;
+      }
+    }
+    me.starterOnTime = 0;
   }
 
   var ignition = 0;
@@ -694,17 +709,17 @@ var initialize = func {
 
 #  append( updateClients, FuelTanks.new(5) );
   append( updateClients, Engines.new(2) );
-  append( updateClients, WindshieldHeater.new( 0 ) );
+#  append( updateClients, WindshieldHeater.new( 0 ) );
 #  append( updateClients, WindshieldHeater.new( 1 ) );
 
   append( updateClients, CourseErrorComputer.new( "/instrumentation/nav[0]", "/instrumentation/heading-indicator[0]" ) );
 
-  append( updateClients, aircraft.tyresmoke.new(0) );
-  append( updateClients, aircraft.tyresmoke.new(1) );
-  append( updateClients, aircraft.tyresmoke.new(2) );
+#  append( updateClients, aircraft.tyresmoke.new(0) );
+#  append( updateClients, aircraft.tyresmoke.new(1) );
+#  append( updateClients, aircraft.tyresmoke.new(2) );
 
-  append( updateClients, Wiper.new(0) );
-  append( updateClients, Wiper.new(1) );
+#  append( updateClients, Wiper.new(0) );
+#  append( updateClients, Wiper.new(1) );
 
   initialize_fuelsystem();  
 

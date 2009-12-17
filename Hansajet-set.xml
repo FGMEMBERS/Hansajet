@@ -29,7 +29,7 @@
             <cockpit type="double">5</cockpit>
           </volume>
         </sound>
-        <radio-panel type="string">king</radio-panel>
+        <radio-panel type="string">collins</radio-panel>
       </Hansajet>
       <instrument-lighting>
         <emission>
@@ -41,7 +41,7 @@
 
       <cockpit-lighting>
         <emission>
-          <red type="double">0.3</red>
+          <red type="double">0.2</red>
           <green type="double">0.0</green>
           <blue type="double">0.0</blue>
         </emission>
@@ -132,7 +132,13 @@
     <systems>
       <path>Aircraft/Hansajet/Systems/Hansajet-systems.xml</path>
       <autopilot>
+        <path>Aircraft/Hansajet/Systems/Hansajet-flightdirector.xml</path>
+      </autopilot>
+      <autopilot>
         <path>Aircraft/Hansajet/Systems/Hansajet-autopilot.xml</path>
+      </autopilot>
+      <autopilot>
+        <path>Aircraft/Hansajet/Systems/Hansajet-digitalfilters.xml</path>
       </autopilot>
     </systems>
 
@@ -168,6 +174,14 @@
 
   <input>
     <keyboard>
+      <key n="1">
+      <name>Ctrl-A</name>
+      <desc>Toggle AFC engaged lock</desc>
+      <binding>
+       <command>property-toggle</command>
+       <property>instrumentation/sp40/afcs-engage-switch</property>
+      </binding>
+      </key>
       <key n="89">
         <name>Y</name>
         <desc>Disable Yaw damper</desc>
@@ -275,21 +289,21 @@
       <low-level-warning-kg type="double">440</low-level-warning-kg>
       <fuel-pump n="0">
         <name>fuselage pump</name>
-        <source-tank type="int">0</source-tank>
+        <source-tank type="int">2</source-tank>
         <destination-tank type="int">1</destination-tank>
-        <destination-tank type="int">2</destination-tank>
+        <destination-tank type="int">3</destination-tank>
         <max-fuel-flow-pph type="double">5000</max-fuel-flow-pph>
       </fuel-pump>
       <fuel-pump n="1">
         <name>left tip pump</name>
-        <source-tank type="int">3</source-tank>
+        <source-tank type="int">0</source-tank>
         <destination-tank type="int">1</destination-tank>
         <max-fuel-flow-pph type="double">5000</max-fuel-flow-pph>
       </fuel-pump>
       <fuel-pump n="2">
         <name>right tip pump</name>
         <source-tank type="int">4</source-tank>
-        <destination-tank type="int">2</destination-tank>
+        <destination-tank type="int">3</destination-tank>
         <max-fuel-flow-pph type="double">5000</max-fuel-flow-pph>
       </fuel-pump>
       <fuel-pump n="3">
@@ -304,12 +318,12 @@
       </fuel-pump>
       <fuel-pump n="5">
         <name>right main wing pump</name>
-        <source-tank type="int">2</source-tank>
+        <source-tank type="int">3</source-tank>
         <max-pressure-psi type="double">14</max-pressure-psi>
       </fuel-pump>
       <fuel-pump n="6">
         <name>right aux wing pump</name>
-        <source-tank type="int">2</source-tank>
+        <source-tank type="int">3</source-tank>
         <max-pressure-psi type="double">14</max-pressure-psi>
       </fuel-pump>
 
@@ -335,7 +349,7 @@
 
       <!-- LH auto sequencer -->
       <auto-sequencer n="1">
-        <tank-number>2</tank-number>
+        <tank-number>3</tank-number>
         <transfer-unit>
           <pump>systems/fuel/fuel-pump[0]</pump>
           <on-level-kg>820</on-level-kg>
@@ -368,6 +382,7 @@
       <max-rod-fpm type="double">-2000</max-rod-fpm>
       <max-pitch-deg type="double">10.0</max-pitch-deg>
       <min-pitch-deg type="double">-5.0</min-pitch-deg>
+      <max-roll-deg type="double">30.0</max-roll-deg>
       <go-around-pitch-deg type="double">8.0</go-around-pitch-deg>
       <standard-turn-rate-degps type="double">1.5</standard-turn-rate-degps>
       <cdi-filter-time type="double">1.0</cdi-filter-time>
@@ -552,22 +567,145 @@
     <Autopilot>
       <file>Aircraft/Hansajet/Systems/Hansajet-autopilot.nas</file>
       <script><![CDATA[
-        Autopilot.new();
+        var sp40 = SP40.new("instrumentation/sp40");
       ]]></script>
     </Autopilot>
   </nasal>
 
+  <consumables>
+    <fuel>
+      <tank n="0">
+        <name type="string">Tip L/H</name>
+      </tank>
+      <tank n="1">
+        <name type="string">Wing L/H</name>
+      </tank>
+      <tank n="2">
+        <name type="string">Fuselage</name>
+      </tank>
+      <tank n="3">
+        <name type="string">Wing R/H</name>
+      </tank>
+      <tank n="4">
+        <name type="string">Tip R/H</name>
+      </tank>
+    </fuel>
+  </consumables>
+
   <limits>
     <max-flap-extension-speed>
-      <flaps>0.40</flaps>
-      <speed>190</speed>
+      <flaps type="double">0.40</flaps>
+      <speed type="double">190</speed>
     </max-flap-extension-speed>
     <max-flap-extension-speed>
-      <flaps>1.00</flaps>
-      <speed>175</speed>
+      <flaps type="double">1.00</flaps>
+      <speed type="double">175</speed>
     </max-flap-extension-speed>
-    <max-slat-extension-speed>200</max-slat-extension-speed>
-    <max-gear-extension-speed>170</max-gear-extension-speed>
-    <vne>300</vne> <!-- FIXME: need to put the real value here -->
+    <max-slat-extension-speed type="double">200</max-slat-extension-speed>
+    <max-gear-extension-speed type="double">170</max-gear-extension-speed>
+    <vne type="double">320</vne> <!-- FIXME: SL to 25,000ft, 0.76Mi above -->
+    <max-positive-g type="double">2.5</max-positive-g>
+    <max-negative-g type="double">-1.5</max-negative-g>
+    <max-tire-speed type="double">146</max-tire-speed>
+
+    <mass-and-balance>
+      <maximum-ramp-mass-lbs type="double">20500</maximum-ramp-mass-lbs>
+      <maximum-takeoff-mass-lbs type="double">20280</maximum-takeoff-mass-lbs>
+      <maximum-landing-mass-lbs type="double">19400</maximum-landing-mass-lbs>
+      <maximum-zero-fuel-mass-lbs type="double">15870</maximum-zero-fuel-mass-lbs>
+      <cg>
+        <dimension>%%MAC</dimension>
+        <factor type="double">1.0</factor>
+        <offset type="double">0.0</offset>
+        <limit>
+          <mass-lbs type="double">12000</mass-lbs>
+          <mac type="double">10</mac>
+        </limit>
+        <limit>
+          <mass-lbs type="double">15500</mass-lbs>
+          <mac type="double">10</mac>
+        </limit>
+        <limit>
+          <mass-lbs type="double">16500</mass-lbs>
+          <mac type="double">13</mac>
+        </limit>
+        <limit>
+          <mass-lbs type="double">20500</mass-lbs>
+          <mac type="double">13</mac>
+        </limit>
+        <limit>
+          <mass-lbs type="double">20500</mass-lbs>
+          <mac type="double">23</mac>
+        </limit>
+        <limit>
+          <mass-lbs type="double">12000</mass-lbs>
+          <mac type="double">23</mac>
+        </limit>
+      </cg>
+    </mass-and-balance>
   </limits>
+
+  <payload>
+     <weight>
+        <name type="string">Crew</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">440.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Jump Seat</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">220.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Attendant Seat</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">220.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Passenger Seat 1+2</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">440.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Passenger Seat 3+4</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[4]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">440.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Passenger Seat 5-8</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[5]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">777.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Baggage Compartment</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[6]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">660.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">FWD Baggage Compartment</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">110.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Nose Ballast</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[8]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">110.0</max-lb>
+     </weight>
+     <weight>
+        <name type="string">Tail Ballast</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[9]"/>
+        <min-lb type="double">0.0</min-lb>
+        <max-lb type="double">110.0</max-lb>
+     </weight>
+  </payload>
+
 </PropertyList>
