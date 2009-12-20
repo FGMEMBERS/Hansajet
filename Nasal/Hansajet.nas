@@ -623,31 +623,6 @@ var Dragchute = {
   }
 };
 
-var CourseErrorComputer = {
-  new : func( navradioNode, headingIndicatorNode ) {
-    var obj = {};
-    obj.parents = [CourseErrorComputer];
-
-    navRootNode = props.globals.getNode( navradioNode, 1 );
-    hdgRootNode = props.globals.getNode( headingIndicatorNode, 1 );
-
-    obj.courseErrorNode  = hdgRootNode.initNode( "course-error-deg", 0.0 );
-    obj.headingNode      = hdgRootNode.initNode( "indicated-heading-deg", 0.0 );
-    obj.courseNode       = navRootNode.initNode( "radials/selected-deg", 0.0 );
-
-    return obj;
-  },
-
-  update : func {
-    # provide offset course-arrow % magnetic-heading
-    var c = me.courseNode.getValue();
-    
-    me.courseErrorNode.setDoubleValue( 
-       geo.normdeg(me.courseNode.getValue() 
-     - me.headingNode.getValue() + 180 )-180);
-  },
-};
-
 var dragchute = nil;
 
 var initialize_fuelsystem = func {
@@ -711,8 +686,6 @@ var initialize = func {
   append( updateClients, Engines.new(2) );
 #  append( updateClients, WindshieldHeater.new( 0 ) );
 #  append( updateClients, WindshieldHeater.new( 1 ) );
-
-  append( updateClients, CourseErrorComputer.new( "/instrumentation/nav[0]", "/instrumentation/heading-indicator[0]" ) );
 
 #  append( updateClients, aircraft.tyresmoke.new(0) );
 #  append( updateClients, aircraft.tyresmoke.new(1) );
