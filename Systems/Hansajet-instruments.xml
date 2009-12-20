@@ -43,13 +43,13 @@
   <attitude-indicator>
     <name>attitude-indicator</name>
     <number>0</number>
-    <suction>systems/vacuum[0]/suction-inhg</suction>
+    <suction>instrumentation/attitude-indicator[0]/power-based-on-inhg</suction>
   </attitude-indicator>
 
   <attitude-indicator>
     <name>attitude-indicator</name>
     <number>1</number>
-    <suction>systems/vacuum[0]/suction-inhg</suction>
+    <suction>instrumentation/attitude-indicator[1]/power-based-on-inhg</suction>
   </attitude-indicator>
 
   <heading-indicator>
