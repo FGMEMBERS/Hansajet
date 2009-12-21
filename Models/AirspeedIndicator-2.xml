@@ -2,6 +2,7 @@
 <PropertyList>
   <params>
     <value>instrumentation/airspeed-indicator[1]/indicated-speed-kt</value>
+    <value2>instrumentation/airspeed-indicator[1]/vmo-kt</value2>
   </params>
 
   <path>AirspeedIndicator.ac</path>
@@ -10,6 +11,7 @@
     <type>material</type>
     <object-name>Face</object-name>
     <object-name>Needle</object-name>
+    <object-name>Needle2</object-name>
     <object-name>Subscale</object-name>
     <emission include="InstrumentLightEmissionInclude.xml"/>
   </animation>
@@ -42,6 +44,32 @@
       <z>0</z>
     </axis>
   </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Needle2</object-name>
+    <property alias="../../params/value2"/>
+    <interpolation>
+      <entry>
+        <ind>320</ind>
+        <dep>0</dep>
+      </entry>
+      <entry>
+        <ind>650</ind>
+        <dep>186.53</dep>
+      </entry>
+      <entry>
+        <ind>700</ind>
+        <dep>197.67</dep>
+      </entry>
+    </interpolation>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
 
   <animation>
     <type>textranslate</type>
