@@ -4,22 +4,46 @@
   <title>Hansajet</title>
   <line>Startup Procedure</line>
   <line>====================================</line>
-  <line>1. Look at the Overhead Panel</line>
-  <line>2. Turn ON IGNITION for both engines</line>
-  <line>3. Click START LH and START RH to start engines</line>
-  <line>4. Wait for red lights below IGNITION switches to go out</line>
-  <line>5. Turn OFF IGNITION for both engines</line>
+  <line>1. Look at the Overhead Panel (shift-v)</line>
+  <line>2. Switch BATT 1 and 2 ON</line>
+  <line>3. Switch LH and RH MAIN WING PUMP ON</line>
+  <line>4. Press and hold 's' for at least 3 seconds</line>
+  <line>5. Increase Throttle approx. 10%. Ingition lights illuminate</line>
+  <line>6. Look at the main panel, observe engine instruments</line>
   <line>------------------------------------</line>
   <line>http://wiki.flightgear.org/index.php/Hansajet</line>
   <line>http://www.hansajet.de/</line>
+
   <key>
-    <name>j</name>
-    <desc>retract slats</desc>
+    <name>CTRL-a</name>
+    <desc>TOGGLE AFCS (Autopilot)</desc>
   </key>
   <key>
-    <name>k</name>
-    <desc>extend slats</desc>
+    <name>ALT-a</name>
+    <desc>TOGGLE altitude hold</desc>
   </key>
+  <key>
+    <name>ALT-g</name>
+    <desc>SET gyro hold (HDG SEL)</desc>
+  </key>
+  <key>
+    <name>ALT-h</name>
+    <desc>SET mag heading hold (HDG HOLD)</desc>
+  </key>
+  <key>
+    <name>ALT-n</name>
+    <desc>SET nav1 hold (RADIO)</desc>
+  </key>
+  <key>
+    <name>y</name>
+    <desc>ENABLE yaw damper</desc>
+  </key>
+  <key>
+    <name>Y</name>
+    <desc>DISABLE yaw damper</desc>
+  </key>
+
+
   <key>
     <name>b</name>
     <desc>apply brakes</desc>
@@ -36,13 +60,4 @@
     <name>CTRL-b</name>
     <desc>toggle speedbrake</desc>
   </key>
-  <key>
-    <name>y</name>
-    <desc>Enable yaw damper</desc>
-  </key>
-  <key>
-    <name>Y</name>
-    <desc>Disable yaw damper</desc>
-  </key>
-
 </PropertyList>

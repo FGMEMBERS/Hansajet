@@ -182,6 +182,55 @@
        <property>instrumentation/sp40/afcs-engage-switch</property>
       </binding>
       </key>
+
+      <key n="97">
+        <name>a</name>
+        <desc>toggle altitude-lock</desc>
+        <binding>
+          <condition>
+            <property>devices/status/keyboard/alt</property>
+          </condition>
+          <command>nasal</command>
+          <script>Autopilot.sp40.toggleAltitude();</script>
+        </binding>
+      </key>
+
+      <key n="103">
+        <name>g</name>
+        <desc>gyro heading hold</desc>
+        <binding>
+          <condition>
+            <property>devices/status/keyboard/alt</property>
+          </condition>
+          <command>nasal</command>
+          <script>Autopilot.sp40.lockDgHeading();</script>
+        </binding>
+      </key>
+
+      <key n="104">
+        <name>h</name>
+        <desc>heading hold</desc>
+        <binding>
+          <condition>
+            <property>devices/status/keyboard/alt</property>
+          </condition>
+          <command>nasal</command>
+          <script>Autopilot.sp40.lockMagHeading();</script>
+        </binding>
+      </key>
+
+      <key n="110">
+        <name>n</name>
+        <desc>nav hold</desc>
+        <binding>
+          <condition>
+            <property>devices/status/keyboard/alt</property>
+          </condition>
+          <command>nasal</command>
+          <script>Autopilot.sp40.lockNav();</script>
+        </binding>
+      </key>
+
       <key n="89">
         <name>Y</name>
         <desc>Disable Yaw damper</desc>

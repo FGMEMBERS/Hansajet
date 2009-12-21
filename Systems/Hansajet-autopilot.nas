@@ -71,6 +71,10 @@ var SP40 = {
     me.locksAltitudeN.setValue( v and me.afcsEngagedN.getValue() ? "altitude-hold" : "" );
   },
 
+  toggleAltitude : func {
+    me.lockAltitude( me.locksAltitudeN.getValue() != "altitude-hold" );
+  },
+
   lockMagHeading : func(v = 1) {
     me.locksHeadingN.setValue( v and me.afcsEngagedN.getValue() ? "mag-heading-hold" : "" );
   },

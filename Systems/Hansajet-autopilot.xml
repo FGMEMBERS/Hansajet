@@ -38,7 +38,8 @@
     <magnetic-heading>orientation/heading-magnetic-deg</magnetic-heading>
     <heading-bug>autopilot/settings/heading-bug-deg</heading-bug>
     <pitch>orientation/pitch-deg</pitch>
-    <pitch>orientation/roll-deg</pitch>
+    <roll>orientation/roll-deg</roll>
+    <altitude>instrumentation/altimeter[0]/pressure-alt-ft</altitude>
 
     <locks>
       <roll>instrumentation/sp40/locks/roll</roll>
@@ -49,6 +50,7 @@
 
     <!-- the output properties -->
     <target-heading>instrumentation/sp40/target-heading-deg</target-heading>
+    <target-altitude>instrumentation/sp40/target-altitude-ft</target-altitude>
     <target-pitch>instrumentation/sp40/target-pitch-deg</target-pitch>
     <target-roll>instrumentation/sp40/target-roll-deg</target-roll>
 
@@ -103,28 +105,52 @@
     <gain>1.0</gain>
   </filter>
 
-  <!--  Monitor current static pressure for altitude-hold -->
+  <!--  Monitor current pressure altitude for altitude-hold -->
   <filter>
-    <name>AP:Static Pressure Monitor</name>
+    <name>AP:Pressure Altitude Monitor</name>
     <debug>false</debug>
     <enable>
       <condition>
         <not-equals>
-          <property>autopilot/locks/altitude</property>
+          <property alias="/params/locks/pitch"/>
           <value>altitude-hold</value>
         </not-equals>
       </condition>
     </enable>
     <type>gain</type>
-<!--
-    <input>systems/static[0]/pressure-inhg</input>
-    <output>autopilot/settings/target-pressure-inhg</output>
--->
-    <input>instrumentation/altimeter[0]/pressure-alt-ft</input>
-    <output>autopilot/settings/target-altitude-ft</output>
+    <input alias="/params/altitude"/>
+    <output alias="/params/target-altitude"/>
     <gain>1.0</gain>
   </filter>
 
+  <pid-controller>
+    <name>AP:Altitude Hold</name>
+    <debug>true</debug>
+    <enable>
+      <condition>
+        <and>
+          <property alias="/params/engaged"/>
+          <equals>
+            <property alias="/params/locks/pitch"/>
+            <value>altitude-hold</value>
+          </equals>
+        </and>
+      </condition>
+    </enable>
+    <input alias="/params/altitude"/>
+    <reference alias="/params/target-altitude"/>
+    <output alias="/params/target-pitch"/>
+    <config>
+      <Kp>0.0100</Kp>
+      <beta>1.0</beta> 
+      <alpha>0.1</alpha>
+      <gamma>1.0</gamma>
+      <Ti>20</Ti>
+      <Td>0.0010</Td>
+      <u_min>-5.0</u_min>
+      <u_max>15.0</u_max>
+    </config>
+  </pid-controller>
 
   <pid-controller>
     <name>AP:Pitch Hold</name>
@@ -153,40 +179,11 @@
       <Kp>-0.03</Kp>
       <beta>1.0</beta> 
       <alpha>0.1</alpha>
-      <gamma>0.0</gamma>
+      <gamma>1.0</gamma>
       <Ti>7.5</Ti>
       <Td>0.0</Td>
       <u_min>-1.0</u_min>
       <u_max>1.0</u_max>
-    </config>
-  </pid-controller>
-
-  <pid-controller>
-    <name>AP:Altitude Hold</name>
-    <debug>false</debug>
-    <enable>
-      <condition>
-        <and>
-          <property>instrumentation/sp40/afc-engaged</property>
-          <equals>
-            <property>autopilot/locks/altitude</property>
-            <value>altitude-hold</value>
-          </equals>
-        </and>
-      </condition>
-    </enable>
-    <input>instrumentation/altimeter[0]/pressure-alt-ft</input>
-    <reference>autopilot/settings/target-altitude-ft</reference>
-    <output>autopilot/settings/target-pitch-deg</output>
-    <config>
-      <Kp>0.02</Kp>
-      <beta>1.0</beta> 
-      <alpha>0.1</alpha>
-      <gamma>0.0</gamma>
-      <Ti>15</Ti>
-      <Td>0.0050</Td>
-      <u_min>-5.0</u_min>
-      <u_max>15.0</u_max>
     </config>
   </pid-controller>
 
@@ -263,7 +260,7 @@
       <Kp>0.0020</Kp>
       <beta>1.0</beta>
       <alpha>0.1</alpha>
-      <gamma>0.0</gamma>
+      <gamma>1.0</gamma>
       <Ti>1000</Ti>
       <Td>0.0</Td>
       <u_min>-1.0</u_min>
