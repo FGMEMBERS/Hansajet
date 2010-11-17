@@ -1,6 +1,25 @@
 <?xml version="1.0"?>
 
 <system name="Fuel">
+  <property>/systems/fuel/fuel-pump[0]/serviceable</property>
+  <property>/systems/fuel/fuel-pump[0]/enabled</property>
+  <property>/systems/fuel/fuel-pump[1]/serviceable</property>
+  <property>/systems/fuel/fuel-pump[1]/enabled</property>
+  <property>/systems/fuel/fuel-pump[2]/serviceable</property>
+  <property>/systems/fuel/fuel-pump[2]/enabled</property>
+  <property>/systems/fuel/fuel-pump[3]/serviceable</property>
+  <property>/systems/fuel/fuel-pump[3]/enabled</property>
+  <property>/systems/fuel/fuel-pump[4]/serviceable</property>
+  <property>/systems/fuel/fuel-pump[4]/enabled</property>
+  <property>/systems/fuel/fuel-pump[5]/serviceable</property>
+  <property>/systems/fuel/fuel-pump[5]/enabled</property>
+  <property>/systems/fuel/fuel-pump[6]/serviceable</property>
+  <property>/systems/fuel/fuel-pump[6]/enabled</property>
+  <property>/consumables/fuel/tank[0]/level-lbs</property>
+  <property>/consumables/fuel/tank[1]/level-lbs</property>
+  <property>/consumables/fuel/tank[2]/level-lbs</property>
+  <property>/consumables/fuel/tank[3]/level-lbs</property>
+  <property>/consumables/fuel/tank[4]/level-lbs</property>
 
   <channel name="Fuel Quantity Sensors">
 

@@ -750,6 +750,7 @@ wing tip  NACA 63A(1.8)11
   </channel>
 
   <!-- Gear -->
+  <property>gear/gear-cmd-emergency-norm</property>
   <channel name="Landing Gear">
     <!-- force gear down on ground. Squad switch is on left main gear -->
     <switch name="gear switch">
@@ -961,6 +962,7 @@ wing tip  NACA 63A(1.8)11
   </axis>
 
   <property value="1.0">aero/adragscale</property>
+  <property>/sim/model/Hansajet/Dragchute/size/position-norm</property>
   <axis name="DRAG">
 
     <function name="aero/coefficient/CD0">

@@ -16,6 +16,7 @@
   <property>/systems/electrical/bus[0]/battery[1]/current-a</property>
   <property>/systems/electrical/bus[1]/generator[0]/current-a</property>
   <property>/systems/electrical/bus[1]/generator[1]/current-a</property>
+  <property>/systems/electrical/bus[0]/voltage-v</property>
 
   <channel name="Instrument normalization">
 
