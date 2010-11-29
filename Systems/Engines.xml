@@ -2,9 +2,9 @@
 <system name="Engines">
 
   <property>propulsion/reset-fuel-consumed</property>
-  <property>/engines/engine[0]/egt_degf</property>
+  <property>/engines/engine[0]/egt-degf</property>
   <property>/engines/engine[0]/epr</property>
-  <property>/engines/engine[1]/egt_degf</property>
+  <property>/engines/engine[1]/egt-degf</property>
   <property>/engines/engine[1]/epr</property>
 
   <channel name="Engine 1">
@@ -42,7 +42,7 @@
       <description>corrected egt due to bleed air</description>
       <function>
         <sum>
-          <property>/engines/engine[0]/egt_degf</property>
+          <property>/engines/engine[0]/egt-degf</property>
           <product>
             <property>propulsion/engine[0]/egt-due-to-bleedair</property>
             <value>27</value> <!-- fahrenheit -->
@@ -102,7 +102,7 @@
       <description>corrected egt due to bleed air</description>
       <function>
         <sum>
-          <property>/engines/engine[1]/egt_degf</property>
+          <property>/engines/engine[1]/egt-degf</property>
           <product>
             <property>propulsion/engine[1]/egt-due-to-bleedair</property>
             <value>27</value> <!-- fahrenheit -->

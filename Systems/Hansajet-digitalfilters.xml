@@ -98,13 +98,13 @@ target-oil-temp = egt + (rho_air*ias*C+D)*(ambient-egt)
     <debug>false</debug>
     <type>exponential</type>
     <input>
-      <property>/engines/engine[0]/egt_degf</property>
+      <property>/engines/engine[0]/egt-degf</property>
       <offset>
         <property>/engines/cooling-factor</property>
         <scale>
           <property>/environment/temperature-degf</property>
           <offset>
-            <property>/engines/engine[0]/egt_degf</property>
+            <property>/engines/engine[0]/egt-degf</property>
             <scale>-1.0</scale>
           </offset>
         </scale>
@@ -125,13 +125,13 @@ target-oil-temp = egt + (rho_air*ias*C+D)*(ambient-egt)
     <debug>false</debug>
     <type>exponential</type>
     <input>
-      <property>/engines/engine[1]/egt_degf</property>
+      <property>/engines/engine[1]/egt-degf</property>
       <offset>
         <property>/engines/cooling-factor</property>
         <scale>
           <property>/environment/temperature-degf</property>
           <offset>
-            <property>/engines/engine[1]/egt_degf</property>
+            <property>/engines/engine[1]/egt-degf</property>
             <scale>-1.0</scale>
           </offset>
         </scale>

@@ -5,6 +5,16 @@
       <label>Hansa Jet</label>
       <enabled type="bool">true</enabled>
       <item>
+        <label>Autostart</label>
+        <binding>
+          <command>nasal</command>
+          <script>
+            setprop( "/sim/tutorials/current-tutorial", "Start Engine" );
+            tutorial.startTutorial();
+          </script>
+        </binding>
+      </item>
+      <item>
         <label>Repack Chute</label>
         <binding>
           <command>nasal</command>
