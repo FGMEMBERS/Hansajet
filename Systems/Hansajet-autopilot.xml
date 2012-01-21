@@ -85,7 +85,7 @@
   <!-- ===================================================== -->
   <!--  Monitor current pitch for pitch-hold -->
   <filter>
-    <name>AP:Pitch Monitor</name>
+    <name>AP:Pitch Sample-and-Hold</name>
     <debug>false</debug>
     <enable>
       <condition>
@@ -101,6 +101,47 @@
     </enable>
     <type>gain</type>
     <input alias="/params/pitch"/>
+    <output>instrumentation/sp40/pitch-memory-deg</output>
+    <gain>1.0</gain>
+  </filter>
+
+  <!-- PITCH switch HFB 320 Operations Manual 9.1.1 -->
+  <pi-simple-controller>
+    <name>AP:Pitch Offset</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <equals>
+          <property alias="/params/locks/pitch"/>
+          <value>pitch-hold</value>
+        </equals>
+      </condition>
+    </enable>
+    <input>/instrumentation/sp40/pitch-switch</input>
+    <reference>0</reference>
+    <output>/instrumentation/sp40/pitch-offset-deg</output>
+    <config> <!-- just integrate -->
+      <Kp>0.0</Kp>
+      <Ki>1.0</Ki> <!-- one deg per second -->
+    </config>
+  </pi-simple-controller>
+
+  <filter>
+    <name>AP:Pitch Hold Target-Pitch</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <equals>
+          <property alias="/params/locks/pitch"/>
+          <value>pitch-hold</value>
+        </equals>
+      </condition>
+    </enable>
+    <type>gain</type>
+    <input>
+      <property>instrumentation/sp40/pitch-memory-deg</property>
+      <offset>instrumentation/sp40/pitch-offset-deg</offset>
+    </input>
     <output alias="/params/target-pitch"/>
     <gain>1.0</gain>
   </filter>
@@ -125,7 +166,7 @@
 
   <pid-controller>
     <name>AP:Altitude Hold</name>
-    <debug>true</debug>
+    <debug>false</debug>
     <enable>
       <condition>
         <and>
@@ -268,8 +309,33 @@
     </config>
   </pid-controller>
 
+
+  <!-- ====================================================================== -->
+  <!-- =============== Yaw Axis ============================================= -->
+  <!-- ====================================================================== -->
+  <!-- Yaw Damper, automatic ball kicker -->
+  <pid-controller>
+    <name>AP:Yaw Damper</name>
+    <debug>false</debug>
+    <enable>
+      <condition>
+        <property>/instrumentation/autopilot/yaw-damper</property>
+      </condition>
+    </enable>
+    <input>/instrumentation/slip-skid-ball/indicated-slip-skid</input>
+    <reference>0.0</reference>
+    <output alias="/params/rudder-cmd"/>
+    <config>
+      <Kp>0.5</Kp>
+      <Ti>20.0</Ti>
+      <Td>0.0</Td>
+      <min>-0.5</min>
+      <max>0.5</max>
+    </config>
+  </pid-controller>
+
   <!-- ========================================================================== -->
-  <!-- Server Driver - Pass output commands thru a noise spike filter to avoid    -->
+  <!-- Servo Driver - Pass output commands thru a noise spike filter to avoid     -->
   <!-- rapid control inputs and simulate slow movement o the servos               -->
   <!-- Disable servos in passive-mode                                             -->
   <!-- ========================================================================== -->
