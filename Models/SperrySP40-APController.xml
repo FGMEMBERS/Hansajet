@@ -192,10 +192,7 @@
     <type>select</type>
     <object-name>ALT.Light</object-name>
     <condition>
-      <equals>
-        <property>instrumentation/sp40/locks/pitch</property>
-        <value>altitude-hold</value>
-      </equals>
+      <property>instrumentation/sp40/lights/alt</property>
     </condition>
   </animation>
   
@@ -210,10 +207,6 @@
         <command>property-assign</command>
         <property>instrumentation/sp40/hdgsel-switch</property>
         <value type="int">1</value>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>Autopilot.sp40.lockDgHeading();</script>
       </binding>
       <mod-up>
         <binding>
@@ -241,10 +234,7 @@
     <type>select</type>
     <object-name>HDGSEL.Light</object-name>
     <condition>
-      <equals>
-        <property>instrumentation/sp40/locks/roll</property>
-        <value>dg-heading-hold</value>
-      </equals>
+      <property>instrumentation/sp40/lights/hdgsel</property>
     </condition>
   </animation>
   
@@ -259,10 +249,6 @@
         <command>property-assign</command>
         <property>instrumentation/sp40/radio-switch</property>
         <value type="int">1</value>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>Autopilot.sp40.lockNav();</script>
       </binding>
       <mod-up>
         <binding>
@@ -290,10 +276,7 @@
     <type>select</type>
     <object-name>RADIO.Light</object-name>
     <condition>
-      <equals>
-        <property>instrumentation/sp40/locks/roll</property>
-        <value>nav-hold</value>
-      </equals>
+      <property>instrumentation/sp40/lights/radio</property>
     </condition>
   </animation>
   
@@ -308,10 +291,6 @@
         <command>property-assign</command>
         <property>instrumentation/sp40/hdghold-switch</property>
         <value type="int">1</value>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>Autopilot.sp40.lockMagHeading();</script>
       </binding>
       <mod-up>
         <binding>
@@ -339,10 +318,7 @@
     <type>select</type>
     <object-name>HDGHOLD.Light</object-name>
     <condition>
-      <equals>
-        <property>instrumentation/sp40/locks/roll</property>
-        <value>mag-heading-hold</value>
-      </equals>
+      <property>instrumentation/sp40/lights/hdghold</property>
     </condition>
   </animation>
   
@@ -350,7 +326,7 @@
     <type>rotate</type>
     <object-name>TurnKnob</object-name>
     <property>instrumentation/sp40/turn-norm</property>
-    <factor>90</factor>
+    <factor>-90</factor>
     <axis>
       <x>1</x>
       <y>0</y>
@@ -373,7 +349,7 @@
       <binding>
         <command>property-adjust</command>
         <property>instrumentation/sp40/turn-norm</property>
-        <step type="double">0.05</step>
+        <step type="double">-0.05</step>
         <wrap>false</wrap>
         <min>-1.0</min>
         <max>1.0</max>
@@ -391,7 +367,7 @@
       <binding>
         <command>property-adjust</command>
         <property>instrumentation/sp40/turn-norm</property>
-        <step type="double">-0.05</step>
+        <step type="double">0.05</step>
         <wrap>false</wrap>
         <min>-1.0</min>
         <max>1.0</max>
@@ -405,12 +381,21 @@
     <type>pick</type>
     <visible>true</visible>
     <action>
+      <button>1</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-assign</command>
+        <property>instrumentation/sp40/turn-norm</property>
+        <value type="double">0.0</value>
+      </binding>
+    </action>
+    <action>
       <button>3</button>
       <repeatable>false</repeatable>
       <binding>
         <command>property-adjust</command>
         <property>instrumentation/sp40/turn-norm</property>
-        <step type="double">-0.05</step>
+        <step type="double">0.05</step>
         <wrap>false</wrap>
         <min>-1.0</min>
         <max>1.0</max>
@@ -422,7 +407,7 @@
       <binding>
         <command>property-adjust</command>
         <property>instrumentation/sp40/turn-norm</property>
-        <step type="double">0.05</step>
+        <step type="double">-0.05</step>
         <wrap>false</wrap>
         <min>-1.0</min>
         <max>1.0</max>

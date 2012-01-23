@@ -613,12 +613,6 @@
 
       ]]></script>
     </Hansajet>
-    <Autopilot>
-      <file>Aircraft/Hansajet/Systems/Hansajet-autopilot.nas</file>
-      <script><![CDATA[
-        var sp40 = SP40.new("instrumentation/sp40");
-      ]]></script>
-    </Autopilot>
   </nasal>
 
   <consumables>
