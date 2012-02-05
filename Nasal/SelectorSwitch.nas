@@ -23,7 +23,6 @@ var SelectorSwitch = {
     }
 
     setlistener( obj.positionN, func { obj.update(); }, 1, 0 );
-    aircraft.data.add( position );
     return obj;
   },
 

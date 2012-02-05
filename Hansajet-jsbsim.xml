@@ -68,7 +68,7 @@ wing tip  NACA 63A(1.8)11
    <location name="AERORP" unit="M">
      <x> -1.1 </x>
      <y>  0.00 </y>
-     <z>  1.80 </z>
+     <z>  1.90 </z>
    </location>
    <location name="EYEPOINT" unit="M">
      <x> -6.53 </x>
@@ -118,7 +118,7 @@ wing tip  NACA 63A(1.8)11
    <location name="CG" unit="M"> 
      <x> -1.128 </x>
      <y>  0.00 </y>
-     <z>  1.18 </z> <!-- guess -->
+     <z>  1.80 </z> <!-- guess -->
    </location>
 
    <!-- 7 or 8 seat version -->
@@ -334,7 +334,7 @@ wing tip  NACA 63A(1.8)11
      <location unit="M">
        <x> 3.61 </x>
        <y> -1.57 </y>
-       <z> 2.29 </z>
+       <z> 1.99 </z>
      </location>
      <orient unit="DEG">
        <pitch> 0.00 </pitch>
@@ -360,7 +360,7 @@ wing tip  NACA 63A(1.8)11
      <location unit="M">
        <x> 3.61 </x>
        <y> 1.57 </y>
-       <z> 2.29 </z>
+       <z> 1.99 </z>
      </location>
      <orient unit="DEG">
        <pitch> 0.00 </pitch>
@@ -919,23 +919,16 @@ wing tip  NACA 63A(1.8)11
          slats are used mainly to provide proper air flow distribution
          for the engine intakes -->
     <!-- assume only litte effect on lift and drag -->
-    <function name="aero/coefficient/dCLslatL">
+    <function name="aero/coefficient/dCLslat">
        <description>Delta_Lift_due_to_slats</description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
-           <property>fcs/slat[0]/position-norm</property>
            <value>0.05</value>
-       </product>
-    </function>
-
-    <function name="aero/coefficient/dCLslatR">
-       <description>Delta_Lift_due_to_slats</description>
-       <product>
-           <property>aero/qbar-psf</property>
-           <property>metrics/Sw-sqft</property>
-           <property>fcs/slat[1]/position-norm</property>
-           <value>0.05</value>
+           <sum>
+             <property>fcs/slat[0]/position-norm</property>
+             <property>fcs/slat[1]/position-norm</property>
+           </sum>
        </product>
     </function>
 
@@ -949,7 +942,7 @@ wing tip  NACA 63A(1.8)11
        </product>
     </function>
 
-    <function name="aero/coefficient/CLde">
+    <!--function name="aero/coefficient/CLde">
        <description>Lift_due_to_Elevator_Deflection</description>
        <product>
            <property>aero/qbar-psf</property>
@@ -957,7 +950,7 @@ wing tip  NACA 63A(1.8)11
            <property>fcs/elevator-pos-deg</property>
            <value>0.0035</value>
        </product>
-    </function>
+    </function-->
 
   </axis>
 
@@ -1069,7 +1062,6 @@ wing tip  NACA 63A(1.8)11
        </product>
     </function>
 
-<!--
     <function name="aero/coefficient/CDde">
        <description>Drag_due_to_Elevator_Deflection</description>
        <product>
@@ -1079,7 +1071,6 @@ wing tip  NACA 63A(1.8)11
            <value>0.04</value>
        </product>
     </function>
--->
 
     <function name="aero/coefficient/CDchute">
        <description>Drag_due_to_Dragchute</description>
@@ -1206,7 +1197,6 @@ wing tip  NACA 63A(1.8)11
        </product>
     </function>
 
-<!--
     <function name="aero/coefficient/Cmflap">
        <description>Pitch_moment_due_to_flaps</description>
        <product>
@@ -1214,10 +1204,9 @@ wing tip  NACA 63A(1.8)11
            <property>metrics/Sw-sqft</property>
            <property>metrics/cbarw-ft</property>
            <property>fcs/flap-pos-norm</property>
-           <value>0.1</value>
+           <value>-0.1</value>
        </product>
     </function>
--->
 
     <function name="aero/coefficient/Cmq">
        <description>Pitch_moment_due_to_pitch_rate</description>

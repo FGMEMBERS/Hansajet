@@ -294,7 +294,7 @@ Engine.update = func( dt ) {
 
   var cutoff = 0;
   if( cutoff == 0 ) cutoff = (throttle < 0.05);
-  if( cutoff == 0 ) cutoff = (me.fuelPressureNode.getValue() < 8.0);
+#  if( cutoff == 0 ) cutoff = (me.fuelPressureNode.getValue() < 8.0);
   me.cutoffNode.setBoolValue( cutoff );
 
 };
@@ -543,37 +543,6 @@ var HansajetTimer = func {
   settimer( HansajetTimer, 0 );
 };
 
-var savedata = func {
-  aircraft.data.add([
-    "consumables/fuel/used-kg",
-    "instrumentation/comm[0]/volume",
-    "instrumentation/comm[0]/frequencies/selected-mhz",
-    "instrumentation/comm[0]/frequencies/standby-mhz",
-    "instrumentation/comm[0]/test-btn",
-    "instrumentation/nav[0]/audio-btn",
-    "instrumentation/nav[0]/power-btn",
-    "instrumentation/nav[0]/frequencies/selected-mhz",
-    "instrumentation/nav[0]/frequencies/standby-mhz",
-    "instrumentation/comm[1]/volume",
-    "instrumentation/comm[1]/frequencies/selected-mhz",
-    "instrumentation/comm[1]/frequencies/standby-mhz",
-    "instrumentation/comm[1]/test-btn",
-    "instrumentation/nav[1]/audio-btn",
-    "instrumentation/nav[1]/power-btn",
-    "instrumentation/nav[1]/frequencies/selected-mhz",
-    "instrumentation/nav[1]/frequencies/standby-mhz",
-    "instrumentation/adf/frequencies/selected-khz",
-    "instrumentation/adf/frequencies/standby-khz",
-    "instrumentation/dme/frequencies/selected-mhz",
-    "instrumentation/dme/switch-position"
-  ]);
-}
-
-var smoothToggleProperty = func(prop) {
-  props.globals.initNode(prop,0.0);
-  interpolate( prop, getprop(prop) > 0.5 ? 0.0 : 1.0, 1 );
-}
-
 var Dragchute = {
   new : func {
     var obj = {};
@@ -699,8 +668,17 @@ var initialize = func {
   dragchute = Dragchute.new();
   MasterCaution.new();
   HansajetTimer();
-  savedata();
   print( "Hansa Jet nasal systems initialized" );
 };
+
+if( getprop( "sim/presets/onground" ) == 0 ) {
+  setprop("sim/presets/running",1);
+  setprop("controls/electric/battery[0]", 1 );
+  setprop("controls/electric/battery[1]", 1 );
+  setprop("systems/fuel/fuel-pump[3]/enabled", 1 );
+  setprop("systems/fuel/fuel-pump[5]/enabled", 1 );
+  setprop("controls/electric/generator[0]", 1 );
+  setprop("controls/electric/generator[1]", 1 );
+}
 
 setlistener("/sim/signals/fdm-initialized", initialize );

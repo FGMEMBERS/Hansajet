@@ -3,6 +3,7 @@
 
   <params>
     <value>controls/electric/generator[1]</value>
+    <position>controls/electric/generator-position[1]</position>
   </params>
 
   <model include="Knob1.xml"/>

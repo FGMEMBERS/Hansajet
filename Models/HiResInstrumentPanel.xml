@@ -291,8 +291,8 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/RMI-1.xml</path>
-    <name>RMI</name>
+    <path>Aircraft/Hansajet/Models/Sperry-C-6d.xml</path>
+    <name>RMI1</name>
     <offsets>
       <x-m>0.001</x-m>
       <y-m>-0.525078</y-m>
@@ -301,11 +301,12 @@
   </model>
 
   <model>
-    <path>Aircraft/Hansajet/Models/RMI-2.xml</path>
-    <name>RMI</name>
+    <path>Aircraft/Hansajet/Models/Bendix-36109.xml</path>
+    <name>RMI2</name>
     <offsets>
       <x-m>0.001</x-m>
       <y-m>0.418186</y-m>
+      <!-- <y-m>-0.525078</y-m> -->
       <z-m>-0.128284</z-m>
     </offsets>
   </model>

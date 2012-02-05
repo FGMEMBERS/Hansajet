@@ -39,6 +39,9 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
     <!-- the width of the turn knob detent (guess) -->
     <turn-knob-detent type="double">0.02</turn-knob-detent>
 
+    <!-- define "beam center" as cdi-deflection of +/- 0.10 -->
+    <beam-capture-width type="double">0.1</beam-capture-width>
+
     <!-- 9.3.3 bank angle limits -->
     <bank-angle-limit-default type="double">30.0</bank-angle-limit-default>
     <bank-angle-limit-vor type="double">6.0</bank-angle-limit-vor>
@@ -56,6 +59,8 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
     <altitude>instrumentation/altimeter[0]/pressure-alt-ft</altitude>
     <selected-course>instrumentation/nav[0]/radials/selected-deg</selected-course>
     <cdi-deflection>instrumentation/nav[0]/heading-needle-deflection-norm</cdi-deflection>
+    <is-loc>instrumentation/nav[0]/nav-loc</is-loc>
+    <signal-quality>instrumentation/nav[0]/signal-quality-norm</signal-quality>
 
     <locks>
       <roll>instrumentation/sp40/locks/roll</roll>
@@ -219,14 +224,14 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
     -->
   <flipflop>
     <type>RS</type>
-    <name>SP40:Radio Intercept Step 1</name>
+    <name>SP40:VORLOC Beam Edge Detector</name>
     <set>
       <property alias="/params/lights/radio"/>
       <equals>
         <!-- define "beam edge" as cdi-deflection of +/- 0.99 -->
         <property alias="/params/cdi-deflection"/>
         <value type="double">0.0</value>
-        <precision-value type="double">1.98</precision-value>
+        <precision-value type="double">1.980</precision-value>
       </equals>
     </set>
     <reset>
@@ -235,20 +240,43 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
         <property alias="/params/engaged"/>
       </not>
     </reset>
-    <output>instrumentation/sp40/radio-capture-step1</output>
+    <output>instrumentation/sp40/vorloc-beam-edge</output>
+  </flipflop>
+
+  <logic>
+    <name>SP40:VORLOC Beam Center Detector</name>
+    <input>
+      <property alias="/params/lights/radio"/>
+      <equals>
+        <property alias="/params/cdi-deflection"/>
+        <value type="double">0.0</value>
+        <precision-value alias="/params/beam-capture-width"/>
+      </equals>
+    </input>
+    <output>instrumentation/sp40/vorloc-beam-center</output>
+  </logic>
+
+  <flipflop>
+    <name>SP40:VORLOC Beam Center Timer</name>
+    <type>monostable</type>
+    <time>10.0</time>
+    <J><true/></J>
+    <clock><property>instrumentation/sp40/vorloc-beam-center</property></clock>
+    <R>
+      <not>
+        <property alias="/params/lights/radio"/>
+        <property alias="/params/engaged"/>
+      </not>
+    </R>
+    <output>instrumentation/sp40/vorloc-beam-center-timer</output>
   </flipflop>
 
   <flipflop>
+    <name>SP40:VORLOC Beam Center Lock</name>
     <type>RS</type>
-    <name>SP40:Radio Intercept Step 2</name>
     <set>
-      <property alias="/params/lights/radio"/>
-      <equals>
-        <!-- define "beam edge" as cdi-deflection of +/- 0.99 -->
-        <property alias="/params/cdi-deflection"/>
-        <value type="double">0.0</value>
-        <precision-value type="double">1.0</precision-value>
-      </equals>
+      <property>instrumentation/sp40/vorloc-beam-center</property>
+      <not><property>instrumentation/sp40/vorloc-beam-center-timer</property></not>
     </set>
     <reset>
       <not>
@@ -256,40 +284,34 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
         <property alias="/params/engaged"/>
       </not>
     </reset>
-    <output>instrumentation/sp40/radio-capture-step2</output>
-  </flipflop>
-
-  <flipflop>
-    <type>RS</type>
-    <name>SP40:Radio Captured</name>
-    <set>
-      <property alias="/params/lights/radio"/>
-      <equals>
-        <!-- define "beam edge" as cdi-deflection of +/- 0.99 -->
-        <property alias="/params/cdi-deflection"/>
-        <value type="double">0.0</value>
-        <precision-value type="double">0.01</precision-value>
-      </equals>
-    </set>
-    <reset>
-      <not>
-        <property alias="/params/lights/radio"/>
-        <property alias="/params/engaged"/>
-      </not>
-    </reset>
-    <output>instrumentation/sp40/radio-capture</output>
+    <output>instrumentation/sp40/vorloc-beam-center-lock</output>
   </flipflop>
 
   <!--  Monitor current magnetic heading for heading-hold -->
   <filter>
-    <name>AP:MagHeading Sample-and-Hold</name>
+    <name>SP40:MagHeading Sample-and-Hold</name>
     <debug>false</debug>
     <enable>
       <condition>
         <not>
           <or>
             <property alias="/params/lights/hdghold"/>
-            <property alias="/params/lights/radio"/>
+            <and>
+              <property alias="/params/lights/radio"/>
+              <not>
+                <or>
+                  <property>instrumentation/sp40/vorloc-beam-edge</property>
+                  <and>
+                    <property alias="/params/lights/radio"/>
+                    <property alias="/params/is-loc"/>
+                    <greater-than>
+                      <property alias="/params/signal-quality"/>
+                      <value>0.8</value>
+                    </greater-than>
+                  </and>
+                </or>
+              </not>
+            </and>
           </or>
         </not>
       </condition>
@@ -300,12 +322,27 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
     <gain>1.0</gain>
   </filter>
 
+  <filter>
+    <name>SP40:CDI Deflection Speed</name>
+    <type>derivative</type>
+    <filter-time>1.0</filter-time>
+    <input alias="/params/cdi-deflection"/>
+    <output>instrumentation/sp40/cdi-deflection-speed</output>
+  </filter>
+  <filter>
+    <name>SP40:CDI Deflection Speed</name>
+    <type>exponential</type>
+    <filter-time>0.2</filter-time>
+    <input>instrumentation/sp40/cdi-deflection-speed</input>
+    <output>instrumentation/sp40/cdi-deflection-speed-filtered</output>
+  </filter>
+
   <!-- ===================================================== -->
   <!-- =================== PITCH AXIS ====================== -->
   <!-- ===================================================== -->
   <!--  Monitor current pitch for pitch-hold -->
   <filter>
-    <name>AP:Pitch Sample-and-Hold</name>
+    <name>SP40:Pitch Sample-and-Hold</name>
     <debug>false</debug>
     <enable>
       <condition>
@@ -323,7 +360,7 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
 
   <!-- PITCH switch HFB 320 Operations Manual 9.1.1 -->
   <pi-simple-controller>
-    <name>AP:Pitch Offset</name>
+    <name>SP40:Pitch Offset</name>
     <debug>false</debug>
     <enable>
       <condition>
@@ -341,7 +378,7 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
   </pi-simple-controller>
 
   <filter>
-    <name>AP:Pitch Hold Target-Pitch</name>
+    <name>SP40:Pitch Hold Target-Pitch</name>
     <debug>false</debug>
     <enable>
       <condition>
@@ -360,7 +397,7 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
 
   <!--  Monitor current pressure altitude for altitude-hold -->
   <filter>
-    <name>AP:Pressure Altitude Monitor</name>
+    <name>SP40:Pressure Altitude Monitor</name>
     <debug>false</debug>
     <enable>
       <condition>
@@ -375,7 +412,7 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
   </filter>
 
   <pid-controller>
-    <name>AP:Altitude Hold</name>
+    <name>SP40:Altitude Hold</name>
     <debug>false</debug>
     <enable>
       <condition>
@@ -399,7 +436,7 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
   </pid-controller>
 
   <pid-controller>
-    <name>AP:Pitch Hold</name>
+    <name>SP40:Pitch Hold</name>
     <debug>false</debug>
     <enable>
       <condition>
@@ -454,15 +491,47 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
     <input>
       <property alias="/params/magnetic-heading"/>
     </input>
-    <!--TODO: reference>
-      <!- - radio and capture-stage1: 45deg intercept - ->
+
+    <reference>
+      <!-- radio has two modes:
+           1st: outside the "beam" aka full deflection of the cdi
+                fly current heading
+           2nd: inside the "beam" aka cdi moving in
+                intercept course with 45deg at half deflection
+      -->
       <condition>
-        <property alias="/params/lights/radio"/>
-        <!- - step2 includes step1 - ->
-        <property>instrumentation/sp40/radio-capture-step1</property>
+        <or>
+          <property>instrumentation/sp40/vorloc-beam-edge</property>
+          <and>
+            <property alias="/params/lights/radio"/>
+            <property alias="/params/is-loc"/>
+            <greater-than>
+              <property alias="/params/signal-quality"/>
+              <value>0.8</value>
+            </greater-than>
+          </and>
+        </or>
       </condition>
-      course + (90deg * deflection|max 45)
-    <reference-->
+      <expression>
+        <sum>
+          <property alias="/params/selected-course"/>
+          <max> <!-- clip intercept angle to [-45..45] -->
+            <min><!-- max(min(cdi*90),45),-45) -->
+              <product>
+                <value>45.0</value>
+                <property alias="/params/cdi-deflection"/>
+              </product>
+              <value>45.0</value>
+            </min>
+            <value>-45.0</value>
+          </max>
+        </sum>
+      </expression>
+      <period>
+        <min>0</min>
+        <max>360</max>
+      </period>
+    </reference>
 
     <reference>
       <!-- hdgel: use heading bug -->
@@ -509,16 +578,18 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
     <gain>2.0</gain>
     <min>
       <condition>
-        <property>instrumentation/sp40/radio-capture</property>
-        <!-- TODO: and navstation is vor -->
+        <property>instrumentation/sp40/vorloc-beam-center-lock</property>
+        <!-- and navstation is vor -->
+        <not><property alias="/params/is-loc"/></not>
       </condition>
       <value alias="/params/bank-angle-limit-vor"/>
       <scale type="double">-1.0</scale>
     </min>
     <min>
       <condition>
-        <property>instrumentation/sp40/radio-capture</property>
-        <!-- TODO: and navstation is loc -->
+        <property>instrumentation/sp40/vorloc-beam-center-lock</property>
+        <!-- and navstation is loc -->
+        <property alias="/params/is-loc"/>
       </condition>
       <value alias="/params/bank-angle-limit-loc"/>
       <scale type="double">-1.0</scale>
@@ -529,15 +600,17 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
     </min>
     <max>
       <condition>
-        <property>instrumentation/sp40/radio-capture</property>
-        <!-- TODO: and navstation is vor -->
+        <property>instrumentation/sp40/vorloc-beam-center-lock</property>
+        <!-- and navstation is vor -->
+        <not><property alias="/params/is-loc"/></not>
       </condition>
       <value alias="/params/bank-angle-limit-vor"/>
     </max>
     <max>
       <condition>
-        <property>instrumentation/sp40/radio-capture</property>
-        <!-- TODO: and navstation is loc -->
+        <property>instrumentation/sp40/vorloc-beam-center-lock</property>
+        <!-- and navstation is loc -->
+        <property alias="/params/is-loc"/>
       </condition>
       <value alias="/params/bank-angle-limit-loc"/>
     </max>
@@ -551,7 +624,7 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
         for the target roll
     -->
   <pid-controller>
-    <name>AP:Roll Hold</name>
+    <name>SP40:Roll Hold</name>
     <debug>false</debug>
     <enable>
       <property alias="/params/engaged"/>
@@ -577,7 +650,7 @@ TODO: 9.3: While TURN knob out of detend [..] a nose up signal proportional to t
   <!-- ====================================================================== -->
   <!-- Yaw Damper, automatic ball kicker -->
   <pid-controller>
-    <name>AP:Yaw Damper</name>
+    <name>SP40:Yaw Damper</name>
     <debug>false</debug>
     <enable>
       <condition>

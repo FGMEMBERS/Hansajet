@@ -11,7 +11,7 @@
     <two>instrumentation/rmi[0]/needle2-rotation-deg</two>
   </params>
 
-  <path>RMI.ac</path>
+  <path>Bendix-36109.ac</path>
 
   <animation>
     <type>material</type>

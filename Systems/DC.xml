@@ -88,7 +88,7 @@
           <value>5.18182</value> <!-- scale 28.5 down to 5.5  -->
         </quotient>
       </function>
-      <output>/instrumentation/attitude-indicator[0]/power-based-on-inhg</output>
+      <output>/instrumentation/attitude-indicator[0]/power</output>
     </fcs_function>
 
     <fcs_function name="systems/electrical/right-ai-gyro">
@@ -98,7 +98,7 @@
           <value>5.18182</value> <!-- scale 28.5 down to 5.5  -->
         </quotient>
       </function>
-      <output>/instrumentation/attitude-indicator[1]/power-based-on-inhg</output>
+      <output>/instrumentation/attitude-indicator[1]/power</output>
     </fcs_function>
 
   </channel>

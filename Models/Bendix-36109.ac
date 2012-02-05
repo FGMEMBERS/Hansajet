@@ -200,7 +200,7 @@ kids 0
 OBJECT poly
 name "Light"
 loc -0.00193727 0.0305596 0.0305036
-texture "RMI.png"
+texture "Bendix-36109.png"
 crease 45.000000
 numvert 82
 0.0070938 -0.000322632 0.00405206
@@ -1019,7 +1019,7 @@ kids 0
 OBJECT poly
 name "Two"
 loc 0.0005 -0.0338147 -0.088453
-texture "RMI2.png"
+texture "Bendix-36109-2.png"
 crease 45.000000
 numvert 5
 0 0.0648933 0.0884531
@@ -1040,7 +1040,7 @@ kids 0
 OBJECT poly
 name "Light"
 loc -0.00193727 0.0305312 -0.0304241
-texture "RMI.png"
+texture "Bendix-36109.png"
 crease 45.000000
 numvert 82
 0.00768696 0.00389069 0.000275683
@@ -1858,7 +1858,7 @@ refs 3
 kids 0
 OBJECT poly
 name "CompassRose"
-texture "RMI.png"
+texture "Bendix-36109.png"
 crease 45.000000
 numvert 36
 0.0001 0.00607768 -0.0344683
@@ -1941,7 +1941,7 @@ kids 0
 OBJECT poly
 name "Chassis"
 loc 0.00095 7.45058e-09 7.45058e-09
-texture "RMI.png"
+texture "Bendix-36109.png"
 crease 45.000000
 numvert 180
 -0.00085 0.0371626 -0.00655273
@@ -3216,7 +3216,7 @@ kids 0
 OBJECT poly
 name "One"
 loc 0.0009 -0.0338147 -0.099353
-texture "RMI2.png"
+texture "Bendix-36109-2.png"
 crease 45.000000
 numvert 19
 0 0.0501774 0.0976235
@@ -3310,7 +3310,7 @@ kids 0
 OBJECT poly
 name "Label"
 loc 5e-05 0.0261067 -2.04891e-08
-texture "RMI2.png"
+texture "Bendix-36109-2.png"
 crease 45.000000
 numvert 39
 0 0.0161036 -0.0185067

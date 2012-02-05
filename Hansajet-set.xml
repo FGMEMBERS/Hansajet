@@ -29,6 +29,7 @@
             <cockpit type="double">5</cockpit>
           </volume>
         </sound>
+        <!--radio-panel type="string">king</radio-panel-->
         <radio-panel type="string">collins</radio-panel>
       </Hansajet>
       <instrument-lighting>
@@ -135,7 +136,10 @@
         <path>Aircraft/Hansajet/Systems/Hansajet-flightdirector.xml</path>
       </autopilot>
       <autopilot>
-        <path>Aircraft/Hansajet/Systems/Hansajet-autopilot.xml</path>
+        <path>Aircraft/Hansajet/Systems/SperrySP40.xml</path>
+      </autopilot>
+      <autopilot>
+        <path>Aircraft/Hansajet/Systems/SperryC9.xml</path>
       </autopilot>
       <autopilot>
         <path>Aircraft/Hansajet/Systems/Hansajet-digitalfilters.xml</path>
@@ -167,6 +171,35 @@
       <setting>0.000</setting> 
       <setting>1.000</setting> 
     </spoilers>
+
+    <aircraft-data>
+      <path>consumables/fuel/used-kg</path>
+      <path>instrumentation/comm[0]/volume</path>
+      <path>instrumentation/comm[0]/frequencies/selected-mhz</path>
+      <path>instrumentation/comm[0]/frequencies/standby-mhz</path>
+      <path>instrumentation/comm[0]/test-btn</path>
+      <path>instrumentation/nav[0]/audio-btn</path>
+      <path>instrumentation/nav[0]/power-btn</path>
+      <path>instrumentation/nav[0]/frequencies/selected-mhz</path>
+      <path>instrumentation/nav[0]/frequencies/standby-mhz</path>
+      <path>instrumentation/comm[1]/volume</path>
+      <path>instrumentation/comm[1]/frequencies/selected-mhz</path>
+      <path>instrumentation/comm[1]/frequencies/standby-mhz</path>
+      <path>instrumentation/comm[1]/test-btn</path>
+      <path>instrumentation/nav[1]/audio-btn</path>
+      <path>instrumentation/nav[1]/power-btn</path>
+      <path>instrumentation/nav[1]/frequencies/selected-mhz</path>
+      <path>instrumentation/nav[1]/frequencies/standby-mhz</path>
+      <path>instrumentation/adf/frequencies/selected-khz</path>
+      <path>instrumentation/adf/frequencies/standby-khz</path>
+      <path>instrumentation/dme/frequencies/selected-mhz</path>
+      <path>instrumentation/dme/switch-position</path>
+      <path>instrumentation/nav[0]/radials/selected-deg</path>
+      <path>autopilot/settings/heading-bug-deg</path>
+      <path>instrumentation/heading-indicator/offset-deg</path>
+      <path>instrumentation/heading-indicator/mode-magnetic</path>
+      <path>instrumentation/heading-indicator/voradf-position</path>
+    </aircraft-data>
 
     <help include="help.xml"/>
     <tutorials include="Tutorials/tutorials.xml"/>
@@ -292,21 +325,27 @@
   </input>
 
   <controls>
+    <flight>
+      <speedbrake type="bool">false</speedbrake>
+    </flight>
     <engines>
       <off type="bool">0</off>
     </engines>
     <fuel>
-      <fuel-pump-test type="bool">0</fuel-pump-test>
+      <fuel-pump-test type="bool">false</fuel-pump-test>
+      <cross-feed type="bool">false</cross-feed>
     </fuel>
     <gear>
-      <brake-parking type="bool">1</brake-parking>
+      <brake-parking type="bool">true</brake-parking>
+      <brake-parking-position type="double">1.0</brake-parking-position>
+      <emergency-gear-down type="bool">false</emergency-gear-down>
     </gear>
     <lighting>
-      <landing-lights type="bool" n="0">0</landing-lights>
-      <landing-lights type="bool" n="1">0</landing-lights>
-      <taxi-light type="bool" >0</taxi-light>
-      <nav-lights type="bool">0</nav-lights>
-      <beacon type="bool">0</beacon>
+      <landing-lights type="bool" n="0">false</landing-lights>
+      <landing-lights type="bool" n="1">false</landing-lights>
+      <taxi-light type="bool" >false</taxi-light>
+      <nav-lights type="bool">false</nav-lights>
+      <beacon type="bool">false</beacon>
     </lighting>
     <electric>
       <generator n="0" type="int">0</generator>
@@ -556,6 +595,11 @@
       <volume-norm type="double">0.5</volume-norm>
     </adf>
 
+    <heading-indicator>
+      <mode-magnetic type="bool">true</mode-magnetic>
+      <sync-knob type="double">0.0</sync-knob>
+    </heading-indicator>
+
   </instrumentation>
 
   <nasal>
@@ -568,6 +612,18 @@
       <script><![CDATA[
         kr87.new("/instrumentation/adf[0]");
         kr87.new("/instrumentation/adf[1]");
+        SelectorSwitch.new( 
+          "instrumentation/heading-indicator[0]/voradf-position",
+          "instrumentation/heading-indicator[0]/needle1-rotation-deg", [
+          "instrumentation/nav[0]/relative-bearing-deg",
+          "instrumentation/adf[0]/indicated-bearing-deg"
+          ] );
+        SelectorSwitch.new( 
+          "instrumentation/heading-indicator[0]/voradf-position",
+          "instrumentation/heading-indicator[0]/needle2-rotation-deg", [
+          "instrumentation/adf[0]/indicated-bearing-deg",
+          "instrumentation/nav[0]/relative-bearing-deg"
+          ]);
         SelectorSwitch.new( 
           "instrumentation/rmi[0]/needle1-switch-position",
           "instrumentation/rmi[0]/needle1-rotation-deg", [

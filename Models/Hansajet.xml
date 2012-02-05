@@ -524,7 +524,7 @@
   <animation>
     <type>rotate</type>
     <object-name>EmergencyGearLever</object-name>
-    <property>controls/gear/emergency-gear-down</property>
+    <property>controls/gear/emergency-gear-down-position</property>
     <factor>80</factor>
     <center>
       <x-m>-6.78893</x-m>
@@ -546,8 +546,14 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>nasal</command>
-        <script>Hansajet.smoothToggleProperty("/controls/gear/emergency-gear-down");</script>
+        <command>property-toggle</command>
+        <property>controls/gear/emergency-gear-down</property>
+      </binding>
+      <binding>
+        <command>property-interpolate</command>
+        <property>controls/gear/emergency-gear-down-position</property>
+        <property>controls/gear/emergency-gear-down</property>
+        <time>1.0</time>
       </binding>
     </action>
   </animation>
@@ -610,7 +616,7 @@
   <animation>
     <type>rotate</type>
     <object-name>SpeedbrakeLever</object-name>
-    <property>controls/flight/speedbrake</property>
+    <property>controls/flight/speedbrake-position</property>
     <factor>70</factor>
     <center>
       <x-m>-6.78893</x-m>
@@ -632,8 +638,14 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>nasal</command>
-        <script>Hansajet.smoothToggleProperty("/controls/flight/speedbrake");</script>
+        <command>property-toggle</command>
+        <property>controls/flight/speedbrake</property>
+      </binding>
+      <binding>
+        <command>property-interpolate</command>
+        <property>controls/flight/speedbrake-position</property>
+        <property>controls/flight/speedbrake</property>
+        <time>1.0</time>
       </binding>
     </action>
   </animation>
@@ -641,7 +653,7 @@
   <animation>
     <type>rotate</type>
     <object-name>ParkbreakLever</object-name>
-    <property>controls/gear/brake-parking</property>
+    <property>controls/gear/brake-parking-position</property>
     <factor>90</factor>
     <center>
       <x-m>-6.78893</x-m>
@@ -663,8 +675,14 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>nasal</command>
-        <script>Hansajet.smoothToggleProperty("/controls/gear/brake-parking");</script>
+        <command>property-toggle</command>
+        <property>controls/gear/brake-parking</property>
+      </binding>
+      <binding>
+        <command>property-interpolate</command>
+        <property>controls/gear/brake-parking-position</property>
+        <property>controls/gear/brake-parking</property>
+        <time>1.0</time>
       </binding>
     </action>
   </animation>
@@ -672,7 +690,7 @@
   <animation>
     <type>rotate</type>
     <object-name>CrossfeedLever</object-name>
-    <property>controls/fuel/cross-feed</property>
+    <property>controls/fuel/cross-feed-position</property>
     <factor>90</factor>
     <center>
       <x-m>-6.78893</x-m>
@@ -694,8 +712,14 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>nasal</command>
-        <script>Hansajet.smoothToggleProperty("/controls/fuel/cross-feed");</script>
+        <command>property-toggle</command>
+        <property>controls/fuel/cross-feed</property>
+      </binding>
+      <binding>
+        <command>property-interpolate</command>
+        <property>controls/fuel/cross-feed-position</property>
+        <property>controls/fuel/cross-feed</property>
+        <time>1.0</time>
       </binding>
     </action>
   </animation>

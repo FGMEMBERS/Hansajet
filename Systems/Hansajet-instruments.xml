@@ -43,20 +43,20 @@
   <attitude-indicator>
     <name>attitude-indicator</name>
     <number>0</number>
-    <suction>instrumentation/attitude-indicator[0]/power-based-on-inhg</suction>
+    <suction>instrumentation/attitude-indicator[0]/power</suction>
   </attitude-indicator>
 
   <attitude-indicator>
     <name>attitude-indicator</name>
     <number>1</number>
-    <suction>instrumentation/attitude-indicator[1]/power-based-on-inhg</suction>
+    <suction>instrumentation/attitude-indicator[1]/power</suction>
   </attitude-indicator>
 
-  <heading-indicator>
+  <!--heading-indicator>
     <name>heading-indicator</name>
     <number>0</number>
-    <suction>systems/vacuum[0]/suction-inhg</suction>
-  </heading-indicator>
+    <power-norm>instrumentation/heading-indicator/power</power-norm>
+  </heading-indicator-->
 
   <slip-skid-ball>
     <name>slip-skid-ball</name>

@@ -15,5 +15,11 @@
       <max>9</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+      <command>property-interpolate</command>
+      <property alias="../../../../params/position"/>
+      <property alias="../../../../params/value"/>
+      <time>0.2</time>
+    </binding>
   </action>
 </PropertyList>

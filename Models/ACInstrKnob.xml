@@ -3,6 +3,7 @@
 
   <params>
     <value>controls/electric/ac-instr-source</value>
+    <position>controls/electric/ac-instr-source-position</position>
   </params>
 
   <model include="Knob1.xml"/>

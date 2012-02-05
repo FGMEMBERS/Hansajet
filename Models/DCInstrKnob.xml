@@ -3,6 +3,7 @@
 
   <params>
     <value>instrumentation/overhead-panel/dc-instr-source</value>
+    <position>instrumentation/overhead-panel/dc-instr-source-position</position>
   </params>
 
   <model include="Knob1.xml"/>
