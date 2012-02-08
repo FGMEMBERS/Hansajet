@@ -21,55 +21,6 @@
   <property>/consumables/fuel/tank[3]/level-lbs</property>
   <property>/consumables/fuel/tank[4]/level-lbs</property>
 
-  <channel name="Fuel Quantity Sensors">
-
-    <!-- Left Tip -->
-    <switch name="systems/fuel/tank[0]/empty">
-      <default value="0.0"/>
-      <test value="1.0">
-        /consumables/fuel/tank[0]/level-lbs lt 10.0
-      </test>
-      <output>/consumables/fuel/tank[0]/empty</output>
-    </switch>
-
-    <!-- Left Wing -->
-    <switch name="systems/fuel/tank[1]/empty">
-      <default value="0.0"/>
-      <test value="1.0">
-        /consumables/fuel/tank[1]/level-lbs lt 10.0
-      </test>
-      <output>/consumables/fuel/tank[1]/empty</output>
-    </switch>
-
-    <!-- Fuselage -->
-    <switch name="systems/fuel/tank[2]/empty">
-      <default value="0.0"/>
-      <test value="1.0">
-        /consumables/fuel/tank[2]/level-lbs lt 10.0
-      </test>
-      <output>/consumables/fuel/tank[2]/empty</output>
-    </switch>
-
-    <!-- Right Wing -->
-    <switch name="systems/fuel/tank[3]/empty">
-      <default value="0.0"/>
-      <test value="1.0">
-        /consumables/fuel/tank[3]/level-lbs lt 10.0
-      </test>
-      <output>/consumables/fuel/tank[3]/empty</output>
-    </switch>
-
-    <!-- Right Tip -->
-    <switch name="systems/fuel/tank[4]/empty">
-      <default value="0.0"/>
-      <test value="1.0">
-        /consumables/fuel/tank[4]/level-lbs lt 10.0
-      </test>
-      <output>/consumables/fuel/tank[4]/empty</output>
-    </switch>
-
-  </channel>
-
   <channel name="Fuel Pressure Left">
 
     <!-- create ideal pump output if switch is on and fuel available -->

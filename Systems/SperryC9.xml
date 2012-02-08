@@ -14,6 +14,7 @@
     <bus-voltage>systems/electrical/bus[0]/voltage-v</bus-voltage>
     <spin>instrumentation/heading-indicator/spin</spin>
     <internal-heading>instrumentation/heading-indicator/internal-heading-deg</internal-heading>
+    <indicated-heading>instrumentation/heading-indicator/indicated-heading-deg</indicated-heading>
   </params>
 
   <pi-simple-controller>
@@ -74,7 +75,7 @@
   <pi-simple-controller>
     <name>SperryC9:heading offset</name>
     <debug>false</debug>
-    <reference>instrumentation/heading-indicator/indicated-heading-deg</reference>
+    <reference alias="/params/indicated-heading"/>
     <input>/orientation/heading-magnetic-deg</input>
     <output>instrumentation/heading-indicator/heading-offset-deg</output>
     <Kp>1.0</Kp>
@@ -84,9 +85,39 @@
     </period>
   </pi-simple-controller>
 
+  <!-- 
+    Off flag, if
+    not serviceable
+    spin less than 0.9
+    not mode magnetic
+    heading-offet greater than 5deg
+  -->
+  <logic>
+    <name>SperryC9:Off</name>
+    <input>
+      <not>
+        <and>
+         <property>instrumentation/heading-indicator/serviceable</property>
+         <property>instrumentation/heading-indicator/mode-magnetic</property>
+         <greater-than>
+           <property alias="/params/spin"/>
+           <value>0.9</value>
+         </greater-than>
+         <equals>
+            <property>instrumentation/heading-indicator/heading-offset-deg</property>
+            <value>0.0</value>
+            <precision-value>10.0</precision-value>
+          </equals>
+        </and>
+      </not>
+    </input>
+    <output>instrumentation/heading-indicator/off</output>
+  </logic>
+
   <logic>
     <name>SperryC9:sync down command</name>
     <input> 
+      <property>instrumentation/heading-indicator/mode-magnetic</property>
       <or>
         <greater-than>
           <property>instrumentation/heading-indicator/heading-offset-deg</property>
@@ -107,6 +138,7 @@
   <logic>
     <name>SperryC9:sync up command</name>
     <input> 
+      <property>instrumentation/heading-indicator/mode-magnetic</property>
       <or>
         <less-than>
           <property>instrumentation/heading-indicator/heading-offset-deg</property>
@@ -128,7 +160,12 @@
     <name>SperryC9:Time Based Offset</name>
     <type>gain</type>
     <gain>1.0</gain>
-    <input>
+    <enable>
+      <condition>
+        <property alias="/params/serviceable"/>
+      </condition>
+    </enable>
+    <input> <!-- manual sync: 10deg per second -->
       <condition>
         <not-equals>
           <property>instrumentation/heading-indicator/sync-knob</property>
@@ -137,21 +174,53 @@
         </not-equals>
       </condition>
       <property>instrumentation/heading-indicator/sync-knob</property>
-      <scale>3.0</scale>
+      <scale>10.0</scale> <!-- guess -->
     </input>
-    <input>
+    <input> <!-- fast automatic sync: 180 deg per minute -->
       <condition>
         <property>instrumentation/heading-indicator/sync-up-command</property>
+        <not-equals>
+          <property>instrumentation/heading-indicator/heading-offset-deg</property>
+          <value>0.0</value>
+          <precision-value>10.0</precision-value>
+        </not-equals>
+      </condition>
+      <value>3.0</value>
+    </input>
+    <input><!-- slow automatic sync: 3 deg per minute -->
+      <condition>
+        <property>instrumentation/heading-indicator/sync-up-command</property>
+        <equals>
+          <property>instrumentation/heading-indicator/heading-offset-deg</property>
+          <value>0.0</value>
+          <precision-value>10.0</precision-value>
+        </equals>
       </condition>
       <value>0.05</value>
     </input>
-    <input>
+    <input> <!-- fast automatic sync: 180 deg per minute -->
       <condition>
         <property>instrumentation/heading-indicator/sync-down-command</property>
+        <not-equals>
+          <property>instrumentation/heading-indicator/heading-offset-deg</property>
+          <value>0.0</value>
+          <precision-value>10.0</precision-value>
+        </not-equals>
+      </condition>
+      <value>-3.0</value>
+    </input>
+    <input><!-- slow automatic sync: 3 deg per minute -->
+      <condition>
+        <property>instrumentation/heading-indicator/sync-down-command</property>
+        <equals>
+          <property>instrumentation/heading-indicator/heading-offset-deg</property>
+          <value>0.0</value>
+          <precision-value>10.0</precision-value>
+        </equals>
       </condition>
       <value>-0.05</value>
     </input>
-    <input>0</input>
+    <input>0</input> <!-- no syncing -->
     <output>instrumentation/heading-indicator/servo-control-degps</output>
   </filter>
   <!-- time based drift: 15*sin(latitude)*elapsed-sec/3600 -->
@@ -188,6 +257,7 @@
     <name>SperryC9:Indicated Heading Summer</name>
     <type>gain</type>
     <gain>1.0</gain>
+    <initialize-to>output</initialize-to>
     <input>
       <expression>
         <sum>
@@ -197,7 +267,7 @@
         </sum>
       </expression>
     </input>
-    <output>instrumentation/heading-indicator/indicated-heading-deg</output>
+    <output alias="/params/indicated-heading"/>
     <period>
       <min>0.0</min>
       <max>360.0</max>

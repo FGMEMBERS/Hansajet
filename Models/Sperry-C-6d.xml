@@ -3,6 +3,7 @@
   <params>
     <indicated-heading>instrumentation/heading-indicator/indicated-heading-deg</indicated-heading>
     <serviceable>instrumentation/heading-indicator/serviceable</serviceable>
+    <off>instrumentation/heading-indicator/off</off>
     <spin>instrumentation/heading-indicator/spin</spin>
     <one>instrumentation/heading-indicator[0]/needle1-rotation-filtered-deg</one>
     <two>instrumentation/heading-indicator[0]/needle2-rotation-filtered-deg</two>
@@ -117,13 +118,7 @@
     <type>select</type>
     <object-name>Off</object-name>
     <condition>
-      <not>
-        <property alias="/params/serviceable"/>
-        <greater-than>
-          <property alias="/params/spin"/>
-          <value>0.9</value>
-        </greater-than>
-      </not>
+      <property alias="/params/off"/>
     </condition>
   </animation>
 
