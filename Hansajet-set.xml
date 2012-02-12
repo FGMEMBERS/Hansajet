@@ -199,6 +199,8 @@
       <path>instrumentation/heading-indicator/indicated-heading-deg</path>
       <path>instrumentation/heading-indicator/mode-magnetic</path>
       <path>instrumentation/heading-indicator/voradf-position</path>
+      <path>instrumentation/altimeter[0]/setting-hpa</path>
+      <path>instrumentation/altimeter[1]/setting-hpa</path>
     </aircraft-data>
 
     <help include="help.xml"/>
@@ -481,11 +483,11 @@
   <instrumentation>
     <altimeter n="0">
       <serviceable type="bool" archive="y">true</serviceable>
-      <setting-inhg type="double" archive="y">29.92</setting-inhg>
+      <setting-hpa type="double" archive="y">1013</setting-hpa>
     </altimeter>
     <altimeter n="1">
       <serviceable type="bool" archive="y">true</serviceable>
-      <setting-inhg type="double" archive="y">29.92</setting-inhg>
+      <setting-hpa type="double" archive="y">1013</setting-hpa>
     </altimeter>
     <airspeed-indicator n="0">
       <serviceable type="bool" archive="y">true</serviceable>

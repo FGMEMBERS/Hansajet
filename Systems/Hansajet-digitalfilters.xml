@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<PropertyList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Docs/XMLSchema/autopilot.xsd">
+<PropertyList>
   <!-- ========================================================================== -->
   <!-- Other filters, not related to the autopilot                                -->
   <!-- ========================================================================== -->
@@ -220,5 +220,21 @@ target-oil-temp = egt + (rho_air*ias*C+D)*(ambient-egt)
       <scale>-400</scale>
       <offset>500</offset>
     </filter-time>
+  </filter>
+
+  <filter>
+    <name>ALTIMETER1:hpa2inhg converter</name>
+    <type>gain</type>
+    <gain>0.0295287441401</gain>
+    <input>instrumentation/altimeter[0]/setting-hpa</input>
+    <output>instrumentation/altimeter[0]/setting-inhg</output>
+  </filter>
+
+  <filter>
+    <name>ALTIMETER2:hpa2inhg converter</name>
+    <type>gain</type>
+    <gain>0.0295287441401</gain>
+    <input>instrumentation/altimeter[1]/setting-hpa</input>
+    <output>instrumentation/altimeter[1]/setting-inhg</output>
   </filter>
 </PropertyList>

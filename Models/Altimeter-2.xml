@@ -2,7 +2,7 @@
 <PropertyList>
   <params>
     <altitude>instrumentation/altimeter[1]/indicated-altitude-ft</altitude>
-    <subscale>instrumentation/altimeter[1]/setting-inhg</subscale>
+    <subscale>instrumentation/altimeter[1]/setting-hpa</subscale>
   </params>
 
   <path>Altimeter.ac</path>
@@ -84,7 +84,8 @@
     <type>textranslate</type>
     <object-name>Subscale1</object-name>
     <property alias="../../params/subscale"/>
-    <factor>-3.385695187165775401</factor>
+    <factor>-0.1</factor>
+    <step>1</step>
     <axis>
       <x>0</x>
       <y>1</y>
@@ -96,7 +97,8 @@
     <type>textranslate</type>
     <object-name>Subscale10</object-name>
     <property alias="../../params/subscale"/>
-    <factor>-0.3385695187165775401</factor>
+    <factor>-0.01</factor>
+    <step>10</step>
     <axis>
       <x>0</x>
       <y>1</y>
@@ -108,7 +110,8 @@
     <type>textranslate</type>
     <object-name>Subscale100</object-name>
     <property alias="../../params/subscale"/>
-    <factor>-0.03385695187165775401</factor>
+    <factor>-0.001</factor>
+    <step>100</step>
     <axis>
       <x>0</x>
       <y>1</y>
@@ -120,7 +123,8 @@
     <type>textranslate</type>
     <object-name>Subscale1000</object-name>
     <property alias="../../params/subscale"/>
-    <factor>-0.003385695187165775401</factor>
+    <factor>-0.0001</factor>
+    <step>1000</step>
     <axis>
       <x>0</x>
       <y>1</y>
@@ -138,10 +142,10 @@
         <binding>
           <command>property-adjust</command>
           <property alias="../../../../params/subscale"/>
-          <step>-0.02953603158933859822</step>
-          <min>26</min>
-          <max>33</max>
-          <wrap>1</wrap>
+          <step>-1</step>
+          <min>980</min>
+          <max>1050</max>
+          <wrap>0</wrap>
         </binding>
       </action>
       <action>
@@ -150,10 +154,10 @@
         <binding>
           <command>property-adjust</command>
           <property alias="../../../../params/subscale"/>
-          <step>-0.2953603158933859822</step>
-          <min>26</min>
-          <max>33</max>
-          <wrap>1</wrap>
+          <step>-1</step>
+          <min>980</min>
+          <max>1050</max>
+          <wrap>0</wrap>
         </binding>
       </action>
   </animation>
@@ -168,10 +172,10 @@
         <binding>
           <command>property-adjust</command>
           <property alias="../../../../params/subscale"/>
-          <step>0.02953603158933859822</step>
-          <min>26</min>
-          <max>33</max>
-          <wrap>1</wrap>
+          <step>1</step>
+          <min>980</min>
+          <max>1050</max>
+          <wrap>0</wrap>
         </binding>
       </action>
       <action>
@@ -180,10 +184,10 @@
         <binding>
           <command>property-adjust</command>
           <property alias="../../../../params/subscale"/>
-          <step>0.2953603158933859822</step>
-          <min>26</min>
-          <max>33</max>
-          <wrap>1</wrap>
+          <step>1</step>
+          <min>980</min>
+          <max>1050</max>
+          <wrap>0</wrap>
         </binding>
       </action>
   </animation>
