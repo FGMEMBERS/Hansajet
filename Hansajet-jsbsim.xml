@@ -852,6 +852,7 @@ wing tip  NACA 63A(1.8)11
  <system file="Engines"/>
  <system file="DC"/>
  <system file="CG"/>
+ <system file="Gear"/>
 <!--
  <system file="AC"/>
  <system file="AC400Hz"/>

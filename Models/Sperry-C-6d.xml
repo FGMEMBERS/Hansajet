@@ -65,7 +65,7 @@
     <type>rotate</type>
     <object-name>VorAdf</object-name>
     <property alias="/params/voradf-position"/>
-    <factor>180.0</factor>
+    <factor>90.0</factor>
     <axis>
       <x>1</x>
     </axis>
@@ -84,8 +84,12 @@
       <button>0</button>
       <repeatable>false</repeatable>
       <binding>
-        <command>property-toggle</command>
+        <command>property-adjust</command>
         <property alias="/params/voradf"/>
+        <step>1</step>
+        <min>0</min>
+        <max>4</max>
+        <wrap>1</wrap>
       </binding>
       <binding>
         <command>property-interpolate</command>

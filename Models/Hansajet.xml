@@ -1025,7 +1025,7 @@
   <animation>
     <type>spin</type>
     <object-name>NoseWheel</object-name>
-    <property>gear/gear[0]/spin-rps</property>
+    <property>fdm/jsbsim/gear/unit[0]/wheel-speed-rps</property>
     <factor>-60</factor>
     <axis>
       <y>1</y>
@@ -1112,7 +1112,7 @@
   <animation>
     <type>spin</type>
     <object-name>Wheel.L</object-name>
-    <property>gear/gear[1]/spin-rps</property>
+    <property>fdm/jsbsim/gear/unit[1]/wheel-speed-rps</property>
     <factor>-60</factor>
     <axis>
       <y>1</y>
@@ -1199,7 +1199,7 @@
   <animation>
     <type>spin</type>
     <object-name>Wheel.R</object-name>
-    <property>gear/gear[2]/spin-rps</property>
+    <property>fdm/jsbsim/gear/unit[2]/wheel-speed-rps</property>
     <factor>60</factor>
     <axis>
       <y>-1</y>
