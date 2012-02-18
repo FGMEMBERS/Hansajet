@@ -2,7 +2,7 @@
 <PropertyList>
   <params>
     <value>instrumentation/airspeed-indicator[1]/indicated-speed-kt</value>
-    <value2>instrumentation/airspeed-indicator[1]/vmo-kt</value2>
+    <value2>instrumentation/airspeed-indicator[1]/airspeed-limit-kt</value2>
   </params>
 
   <path>AirspeedIndicator.ac</path>
@@ -55,12 +55,8 @@
         <dep>0</dep>
       </entry>
       <entry>
-        <ind>650</ind>
-        <dep>186.53</dep>
-      </entry>
-      <entry>
-        <ind>700</ind>
-        <dep>197.67</dep>
+        <ind>50</ind>
+        <dep>-152.6148</dep>
       </entry>
     </interpolation>
     <axis>

@@ -7,6 +7,10 @@
     <number>0</number>
     <total-pressure>systems/pitot[0]/total-pressure-inhg</total-pressure>
     <static-pressure>systems/static[0]/pressure-inhg</static-pressure>
+    <has-overspeed-indicator>1</has-overspeed-indicator>
+    <ias-limit>320.0</ias-limit>
+    <mach-limit>0.76</mach-limit>
+    <alt-threshold>25000</alt-threshold>
   </airspeed-indicator>
 
   <airspeed-indicator>
@@ -14,6 +18,10 @@
     <number>1</number>
     <total-pressure>systems/pitot[1]/total-pressure-inhg</total-pressure>
     <static-pressure>systems/static[1]/pressure-inhg</static-pressure>
+    <has-overspeed-indicator>1</has-overspeed-indicator>
+    <ias-limit>320.0</ias-limit>
+    <mach-limit>0.76</mach-limit>
+    <alt-threshold>25000</alt-threshold>
   </airspeed-indicator>
 
   <altimeter>
