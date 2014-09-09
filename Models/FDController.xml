@@ -1,0 +1,200 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<!--
+-->
+<PropertyList>
+
+  <path>FDController.ac</path>
+
+  <animation>
+    <type>material</type>
+    <object-name>Chassis</object-name>
+    <object-name>Trim</object-name>
+    <object-name>Mode</object-name>
+    <emission include="CockpitLightEmissionInclude.xml"/>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Mode</object-name>
+    <property>autopilot/flightdirector/switch-position</property>
+    <factor>-32</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.0073302</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Trim</object-name>
+    <property>autopilot/flightdirector/trim-position</property>
+    <factor>-1</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>-0.0312302</y-m>
+      <z-m>-0.0073302</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Alt</object-name>
+    <property>autopilot/flightdirector/altitude-hold</property>
+    <factor>-32</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>0.00255068</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.00871898</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <object-name>ModePickLeft</object-name>
+    <type>pick</type>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/switch-position</property>
+        <step>-1</step>
+        <min>0</min>
+        <max>5</max>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <object-name>ModePickRight</object-name>
+    <type>pick</type>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/switch-position</property>
+        <step>1</step>
+        <min>0</min>
+        <max>5</max>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <object-name>TrimPickLeft</object-name>
+    <type>pick</type>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>-1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <object-name>TrimPickRight</object-name>
+    <type>pick</type>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <object-name>Trim</object-name>
+    <type>pick</type>
+    <visible>true</visible>
+    <action>
+      <button>3</button>
+      <repeatable>true</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+    <action>
+      <button>4</button>
+      <repeatable>true</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property>autopilot/flightdirector/trim-position</property>
+        <step>-1</step>
+        <min>-180</min>
+        <max>180</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Alt</object-name>
+    <property>autopilot/flightdirector/altitude-hold</property>
+    <factor>-32</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>0.00289014</x-m>
+      <y-m>0.0334909</y-m>
+      <z-m>-0.00888758</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <object-name>AltPick</object-name>
+    <type>pick</type>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property>autopilot/flightdirector/altitude-hold</property>
+      </binding>
+    </action>
+  </animation>
+
+</PropertyList>
+
+
