@@ -7,9 +7,16 @@
     <description>Hamburger Flugzeugbau HFB Hansajet</description>
     <author>Torsten Dreyer</author>
     <aircraft-version>0.1</aircraft-version>
-    <status>early development</status>
+    <status>beta</status>
     <flight-model>jsb</flight-model>
     <aero>Hansajet-jsbsim</aero>
+
+    <rating>
+      <FDM type="int">     2 </FDM>
+      <systems type="int"> 3 </systems>
+      <cockpit type="int"> 3 </cockpit>
+      <model type="int">   2 </model>
+    </rating>
 
     <startup>
       <splash-texture>Aircraft/Hansajet/Splash.rgb</splash-texture>
