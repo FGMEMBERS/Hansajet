@@ -240,9 +240,20 @@
           <condition>
             <property>devices/status/keyboard/alt</property>
           </condition>
-          <command>nasal</command>
-          <script>Autopilot.sp40.toggleAltitude();</script>
+          <command>property-assign</command>
+          <property>instrumentation/sp40/alt-switch</property>
+          <value type="int">1</value>
         </binding>
+        <mod-up>
+          <binding>
+            <condition>
+              <property>devices/status/keyboard/alt</property>
+            </condition>
+            <command>property-assign</command>
+            <property>instrumentation/sp40/alt-switch</property>
+            <value type="int">0</value>
+          </binding>
+        </mod-up>
       </key>
 
       <key n="103">
@@ -252,9 +263,20 @@
           <condition>
             <property>devices/status/keyboard/alt</property>
           </condition>
-          <command>nasal</command>
-          <script>Autopilot.sp40.lockDgHeading();</script>
+          <command>property-assign</command>
+          <property>instrumentation/sp40/hdgsel-switch</property>
+          <value type="int">1</value>
         </binding>
+        <mod-up>
+          <binding>
+            <condition>
+              <property>devices/status/keyboard/alt</property>
+            </condition>
+            <command>property-assign</command>
+            <property>instrumentation/sp40/hdgsel-switch</property>
+            <value type="int">0</value>
+          </binding>
+        </mod-up>
       </key>
 
       <key n="104">
@@ -264,9 +286,20 @@
           <condition>
             <property>devices/status/keyboard/alt</property>
           </condition>
-          <command>nasal</command>
-          <script>Autopilot.sp40.lockMagHeading();</script>
+          <command>property-assign</command>
+          <property>instrumentation/sp40/hdghold-switch</property>
+          <value type="int">1</value>
         </binding>
+        <mod-up>
+          <binding>
+            <condition>
+              <property>devices/status/keyboard/alt</property>
+            </condition>
+            <command>property-assign</command>
+            <property>instrumentation/sp40/hdghold-switch</property>
+            <value type="int">0</value>
+          </binding>
+        </mod-up>
       </key>
 
       <key n="110">
@@ -276,9 +309,20 @@
           <condition>
             <property>devices/status/keyboard/alt</property>
           </condition>
-          <command>nasal</command>
-          <script>Autopilot.sp40.lockNav();</script>
+          <command>property-assign</command>
+          <property>instrumentation/sp40/radio-switch</property>
+          <value type="int">1</value>
         </binding>
+        <mod-up>
+          <binding>
+            <condition>
+              <property>devices/status/keyboard/alt</property>
+            </condition>
+            <command>property-assign</command>
+            <property>instrumentation/sp40/radio-switch</property>
+            <value type="int">0</value>
+          </binding>
+        </mod-up>
       </key>
 
       <key n="89">
@@ -670,7 +714,6 @@
           "systems/electrical/bus[1]/generator[0]/voltage-v",
           "systems/electrical/bus[1]/generator[1]/voltage-v"
           ]);
-
       ]]></script>
     </Hansajet>
   </nasal>
