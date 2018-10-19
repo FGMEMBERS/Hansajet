@@ -50,7 +50,7 @@ var set_properties = func( properties_to_set, delay = 0, idx = 0 ) {
         pv["controls/engines/engine[0]/throttle"] = 0;
         pv["controls/engines/engine[1]/throttle"] = 0;
         append( properties_to_set, pv );
-        settimer( func { set_properties(properties_to_set) }, 5.0 );
+        settimer( func { set_properties(properties_to_set) }, 2.0 );
       }
     ]]></script></nasal>
 
@@ -87,7 +87,7 @@ var set_properties = func( properties_to_set, delay = 0, idx = 0 ) {
         pv["controls/electric/battery[0]"] = 1;
         pv["controls/electric/battery[1]"] = 1;
         append( properties_to_set, pv );
-        settimer( func { set_properties(properties_to_set) }, 5.0 );
+        settimer( func { set_properties(properties_to_set) }, 2.0 );
       }
     ]]></script></nasal>
 
@@ -130,7 +130,7 @@ var set_properties = func( properties_to_set, delay = 0, idx = 0 ) {
         pv["systems/fuel/fuel-pump[3]/enabled"] = 1;
         pv["systems/fuel/fuel-pump[5]/enabled"] = 1;
         append( properties_to_set, pv );
-        settimer( func { set_properties(properties_to_set) }, 5.0 );
+        settimer( func { set_properties(properties_to_set) }, 2.0 );
       }
     ]]></script></nasal>
 
@@ -218,7 +218,7 @@ var set_properties = func( properties_to_set, delay = 0, idx = 0 ) {
         pv["controls/engines/engine[1]/starter-switch"] = 0;
         append( properties_to_set, pv );
 
-        settimer( func { set_properties(properties_to_set,3) }, 5.0 );
+        settimer( func { set_properties(properties_to_set,3) }, 2.0 );
       }
     ]]></script></nasal>
 
@@ -265,7 +265,7 @@ var set_properties = func( properties_to_set, delay = 0, idx = 0 ) {
         pv["controls/engines/engine[0]/throttle"] = 0.11;
         pv["controls/engines/engine[1]/throttle"] = 0.11;
         append( properties_to_set, pv );
-        settimer( func { set_properties(properties_to_set) }, 5.0 );
+        settimer( func { set_properties(properties_to_set) }, 2.0 );
       }
     ]]></script></nasal>
 
@@ -393,7 +393,7 @@ var set_properties = func( properties_to_set, delay = 0, idx = 0 ) {
         pv["controls/electric/generator-position[0]"] = 1;
         pv["controls/electric/generator-position[1]"] = 1;
         append( properties_to_set, pv );
-        settimer( func { set_properties(properties_to_set) }, 5.0 );
+        settimer( func { set_properties(properties_to_set) }, 2.0 );
       }
     ]]></script></nasal>
 
