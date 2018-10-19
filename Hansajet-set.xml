@@ -225,13 +225,60 @@
   <input>
     <keyboard>
       <key n="1">
-      <name>Ctrl-A</name>
-      <desc>Toggle AFC engaged lock</desc>
-      <binding>
-       <command>property-toggle</command>
-       <property>instrumentation/sp40/afcs-engage-switch</property>
-      </binding>
+        <name>Ctrl-A</name>
+        <desc>Toggle AFC engaged lock</desc>
+        <binding>
+         <command>property-toggle</command>
+         <property>instrumentation/sp40/afcs-engage-switch</property>
+        </binding>
       </key>
+
+      <key n="50">
+        <name>2</name>
+        <desc>A/P pitch up</desc>
+        <binding>
+          <condition>
+            <property>devices/status/keyboard/alt</property>
+          </condition>
+          <command>property-assign</command>
+          <property>instrumentation/sp40/pitch-switch</property>
+          <value type="int">-1</value>
+        </binding>
+        <mod-up>
+          <binding>
+            <condition>
+              <property>devices/status/keyboard/alt</property>
+            </condition>
+            <command>property-assign</command>
+            <property>instrumentation/sp40/pitch-switch</property>
+            <value type="int">0</value>
+          </binding>
+        </mod-up>
+      </key>
+
+      <key n="56">
+        <name>8</name>
+        <desc>A/P pitch down</desc>
+        <binding>
+          <condition>
+            <property>devices/status/keyboard/alt</property>
+          </condition>
+          <command>property-assign</command>
+          <property>instrumentation/sp40/pitch-switch</property>
+          <value type="int">1</value>
+        </binding>
+        <mod-up>
+          <binding>
+            <condition>
+              <property>devices/status/keyboard/alt</property>
+            </condition>
+            <command>property-assign</command>
+            <property>instrumentation/sp40/pitch-switch</property>
+            <value type="int">0</value>
+          </binding>
+        </mod-up>
+      </key>
+
 
       <key n="97">
         <name>a</name>
