@@ -77,7 +77,7 @@ ok  Right   perform standard rate (4min) turn to the right
   <pi-simple-controller>
     <!-- compute vertical needle deflection based on roll -->
     <name>FD:Roll Command Computer</name>
-    <debug>true</debug>
+    <debug>false</debug>
     <enable>
       <condition>
         <or>
