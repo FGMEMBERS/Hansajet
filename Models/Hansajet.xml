@@ -630,6 +630,7 @@
     </axis>
   </animation>
 
+<!--
   <animation>
     <object-name>SpeedbrakeLever</object-name>
     <type>pick</type>
@@ -649,6 +650,7 @@
       </binding>
     </action>
   </animation>
+-->
 
   <animation>
     <type>rotate</type>

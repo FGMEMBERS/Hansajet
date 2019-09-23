@@ -4,6 +4,8 @@
     <test>instrumentation/warning-panel/test</test>
     <light>instrumentation/warning-panel/master-caution</light>
     <reset>instrumentation/warning-panel/master-caution-reset[1]</reset>
+    <!-- FIXME: attach to correct electrical bus -->
+    <power>systems/electrical/bus[0]/voltage-v</power>
   </params>
   <path>MasterCautionLight.ac</path>
 
@@ -47,6 +49,10 @@
     <type>select</type>
     <object-name>MasterCaution.ON</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property alias="/params/light"/>

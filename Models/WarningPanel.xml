@@ -2,6 +2,8 @@
 <PropertyList>
   <params>
     <test>instrumentation/warning-panel/test</test>
+    <!-- FIXME: attach to correct electrical bus -->
+    <power>systems/electrical/bus[0]/voltage-v</power>
   </params>
   <path>WarningPanel.ac</path>
 
@@ -47,6 +49,10 @@
     <type>select</type>
     <object-name>Caution.RetractSlats</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <and>
@@ -75,6 +81,10 @@
     <type>select</type>
     <object-name>Caution.ExtendSlats</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <and>
@@ -104,6 +114,10 @@
     <type>select</type>
     <object-name>Caution.No1EngFuelPressLow</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <less-than>
@@ -118,6 +132,10 @@
     <type>select</type>
     <object-name>Caution.No2EngFuelPressLow</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <less-than>
@@ -132,6 +150,10 @@
     <type>select</type>
     <object-name>Caution.AntiStallOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/anti-stall-off</property>
@@ -143,6 +165,10 @@
     <type>select</type>
     <object-name>Caution.PusherOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/pusher-off</property>
@@ -154,6 +180,10 @@
     <type>select</type>
     <object-name>Caution.No1GenOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <less-than>
@@ -168,6 +198,10 @@
     <type>select</type>
     <object-name>Caution.No2GenOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <less-than>
@@ -182,6 +216,10 @@
     <type>select</type>
     <object-name>Caution.No1AltOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/no1-alt-off</property>
@@ -193,6 +231,10 @@
     <type>select</type>
     <object-name>Caution.No2AltOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/no2-alt-off</property>
@@ -204,6 +246,10 @@
     <type>select</type>
     <object-name>Caution.No1AltOverheat</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/no1-alt-overheat</property>
@@ -215,6 +261,10 @@
     <type>select</type>
     <object-name>Caution.No2AltOverheat</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/no2-alt-overheat</property>
@@ -226,6 +276,10 @@
     <type>select</type>
     <object-name>Caution.MainBus400CPSOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/main-bus-400cps-off</property>
@@ -237,6 +291,10 @@
     <type>select</type>
     <object-name>Caution.AuxBus400CPSOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/aux-bus-400cps-off</property>
@@ -250,6 +308,10 @@
     <type>select</type>
     <object-name>Caution.HydPressLow</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <less-than>
@@ -272,6 +334,10 @@
     <type>select</type>
     <object-name>Caution.HydLowLevel</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/hyd-low-level</property>
@@ -285,6 +351,10 @@
     <type>select</type>
     <object-name>Caution.BrakePressLow</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <less-than>
@@ -304,12 +374,16 @@
     <type>select</type>
     <object-name>Caution.AntiSkidOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <and>
           <property>controls/gear/gear-down</property>
           <not>
-            <property>controls/gear/anti-skid</property>
+            <property>controls/gear/antiskid</property>
           </not>
         </and>
       </or>
@@ -325,6 +399,10 @@
     <type>select</type>
     <object-name>Caution.LandingGear</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/landing-gear</property>
@@ -336,6 +414,10 @@
     <type>select</type>
     <object-name>Caution.APUOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/apu-off</property>
@@ -347,6 +429,10 @@
     <type>select</type>
     <object-name>Caution.CabinDoorUnsafe</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/cabin-door-unsafe</property>
@@ -358,6 +444,10 @@
     <type>select</type>
     <object-name>Caution.CabinPressLow</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/cabin-press-low</property>
@@ -369,6 +459,10 @@
     <type>select</type>
     <object-name>Caution.PitotHeatOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/pitot-heat-off</property>
@@ -380,6 +474,10 @@
     <type>select</type>
     <object-name>Caution.StaticHeatOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/static-heat-off</property>
@@ -392,6 +490,10 @@
     <type>select</type>
     <object-name>Caution.FlapAsymmetry</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <greater-than>
@@ -406,6 +508,10 @@
     <type>select</type>
     <object-name>Caution.VaneHeatOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/vane-heat-off</property>
@@ -417,6 +523,10 @@
     <type>select</type>
     <object-name>Caution.AutopilotOff</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/autopilot-off</property>
@@ -428,6 +538,10 @@
     <type>select</type>
     <object-name>Caution.ElevatorTrim</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/elevator-trim</property>
@@ -439,6 +553,10 @@
     <type>select</type>
     <object-name>Caution.AileronTrim</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/aileron-trim</property>
@@ -450,6 +568,10 @@
     <type>select</type>
     <object-name>Caution.RudderTrim</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/rudder-trim</property>
@@ -464,6 +586,10 @@
     <type>select</type>
     <object-name>Caution.OilPressLow</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <less-than>
@@ -486,6 +612,10 @@
     <type>select</type>
     <object-name>Caution.FuelLowLevel</object-name>
     <condition>
+      <greater-than>
+        <property alias="../../../../params/power"/>
+        <value>20</value>
+      </greater-than>
       <or>
         <property alias="/params/test"/>
         <property>instrumentation/warning-panel/fuel-low-level</property>
